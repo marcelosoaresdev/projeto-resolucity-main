@@ -29,6 +29,20 @@ const userRepository = {
         return users.find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
     },
 
+    findById: (id) => {
+        const users = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+        return users.find(u => u.id === id) || null;
+    },
+
+    updateUser: (id, data) => {
+        const users = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+        const idx = users.findIndex(u => u.id === id);
+        if (idx === -1) return { error: 'Usuário não encontrado' };
+        users[idx] = { ...users[idx], ...data };
+        fs.writeFileSync(DB_PATH, JSON.stringify(users, null, 2));
+        return { user: users[idx] };
+    },
+
     listUsers: () => {
         return JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
     }
