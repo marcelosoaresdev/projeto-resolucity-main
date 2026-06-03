@@ -393,8 +393,11 @@ class FormValidator {
             telefone:  this.fields.phone.element.value.trim(),
             email:     this.fields.email.element.value.trim(),
             categoria: this.fields.categoria.element.value,
+            tipo:      this.fields.tipo ? this.fields.tipo.element.value : '',
             endereco:  this.fields.endereco.element.value.trim(),
-            descricao: this.fields.message.element.value.trim()
+            descricao: this.fields.message.element.value.trim(),
+            latitude:  currentLat,
+            longitude: currentLng
         };
 
         try {
@@ -440,9 +443,126 @@ class FormValidator {
     }
 }
 
-// Inicializar quando o DOM estiver carregado
+// ============================================
+// Mapa inline para seleção de localização (RF-002)
+// ============================================
+
+const CENTER = [-22.5207, -44.0883];
+
+function createMapIcon(status) {
+    return L.divIcon({
+        html: `<div style="background:#f59e0b;width:32px;height:32px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+        </div>`,
+        className: '',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32],
+    });
+}
+
+async function reverseGeocode(lat, lng) {
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1&accept-language=pt-BR`;
+    try {
+        const res = await fetch(url, {
+            headers: { 'User-Agent': 'Resolucity/1.0 (projeto-resolucity@example.com)' }
+        });
+        if (!res.ok) throw new Error('Nominatim error');
+        const data = await res.json();
+        return formatNominatimAddress(data.address);
+    } catch (err) {
+        console.warn('Reverse geocoding falhou:', err);
+        return null;
+    }
+}
+
+function formatNominatimAddress(address) {
+    if (!address) return '';
+    const parts = [];
+    if (address.road) parts.push(address.road);
+    if (address.house_number) parts.push(address.house_number);
+    if (address.neighbourhood || address.suburb) parts.push(address.neighbourhood || address.suburb);
+    if (address.city || address.municipality) parts.push(address.city || address.municipality);
+    if (address.state) parts.push(address.state);
+    return parts.join(', ');
+}
+
+let mapInstance = null;
+let pinMarker = null;
+let currentLat = null;
+let currentLng = null;
+
+function initMap() {
+    const mapContainer = document.getElementById('map-container');
+    const btnShowMap = document.getElementById('btn-show-map');
+    const enderecoInput = document.getElementById('endereco');
+    const enderecoStatus = document.getElementById('enderecoStatus');
+
+    if (!btnShowMap || !enderecoInput) return;
+
+    btnShowMap.addEventListener('click', async () => {
+        mapContainer.style.display = 'block';
+        btnShowMap.style.display = 'none';
+        enderecoInput.removeAttribute('readonly');
+        enderecoInput.placeholder = 'Clique no mapa para selecionar...';
+        enderecoInput.value = '';
+        enderecoInput.focus();
+
+        if (mapInstance) {
+            setTimeout(() => mapInstance.invalidateSize(), 200);
+            return;
+        }
+
+        mapInstance = L.map('relatar-map').setView(CENTER, 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap',
+            maxZoom: 19,
+        }).addTo(mapInstance);
+
+        pinMarker = L.marker(CENTER, {
+            draggable: true,
+            icon: createMapIcon('pendente')
+        }).addTo(mapInstance);
+
+        mapInstance.on('click', async (e) => {
+            pinMarker.setLatLng(e.latlng);
+            currentLat = e.latlng.lat;
+            currentLng = e.latlng.lng;
+            await fetchAddress();
+        });
+
+        pinMarker.on('dragend', async () => {
+            const pos = pinMarker.getLatLng();
+            currentLat = pos.lat;
+            currentLng = pos.lng;
+            await fetchAddress();
+        });
+
+        setTimeout(() => mapInstance.invalidateSize(), 200);
+    });
+
+    async function fetchAddress() {
+        if (!currentLat || !currentLng) return;
+        enderecoStatus.style.display = 'block';
+        const addr = await reverseGeocode(currentLat, currentLng);
+        if (addr) {
+            enderecoInput.value = addr;
+            enderecoStatus.style.display = 'none';
+        } else {
+            enderecoInput.placeholder = 'Endereço não encontrado. Digite manualmente.';
+            enderecoInput.readOnly = false;
+            enderecoStatus.style.display = 'none';
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    new FormValidator('contactForm');
+    initMap();
+    if (document.getElementById('contactForm')) {
+        new FormValidator('contactForm');
+    }
 
     const cat = new URLSearchParams(window.location.search).get('cat');
     if (cat) {
