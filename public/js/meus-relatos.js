@@ -47,38 +47,43 @@ window.openReportModal = function(reportId) {
     const report = allReports.find(r => r.id === reportId);
     if (!report) return;
 
-    const { label } = STATUS_CONFIG[report.status] || STATUS_CONFIG.pendente;
+    const { label, badge } = STATUS_CONFIG[report.status] || STATUS_CONFIG.pendente;
     const dataCriacao = new Date(report.criadoEm);
     const dataFormatada = dataCriacao.toLocaleDateString('pt-BR') + ' às ' + dataCriacao.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
+    const truncate = (str, max) => str && str.length > max ? str.slice(0, max) + '…' : str || '—';
+    const addressDisplay = truncate(report.endereco, 150);
+    const descDisplay = truncate(report.descricao, 500);
+
     const overlay = document.createElement('div');
     overlay.id = 'modal-overlay';
-    overlay.style.cssText = 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);overflow:hidden';
 
     const closeModal = () => {
         const existing = document.getElementById('modal-overlay');
         if (existing) existing.remove();
+        document.documentElement.style.overflow = '';
     };
 
     overlay.innerHTML = `
-        <div style="background:white;border-radius:16px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;padding:24px;position:relative">
+        <div style="background:white;border-radius:16px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;padding:24px;position:relative;word-break:break-word;overflow-wrap:anywhere">
             <button id="modal-close-btn" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:#888;line-height:1;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px">&times;</button>
 
             <div style="margin-bottom:16px">
-                <span style="background:#146C43;color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">${label}</span>
+                <span style="background:${label === 'Pendente' ? '#b45309' : label === 'Em Andamento' ? '#1d4ed8' : '#15803d'};color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">${label}</span>
                 ${report.protocolo ? `<span style="margin-left:8px;font-size:12px;color:#888">Protocolo: ${report.protocolo}</span>` : ''}
             </div>
 
-            <h2 style="font-size:20px;font-weight:700;color:#222;margin:0 0 4px">${report.categoria} — ${report.tipo || '—'}</h2>
-            <p style="color:#666;font-size:14px;margin:0 0 20px">${report.endereco}</p>
+            <h2 style="font-size:20px;font-weight:700;color:#222;margin:0 0 4px;word-break:break-word">${report.categoria} — ${report.tipo || '—'}</h2>
+            <p style="color:#666;font-size:14px;margin:0 0 20px;word-break:break-word;overflow-wrap:anywhere">${addressDisplay}</p>
 
             <div style="border-top:1px solid #eee;padding-top:16px;margin-top:16px">
                 <h3 style="font-size:14px;font-weight:600;color:#333;margin:0 0 12px">Dados do Relato</h3>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">
                     <div><strong>Categoria:</strong> ${report.categoria}</div>
                     <div><strong>Tipo:</strong> ${report.tipo || '—'}</div>
-                    <div class="col-span-2"><strong>Endereço:</strong> ${report.endereco}</div>
-                    <div class="col-span-2"><strong>Descrição:</strong> ${report.descricao}</div>
+                    <div class="col-span-2"><strong>Endereço:</strong> ${addressDisplay}</div>
+                    <div class="col-span-2" style="word-break:break-word;overflow-wrap:anywhere"><strong>Descrição:</strong> ${descDisplay}</div>
                     <div class="col-span-2"><strong>Enviado em:</strong> ${dataFormatada}</div>
                 </div>
             </div>
@@ -96,6 +101,7 @@ window.openReportModal = function(reportId) {
         </div>
     `;
 
+    document.documentElement.style.overflow = 'hidden';
     document.body.appendChild(overlay);
 
     document.getElementById('modal-close-btn').addEventListener('click', closeModal);
