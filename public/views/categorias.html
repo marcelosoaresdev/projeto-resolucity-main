@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="resolucity">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias | Resolucity</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50:  '#F0FDF4', 100: '#D2E8DD', 200: '#B5D5C5', 300: '#7DC39A',
+                            400: '#198754', 500: '#146C43', 600: '#0F5132', 700: '#013C31',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/global.css">
+</head>
+<body class="font-sans bg-base-100 antialiased">
+
+    <!-- ===================== NAVBAR ===================== -->
+    <div id="navbar" class="navbar fixed top-0 z-50 bg-base-100/80 backdrop-blur-lg border-b border-base-200 transition-shadow duration-300 min-h-[72px]">
+        <div class="navbar-start">
+            <a href="/" class="flex items-center gap-2.5 pl-4 lg:pl-6">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                    <i data-lucide="building-2" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-primary-700 font-bold text-lg tracking-tight">RESOLUCITY</span>
+            </a>
+        </div>
+
+        <div id="navbar-center" class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal gap-1 px-1">
+                <li><a href="/" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Início</a></li>
+                <li><a href="/categorias" class="rounded-lg font-medium bg-primary-100 text-primary-700">Categorias</a></li>
+                <li><a href="/estatisticas" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Estatísticas</a></li>
+                <li><a href="/sobre" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Sobre</a></li>
+                <li><a href="/contato" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Contato</a></li>
+            </ul>
+        </div>
+
+        <div id="navbar-auth" class="navbar-end gap-3 pr-4 lg:pr-6">
+            <a href="/login" class="btn btn-sm btn-outline border-primary-200 text-primary-500 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 hidden sm:flex gap-2 rounded-xl normal-case">
+                <i data-lucide="log-in" class="w-4 h-4"></i>
+                Entrar
+            </a>
+            <a href="/relatar" class="btn btn-sm bg-primary-500 hover:bg-primary-600 text-white border-none hidden sm:flex gap-2 rounded-xl normal-case shadow-sm font-semibold">
+                Fazer Relato
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+
+            <!-- Mobile dropdown -->
+            <div class="dropdown dropdown-end lg:hidden">
+                <button tabindex="0" class="btn btn-ghost btn-sm p-2 rounded-lg" aria-label="Menu">
+                    <i data-lucide="menu" class="w-5 h-5 text-base-content/70"></i>
+                </button>
+                <ul tabindex="0" class="dropdown-content menu bg-base-100/95 backdrop-blur-lg rounded-box z-50 w-56 p-2 shadow-lg border border-base-200 mt-2">
+                    <li><a href="/" class="rounded-lg text-sm">Início</a></li>
+                    <li><a href="/categorias" class="rounded-lg text-sm font-medium bg-primary-100 text-primary-700">Categorias</a></li>
+                    <li><a href="/estatisticas" class="rounded-lg text-sm">Estatísticas</a></li>
+                    <li><a href="/sobre" class="rounded-lg text-sm">Sobre</a></li>
+                    <li><a href="/contato" class="rounded-lg text-sm">Contato</a></li>
+                    <li class="border-t border-base-200 mt-2 pt-2">
+                        <a href="/relatar" class="rounded-xl bg-primary-500 text-white font-semibold justify-center">
+                            Fazer Relato <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </li>
+                    <li class="mt-2">
+                        <a href="/login" class="rounded-xl border border-primary-200 text-primary-500 justify-center">
+                            <i data-lucide="log-in" class="w-4 h-4"></i> Entrar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="pt-[72px] bg-gradient-to-b from-primary-50 via-white to-[#FCFDFC]">
+        <div class="max-w-[1184px] mx-auto px-4 lg:px-8 py-14 text-center">
+            <div data-aos="fade-up" data-aos-delay="0">
+                <div class="badge badge-lg gap-2 bg-primary-100 text-primary-700 border-primary-200 mb-5 py-3 px-4">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                    16 Categorias Disponíveis
+                </div>
+            </div>
+            <h1 data-aos="fade-up" data-aos-delay="80" class="text-4xl sm:text-5xl font-bold text-primary-700 mb-4 leading-tight">
+                Categorias de Relatos
+            </h1>
+            <p data-aos="fade-up" data-aos-delay="160" class="text-gray-500 text-lg max-w-xl mx-auto">
+                Escolha a categoria que melhor descreve o problema que você deseja reportar ao município.
+            </p>
+        </div>
+    </section>
+
+    <!-- CATEGORIES GRID -->
+    <main class="max-w-[1184px] mx-auto px-4 lg:px-8 pb-20">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+            <!-- Acessibilidade -->
+            <a href="/relatar?cat=Acessibilidade"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="0">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="accessibility" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Acessibilidade</h3>
+                    <p class="text-sm text-gray-500">Dificuldades de acesso para pessoas com deficiência ou mobilidade reduzida.</p>
+                </div>
+            </a>
+
+            <!-- Ciclismo -->
+            <a href="/relatar?cat=Ciclismo"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="50">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="bike" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Ciclismo</h3>
+                    <p class="text-sm text-gray-500">Problemas em ciclovias, falta de sinalização ou infraestrutura para bicicletas.</p>
+                </div>
+            </a>
+
+            <!-- Comércio e Fiscalização -->
+            <a href="/relatar?cat=Comércio e Fiscalização"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="100">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="store" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Comércio e Fiscalização</h3>
+                    <p class="text-sm text-gray-500">Irregularidades em estabelecimentos ou ausência de fiscalização adequada.</p>
+                </div>
+            </a>
+
+            <!-- Corrupção e Má Gestão -->
+            <a href="/relatar?cat=Corrupção e Má Gestão"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="150">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="shield-alert" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Corrupção e Má Gestão</h3>
+                    <p class="text-sm text-gray-500">Casos de desvio de verba, má administração ou falta de transparência.</p>
+                </div>
+            </a>
+
+            <!-- Drenagem -->
+            <a href="/relatar?cat=Drenagem"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="200">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="droplets" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Drenagem</h3>
+                    <p class="text-sm text-gray-500">Alagamentos, enchentes ou falta de escoamento adequado da água da chuva.</p>
+                </div>
+            </a>
+
+            <!-- Educação -->
+            <a href="/relatar?cat=Educação"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="250">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="graduation-cap" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Educação</h3>
+                    <p class="text-sm text-gray-500">Infraestrutura precária, falta de professores ou má gestão escolar.</p>
+                </div>
+            </a>
+
+            <!-- Habitação -->
+            <a href="/relatar?cat=Habitação"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="300">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="home" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Habitação</h3>
+                    <p class="text-sm text-gray-500">Moradia inadequada, invasões e falta de habitação digna.</p>
+                </div>
+            </a>
+
+            <!-- Infraestrutura -->
+            <a href="/relatar?cat=Infraestrutura"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="350">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="hard-hat" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Infraestrutura</h3>
+                    <p class="text-sm text-gray-500">Manutenção deficiente, pavimentação e saneamento.</p>
+                </div>
+            </a>
+
+            <!-- Limpeza Urbana e Lixo -->
+            <a href="/relatar?cat=Limpeza Urbana e Lixo"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="400">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="trash-2" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Limpeza Urbana e Lixo</h3>
+                    <p class="text-sm text-gray-500">Acúmulo de lixo e coleta irregular.</p>
+                </div>
+            </a>
+
+            <!-- Meio Ambiente -->
+            <a href="/relatar?cat=Meio Ambiente"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="450">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="trees" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Meio Ambiente</h3>
+                    <p class="text-sm text-gray-500">Desmatamento, poluição e preservação ambiental.</p>
+                </div>
+            </a>
+
+            <!-- Obras -->
+            <a href="/relatar?cat=Obras"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="500">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="hammer" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Obras</h3>
+                    <p class="text-sm text-gray-500">Obras paradas, atrasos ou má execução.</p>
+                </div>
+            </a>
+
+            <!-- Redes Elétricas / Luz -->
+            <a href="/relatar?cat=Redes Elétricas / Luz"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="550">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="zap" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Redes Elétricas / Luz</h3>
+                    <p class="text-sm text-gray-500">Postes danificados, quedas de energia e iluminação pública.</p>
+                </div>
+            </a>
+
+            <!-- Saúde Pública -->
+            <a href="/relatar?cat=Saúde Pública"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="600">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="heart-pulse" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Saúde Pública</h3>
+                    <p class="text-sm text-gray-500">Falta de atendimento, hospitais lotados e estrutura inadequada.</p>
+                </div>
+            </a>
+
+            <!-- Segurança -->
+            <a href="/relatar?cat=Segurança"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="650">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="shield" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Segurança</h3>
+                    <p class="text-sm text-gray-500">Roubos, vandalismo e falta de policiamento.</p>
+                </div>
+            </a>
+
+            <!-- Transporte -->
+            <a href="/relatar?cat=Transporte"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="700">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="bus" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Transporte</h3>
+                    <p class="text-sm text-gray-500">Frota precária, poucas linhas e atrasos constantes.</p>
+                </div>
+            </a>
+
+            <!-- Outros -->
+            <a href="/relatar?cat=Outros"
+               class="card bg-base-100 border border-base-300 card-hover group hover:border-primary-200"
+               data-aos="fade-up" data-aos-delay="750">
+                <div class="card-body">
+                    <div class="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                        <i data-lucide="circle-ellipsis" class="w-6 h-6 text-primary-500"></i>
+                    </div>
+                    <h3 class="card-title text-primary-700">Outros</h3>
+                    <p class="text-sm text-gray-500">Situações fora das categorias anteriores.</p>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-14" data-aos="fade-up" data-aos-delay="100">
+            <a href="/relatar" class="btn btn-primary btn-lg gap-2">
+                <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                Fazer um Relato
+            </a>
+        </div>
+
+    </main>
+
+    <!-- FOOTER WAVE -->
+    <div class="wave-wrapper">
+        <svg class="wave-divider" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#146C43"/>
+        </svg>
+    </div> 
+
+    <!-- FOOTER -->
+    <footer class="bg-gradient-to-b from-primary-500 to-primary-600 text-white">
+        <div class="max-w-[1184px] mx-auto px-4 lg:px-8 py-14">
+
+            <!-- Newsletter -->
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold mb-2">Fique por dentro</h2>
+                <p class="text-primary-100 text-sm mb-6">Receba atualizações sobre os relatos da sua cidade.</p>
+                <form class="join w-full max-w-md mx-auto" onsubmit="return false;">
+                    <input
+                        type="email"
+                        placeholder="Seu e-mail"
+                        class="input input-bordered join-item flex-1 min-w-0 text-gray-800 bg-white placeholder-gray-400 focus:outline-none"
+                    >
+                    <button type="submit" class="btn join-item bg-white text-primary-700 hover:bg-primary-50 border-white">
+                        Inscrever
+                    </button>
+                </form>
+            </div>
+
+            <!-- Links grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-12 text-sm">
+                <div>
+                    <h3 class="font-semibold text-primary-100 uppercase tracking-wider text-xs mb-4">Plataforma</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-primary-200 hover:text-white transition-colors">Início</a></li>
+                        <li><a href="/categorias" class="text-primary-200 hover:text-white transition-colors">Categorias</a></li>
+                        <li><a href="/relatar" class="text-primary-200 hover:text-white transition-colors">Fazer Relato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-primary-100 uppercase tracking-wider text-xs mb-4">Dados</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/estatisticas" class="text-primary-200 hover:text-white transition-colors">Estatísticas</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-primary-100 uppercase tracking-wider text-xs mb-4">Institucional</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/sobre" class="text-primary-200 hover:text-white transition-colors">Sobre</a></li>
+                        <li><a href="/contato" class="text-primary-200 hover:text-white transition-colors">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-primary-100 uppercase tracking-wider text-xs mb-4">Conta</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/login" class="text-primary-200 hover:text-white transition-colors">Entrar</a></li>
+                        <li><a href="login.html#register" class="text-primary-200 hover:text-white transition-colors">Cadastrar</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider divider-primary before:bg-primary-400 after:bg-primary-400"></div>
+
+            <!-- Bottom row -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+                <p class="text-primary-200">&copy; 2026 Resolucity. Todos os direitos reservados.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" aria-label="Instagram" class="text-primary-200 hover:text-white transition-colors">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" aria-label="LinkedIn" class="text-primary-200 hover:text-white transition-colors">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                    <a href="/contato" aria-label="E-mail" class="text-primary-200 hover:text-white transition-colors">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        AOS.init({ once: true, duration: 600 });
+        lucide.createIcons();
+    </script>
+    <script src="../js/navbar.js"></script>
+</body>
+</html>
+
+
+
+

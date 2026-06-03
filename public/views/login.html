@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="resolucity">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolucity — Entrar / Cadastrar</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50:  '#F0FDF4', 100: '#D2E8DD', 200: '#B5D5C5', 300: '#7DC39A',
+                            400: '#198754', 500: '#146C43', 600: '#0F5132', 700: '#013C31',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/global.css">
+</head>
+<body class="font-sans bg-base-100 antialiased">
+
+    <!-- ===================== NAVBAR ===================== -->
+    <div id="navbar" class="navbar fixed top-0 z-50 bg-base-100/80 backdrop-blur-lg border-b border-base-200 transition-shadow duration-300 min-h-[72px]">
+        <div class="navbar-start">
+            <a href="/" class="flex items-center gap-2.5 pl-4 lg:pl-6">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                    <i data-lucide="building-2" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-primary-700 font-bold text-lg tracking-tight">RESOLUCITY</span>
+            </a>
+        </div>
+
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal gap-1 px-1">
+                <li><a href="/" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Início</a></li>
+                <li><a href="/categorias" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Categorias</a></li>
+                <li><a href="/estatisticas" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Estatísticas</a></li>
+                <li><a href="/sobre" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Sobre</a></li>
+                <li><a href="/contato" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Contato</a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-end gap-3 pr-4 lg:pr-6">
+            <!-- Mobile dropdown -->
+            <div class="dropdown dropdown-end lg:hidden">
+                <button tabindex="0" class="btn btn-ghost btn-sm p-2 rounded-lg" aria-label="Menu">
+                    <i data-lucide="menu" class="w-5 h-5 text-base-content/70"></i>
+                </button>
+                <ul tabindex="0" class="dropdown-content menu bg-base-100/95 backdrop-blur-lg rounded-box z-50 w-56 p-2 shadow-lg border border-base-200 mt-2">
+                    <li><a href="/" class="rounded-lg text-sm">Início</a></li>
+                    <li><a href="/categorias" class="rounded-lg text-sm">Categorias</a></li>
+                    <li><a href="/estatisticas" class="rounded-lg text-sm">Estatísticas</a></li>
+                    <li><a href="/sobre" class="rounded-lg text-sm">Sobre</a></li>
+                    <li><a href="/contato" class="rounded-lg text-sm">Contato</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== MAIN ===================== -->
+    <main>
+        <section class="relative min-h-screen pt-[72px] flex items-center justify-center overflow-hidden">
+            <!-- Background -->
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-primary-50/50"></div>
+            <div class="absolute top-24 right-0 w-[480px] h-[480px] bg-primary-100/30 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-[380px] h-[380px] bg-primary-100/20 rounded-full blur-3xl"></div>
+            <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#146C43 1px, transparent 1px); background-size: 32px 32px;"></div>
+
+            <div class="relative w-full max-w-[1184px] mx-auto px-6 lg:px-10 py-16 flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+
+                <!-- Left: Branding / Copy -->
+                <div class="flex-1 text-center lg:text-left hidden lg:block" data-aos="fade-right">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-100 text-primary-600 text-xs font-semibold mb-6">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                        Plataforma Segura
+                    </div>
+                    <h1 class="text-4xl font-bold text-gray-900 leading-tight mb-4">
+                        Cidadania começa<br>
+                        com <span class="text-primary-500">sua voz</span>
+                    </h1>
+                    <p class="text-gray-500 text-base leading-relaxed mb-8 max-w-sm">
+                        Faça login ou crie sua conta para relatar problemas urbanos e acompanhar as melhorias na sua cidade.
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-primary-100 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-primary-500"></i>
+                            </div>
+                            <span class="text-sm text-gray-600">Reporte problemas na sua região</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-primary-100 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="bar-chart-3" class="w-4 h-4 text-primary-500"></i>
+                            </div>
+                            <span class="text-sm text-gray-600">Acompanhe estatísticas em tempo real</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-primary-100 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-primary-500"></i>
+                            </div>
+                            <span class="text-sm text-gray-600">Veja quando seu relato é resolvido</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Auth Card -->
+                <div class="w-full max-w-md" data-aos="fade-up">
+                    <div class="card bg-base-100 shadow-lg border border-base-200 overflow-hidden">
+
+                        <!-- Tab Switcher -->
+                        <div class="tabs tabs-bordered w-full border-b border-base-200">
+                            <button
+                                id="tab-login"
+                                class="tab flex-1 tab-active font-semibold"
+                                onclick="showLogin()"
+                            >
+                                Entrar
+                            </button>
+                            <button
+                                id="tab-register"
+                                class="tab flex-1 font-medium"
+                                onclick="showRegister()"
+                            >
+                                Criar conta
+                            </button>
+                        </div>
+
+                        <div class="card-body p-8">
+
+                            <!-- ===== LOGIN FORM ===== -->
+                            <div id="login-form">
+                                <div class="mb-6">
+                                    <h2 class="text-xl font-bold text-gray-900">Bem-vindo de volta</h2>
+                                    <p class="text-sm text-gray-500 mt-1">Acesse sua conta para continuar</p>
+                                </div>
+
+                                <form id="loginForm" novalidate class="space-y-4">
+                                    <div class="form-control">
+                                        <label class="label pb-1.5" for="login-email">
+                                            <span class="label-text font-medium">E-mail</span>
+                                        </label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                                <i data-lucide="mail" class="w-4 h-4 text-gray-400"></i>
+                                            </div>
+                                            <input
+                                                type="email"
+                                                id="login-email"
+                                                name="email"
+                                                required
+                                                placeholder="seu@email.com"
+                                                class="input input-bordered w-full pl-10 text-sm"
+                                            >
+                                        </div>
+                                        <span class="error label-text-alt text-error mt-1.5" id="login-email-error"></span>
+                                    </div>
+
+                                    <div class="form-control">
+                                        <label class="label pb-1.5" for="login-password">
+                                            <span class="label-text font-medium">Senha</span>
+                                        </label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                                <i data-lucide="lock" class="w-4 h-4 text-gray-400"></i>
+                                            </div>
+                                            <input
+                                                type="password"
+                                                id="login-password"
+                                                name="password"
+                                                required
+                                                placeholder="Sua senha"
+                                                class="input input-bordered w-full pl-10 text-sm"
+                                            >
+                                        </div>
+                                        <span class="error label-text-alt text-error mt-1.5" id="login-password-error"></span>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary w-full text-white mt-2"
+                                    >
+                                        <i data-lucide="log-in" class="w-4 h-4"></i>
+                                        Entrar na conta
+                                    </button>
+                                </form>
+
+                                <p class="mt-5 text-center text-sm text-gray-500">
+                                    Não tem conta?
+                                    <a href="#" id="show-register" onclick="showRegister(); return false;" class="text-primary-500 font-semibold hover:text-primary-600 transition-colors">
+                                        Cadastre-se grátis
+                                    </a>
+                                </p>
+                            </div>
+
+                            <!-- ===== REGISTER FORM ===== -->
+                            <div id="register-form" class="d-none" style="display: none;">
+                                <div class="mb-6">
+                                    <h2 class="text-xl font-bold text-gray-900">Crie sua conta</h2>
+                                    <p class="text-sm text-gray-500 mt-1">Junte-se a milhares de cidadãos ativos</p>
+                                </div>
+
+                                <form id="registerForm" novalidate class="space-y-4">
+                                    <div class="form-control">
+                                        <label class="label pb-1.5" for="register-name">
+                                            <span class="label-text font-medium">Nome completo</span>
+                                        </label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                                <i data-lucide="user" class="w-4 h-4 text-gray-400"></i>
+                                            </div>
+                                            <input
+                                                type="text"
+                                                id="register-name"
+                                                name="name"
+                                                required
+                                                placeholder="João da Silva"
+                                                class="input input-bordered w-full pl-10 text-sm"
+                                            >
+                                        </div>
+                                        <span class="error label-text-alt text-error mt-1.5" id="register-name-error"></span>
+                                    </div>
+
+                                    <div class="form-control">
+                                        <label class="label pb-1.5" for="register-email">
+                                            <span class="label-text font-medium">E-mail</span>
+                                        </label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                                <i data-lucide="mail" class="w-4 h-4 text-gray-400"></i>
+                                            </div>
+                                            <input
+                                                type="email"
+                                                id="register-email"
+                                                name="email"
+                                                required
+                                                placeholder="seu@email.com"
+                                                class="input input-bordered w-full pl-10 text-sm"
+                                            >
+                                        </div>
+                                        <span class="error label-text-alt text-error mt-1.5" id="register-email-error"></span>
+                                    </div>
+
+                                    <div class="form-control">
+                                        <label class="label pb-1.5" for="register-password">
+                                            <span class="label-text font-medium">Senha</span>
+                                        </label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                                <i data-lucide="lock" class="w-4 h-4 text-gray-400"></i>
+                                            </div>
+                                            <input
+                                                type="password"
+                                                id="register-password"
+                                                name="password"
+                                                required
+                                                placeholder="Mínimo 6 caracteres"
+                                                class="input input-bordered w-full pl-10 text-sm"
+                                            >
+                                        </div>
+                                        <span class="error label-text-alt text-error mt-1.5" id="register-password-error"></span>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary w-full text-white mt-2"
+                                    >
+                                        <i data-lucide="user-plus" class="w-4 h-4"></i>
+                                        Criar conta gratuita
+                                    </button>
+                                </form>
+
+                                <p class="mt-5 text-center text-sm text-gray-500">
+                                    Já tem conta?
+                                    <a href="#" id="show-login" onclick="showLogin(); return false;" class="text-primary-500 font-semibold hover:text-primary-600 transition-colors">
+                                        Faça login aqui
+                                    </a>
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <!-- Footer Trust Badge -->
+                        <div class="px-8 py-4 bg-base-200/50 border-t border-base-200 flex items-center justify-center gap-2">
+                            <i data-lucide="shield" class="w-3.5 h-3.5 text-primary-400"></i>
+                            <span class="text-xs text-gray-400">Seus dados são protegidos e nunca compartilhados</span>
+                        </div>
+                    </div>
+
+                    <!-- Back link -->
+                    <p class="mt-5 text-center text-sm text-gray-400">
+                        <a href="/" class="inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors">
+                            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                            Voltar para a página inicial
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <div class="wave-wrapper">
+        <svg class="wave-divider" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#146C43"/>
+        </svg>
+    </div>
+
+    <footer class="bg-gradient-to-b from-primary-500 to-primary-600">
+        <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
+            <!-- Newsletter -->
+            <div class="text-center py-12 border-b border-white/15">
+                <h3 class="text-xl font-bold text-white mb-2">Receba novidades por e-mail</h3>
+                <p class="text-white/60 text-sm mb-6">Fique por dentro das atualizações da plataforma.</p>
+                <form class="join w-full max-w-md mx-auto" onsubmit="event.preventDefault()">
+                    <input type="email" placeholder="Seu melhor e-mail" class="input join-item bg-white text-gray-800 placeholder-gray-400 flex-1 min-w-0 border-0">
+                    <button type="submit" class="btn join-item bg-primary-700 text-white border-0 hover:bg-primary-700/80 gap-2">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                        Enviar
+                    </button>
+                </form>
+            </div>
+
+            <!-- Links + Info -->
+            <div class="py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div>
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center">
+                            <i data-lucide="building-2" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <span class="text-white font-bold text-base">RESOLUCITY</span>
+                    </div>
+                    <p class="text-white/60 text-sm leading-relaxed">
+                        Plataforma de engajamento cívico para relatar problemas urbanos e promover transparência.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-4">Navegação</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="/" class="text-white/60 text-sm hover:text-white transition-colors">Início</a>
+                        <a href="/categorias" class="text-white/60 text-sm hover:text-white transition-colors">Categorias</a>
+                        <a href="/estatisticas" class="text-white/60 text-sm hover:text-white transition-colors">Estatísticas</a>
+                        <a href="/sobre" class="text-white/60 text-sm hover:text-white transition-colors">Sobre</a>
+                        <a href="/contato" class="text-white/60 text-sm hover:text-white transition-colors">Contato</a>
+                        <a href="/relatar" class="text-white/60 text-sm hover:text-white transition-colors">Fazer Relato</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-4">Redes Sociais</h4>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label="Instagram">
+                            <i data-lucide="instagram" class="w-5 h-5 text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label="LinkedIn">
+                            <i data-lucide="linkedin" class="w-5 h-5 text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label="Email">
+                            <i data-lucide="mail" class="w-5 h-5 text-white"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="py-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <p class="text-white/50 text-xs">&copy; 2026 Resolucity. Todos os direitos reservados.</p>
+                <p class="text-white/40 text-xs">Cidadania em Ação</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== SUCCESS MODAL ===================== -->
+    <div id="success-modal" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        <!-- Card -->
+        <div class="relative bg-base-100 rounded-2xl shadow-xl p-8 max-w-sm w-full text-center" data-aos="zoom-in">
+            <div class="w-14 h-14 rounded-full bg-primary-100 flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="check-circle-2" class="w-7 h-7 text-primary-500"></i>
+            </div>
+            <h3 id="success-title" class="text-lg font-bold text-gray-900 mb-2">Sucesso!</h3>
+            <p id="success-message" class="text-sm text-gray-500 mb-6"></p>
+            <button
+                id="close-modal"
+                class="btn btn-primary w-full text-white"
+            >
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- ===================== SCRIPTS ===================== -->
+    <script src="../js/login.js"></script>
+    <script>
+        AOS.init({ once: true, duration: 600 });
+        lucide.createIcons();
+
+        function showLogin() {
+            document.getElementById('login-form').style.display = '';
+            document.getElementById('login-form').classList.remove('d-none');
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('register-form').classList.add('d-none');
+            document.getElementById('tab-login').classList.add('tab-active');
+            document.getElementById('tab-register').classList.remove('tab-active');
+            lucide.createIcons();
+        }
+
+        function showRegister() {
+            document.getElementById('register-form').style.display = '';
+            document.getElementById('register-form').classList.remove('d-none');
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('login-form').classList.add('d-none');
+            document.getElementById('tab-register').classList.add('tab-active');
+            document.getElementById('tab-login').classList.remove('tab-active');
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
+
+
+

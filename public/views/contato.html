@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="resolucity">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato | Resolucity</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50:  '#F0FDF4', 100: '#D2E8DD', 200: '#B5D5C5', 300: '#7DC39A',
+              400: '#198754', 500: '#146C43', 600: '#0F5132', 700: '#013C31',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script> 
+
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <link rel="icon" href="../imagens/logo.png" type="image/png">
+  <link rel="stylesheet" href="../css/global.css">
+</head>
+<body class="font-sans bg-base-100 antialiased">
+
+  <!-- ===================== NAVBAR ===================== -->
+  <div id="navbar" class="navbar fixed top-0 z-50 bg-base-100/80 backdrop-blur-lg border-b border-base-200 transition-shadow duration-300 min-h-[72px]">
+      <div class="navbar-start">
+          <a href="/" class="flex items-center gap-2.5 pl-4 lg:pl-6">
+              <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                  <i data-lucide="building-2" class="w-5 h-5 text-white"></i>
+              </div>
+              <span class="text-primary-700 font-bold text-lg tracking-tight">RESOLUCITY</span>
+          </a>
+      </div>
+
+      <div id="navbar-center" class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal gap-1 px-1">
+              <li><a href="/" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Início</a></li>
+              <li><a href="/categorias" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Categorias</a></li>
+              <li><a href="/estatisticas" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Estatísticas</a></li>
+              <li><a href="/sobre" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Sobre</a></li>
+              <li><a href="/contato" class="rounded-lg font-medium bg-primary-100 text-primary-700">Contato</a></li>
+          </ul>
+      </div>
+
+      <div id="navbar-auth" class="navbar-end gap-3 pr-4 lg:pr-6">
+          <a href="/login" class="btn btn-sm btn-outline border-primary-200 text-primary-500 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 hidden sm:flex gap-2 rounded-xl normal-case">
+              <i data-lucide="log-in" class="w-4 h-4"></i>
+              Entrar
+          </a>
+          <a href="/relatar" class="btn btn-sm bg-primary-500 hover:bg-primary-600 text-white border-none hidden sm:flex gap-2 rounded-xl normal-case shadow-sm font-semibold">
+              Fazer Relato
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+
+          <!-- Mobile dropdown -->
+          <div class="dropdown dropdown-end lg:hidden">
+              <button tabindex="0" class="btn btn-ghost btn-sm p-2 rounded-lg" aria-label="Menu">
+                  <i data-lucide="menu" class="w-5 h-5 text-base-content/70"></i>
+              </button>
+              <ul tabindex="0" class="dropdown-content menu bg-base-100/95 backdrop-blur-lg rounded-box z-50 w-56 p-2 shadow-lg border border-base-200 mt-2">
+                  <li><a href="/" class="rounded-lg text-sm">Início</a></li>
+                  <li><a href="/categorias" class="rounded-lg text-sm">Categorias</a></li>
+                  <li><a href="/estatisticas" class="rounded-lg text-sm">Estatísticas</a></li>
+                  <li><a href="/sobre" class="rounded-lg text-sm">Sobre</a></li>
+                  <li><a href="/contato" class="rounded-lg text-sm font-medium bg-primary-100 text-primary-700">Contato</a></li>
+                  <li class="border-t border-base-200 mt-2 pt-2">
+                      <a href="/relatar" class="rounded-xl bg-primary-500 text-white font-semibold justify-center">
+                          Fazer Relato <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                      </a>
+                  </li>
+                  <li class="mt-2">
+                      <a href="/login" class="rounded-xl border border-primary-200 text-primary-500 justify-center">
+                          <i data-lucide="log-in" class="w-4 h-4"></i> Entrar
+                      </a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section class="relative pt-[72px] overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-primary-50/50"></div>
+      <div class="absolute top-24 right-0 w-[400px] h-[400px] bg-primary-100/30 rounded-full blur-3xl animate-pulse"></div>
+      <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-primary-100/20 rounded-full blur-3xl animate-pulse" style="animation-delay:2s"></div>
+
+      <div class="relative max-w-[1184px] mx-auto px-6 lg:px-10 pt-14 lg:pt-20 pb-12 lg:pb-16">
+        <div class="max-w-2xl mx-auto text-center" data-aos="fade-up" data-aos-duration="700">
+          <div class="badge badge-lg gap-2 bg-primary-100 text-primary-600 border-0 mb-5 px-4 py-3 font-medium">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            Fale Conosco
+          </div>
+
+          <h1 class="text-4xl lg:text-5xl font-bold text-primary-700 leading-tight mb-4">
+            Entre em Contato
+          </h1>
+          <p class="text-base lg:text-lg text-gray-500 leading-relaxed">
+            Tem alguma dúvida, sugestão ou quer saber mais sobre o Resolucity? Nossa equipe está pronta para te atender.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTENT ===================== -->
+    <section class="max-w-[1184px] mx-auto px-6 lg:px-10 pb-20">
+      <div class="flex flex-col lg:flex-row gap-8" data-aos="fade-up" data-aos-delay="100">
+
+        <!-- CONTACT FORM -->
+        <div class="card bg-base-100 border border-base-300 shadow-sm flex-1">
+          <div class="card-body">
+            <h2 class="card-title text-gray-800 mb-2">Envie sua mensagem</h2>
+
+            <form id="contactForm" novalidate>
+
+              <!-- Nome -->
+              <div class="form-control mb-4">
+                <label class="label" for="name">
+                  <span class="label-text font-semibold">Nome</span>
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  placeholder="Seu nome completo"
+                  class="input input-bordered w-full"
+                >
+                <span id="nameError" class="error"></span>
+              </div>
+
+              <!-- Telefone -->
+              <div class="form-control mb-4">
+                <label class="label" for="phone">
+                  <span class="label-text font-semibold">Telefone</span>
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  placeholder="(00) 90000-0000"
+                  class="input input-bordered w-full"
+                >
+                <span id="phoneError" class="error"></span>
+              </div>
+
+              <!-- E-mail -->
+              <div class="form-control mb-4">
+                <label class="label" for="email">
+                  <span class="label-text font-semibold">E-mail</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="seu@email.com"
+                  class="input input-bordered w-full"
+                >
+                <span id="emailError" class="error"></span>
+              </div>
+
+              <!-- Mensagem -->
+              <div class="form-control mb-4">
+                <label class="label" for="message">
+                  <span class="label-text font-semibold">Mensagem</span>
+                </label>
+                <textarea
+                  id="message"
+                  rows="5"
+                  placeholder="Escreva sua mensagem aqui..."
+                  class="textarea textarea-bordered w-full resize-none"
+                ></textarea>
+                <span id="messageError" class="error"></span>
+              </div>
+
+              <!-- Submit -->
+              <button type="submit" class="btn btn-primary w-full mt-2">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                Enviar Mensagem
+              </button>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- INFO PANEL -->
+        <div class="w-full lg:w-96 bg-primary-600 rounded-2xl p-8 text-white flex flex-col">
+          <h3 class="text-xl font-bold text-white mb-8">Informações de Contato</h3>
+
+          <div class="space-y-6 flex-1">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                <i data-lucide="phone" class="w-5 h-5 text-white"></i>
+              </div>
+              <div>
+                <p class="text-white/60 text-xs font-medium uppercase tracking-wide mb-0.5">Telefone</p>
+                <p class="text-white font-medium text-sm">(24) 99912-3456</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                <i data-lucide="mail" class="w-5 h-5 text-white"></i>
+              </div>
+              <div>
+                <p class="text-white/60 text-xs font-medium uppercase tracking-wide mb-0.5">E-mail</p>
+                <p class="text-white font-medium text-sm">contato@resolucity.com</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                <i data-lucide="map-pin" class="w-5 h-5 text-white"></i>
+              </div>
+              <div>
+                <p class="text-white/60 text-xs font-medium uppercase tracking-wide mb-0.5">Localização</p>
+                <p class="text-white font-medium text-sm">Volta Redonda — RJ</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                <i data-lucide="clock" class="w-5 h-5 text-white"></i>
+              </div>
+              <div>
+                <p class="text-white/60 text-xs font-medium uppercase tracking-wide mb-0.5">Atendimento</p>
+                <p class="text-white font-medium text-sm">Seg — Sex, 08h às 17h</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-white/15 my-8"></div>
+
+          <div>
+            <p class="text-white/60 text-xs font-medium uppercase tracking-wide mb-4">Redes Sociais</p>
+            <div class="flex gap-3">
+              <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center hover:bg-white/25 transition-colors">
+                <i data-lucide="instagram" class="w-5 h-5 text-white"></i>
+              </a>
+              <a href="#" aria-label="WhatsApp" class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center hover:bg-white/25 transition-colors">
+                <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
+              </a>
+              <a href="#" aria-label="LinkedIn" class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center hover:bg-white/25 transition-colors">
+                <i data-lucide="linkedin" class="w-5 h-5 text-white"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <div class="wave-wrapper">
+    <svg class="wave-divider" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#146C43"/>
+    </svg>
+  </div>
+
+  <footer class="bg-gradient-to-b from-primary-500 to-primary-600">
+    <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
+
+      <!-- Newsletter -->
+      <div class="text-center py-12 border-b border-white/15">
+        <h3 class="text-xl font-bold text-white mb-2">Receba novidades por e-mail</h3>
+        <p class="text-white/60 text-sm mb-6">Fique por dentro das atualizações da plataforma.</p>
+        <form class="join w-full max-w-md mx-auto" onsubmit="event.preventDefault()">
+          <input type="email" placeholder="Seu melhor e-mail" class="input join-item bg-white text-gray-800 placeholder-gray-400 flex-1 min-w-0 border-0">
+          <button type="submit" class="btn join-item bg-primary-700 text-white border-0 hover:bg-primary-700/80 gap-2">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            Enviar
+          </button>
+        </form>
+      </div>
+
+      <!-- Links + Info -->
+      <div class="py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div>
+          <div class="flex items-center gap-2.5 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center">
+              <i data-lucide="building-2" class="w-4 h-4 text-white"></i>
+            </div>
+            <span class="text-white font-bold text-base">RESOLUCITY</span>
+          </div>
+          <p class="text-white/60 text-sm leading-relaxed">
+            Plataforma de engajamento cívico para relatar problemas urbanos e promover transparência.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold text-sm mb-4">Navegação</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="/" class="text-white/60 text-sm hover:text-white transition-colors">Início</a>
+            <a href="/categorias" class="text-white/60 text-sm hover:text-white transition-colors">Categorias</a>
+            <a href="/estatisticas" class="text-white/60 text-sm hover:text-white transition-colors">Estatísticas</a>
+            <a href="/sobre" class="text-white/60 text-sm hover:text-white transition-colors">Sobre</a>
+            <a href="/contato" class="text-white/60 text-sm hover:text-white transition-colors">Contato</a>
+            <a href="/relatar" class="text-white/60 text-sm hover:text-white transition-colors">Fazer Relato</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold text-sm mb-4">Redes Sociais</h4>
+          <div class="flex gap-3">
+            <a href="#" aria-label="Instagram" class="btn btn-ghost btn-sm btn-square bg-white/10 hover:bg-white/20 text-white border-0">
+              <i data-lucide="instagram" class="w-5 h-5"></i>
+            </a>
+            <a href="#" aria-label="LinkedIn" class="btn btn-ghost btn-sm btn-square bg-white/10 hover:bg-white/20 text-white border-0">
+              <i data-lucide="linkedin" class="w-5 h-5"></i>
+            </a>
+            <a href="#" aria-label="Email" class="btn btn-ghost btn-sm btn-square bg-white/10 hover:bg-white/20 text-white border-0">
+              <i data-lucide="mail" class="w-5 h-5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="py-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p class="text-white/50 text-xs">&copy; 2026 Resolucity. Todos os direitos reservados.</p>
+        <p class="text-white/40 text-xs">Cidadania em Ação</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== SCRIPTS ===================== -->
+  <script src="../js/contato.js"></script>
+  <script>
+    AOS.init({ once: true, duration: 600 });
+    lucide.createIcons();
+  </script>
+  <script src="../js/navbar.js"></script>
+</body>
+</html>
+
+
+
+

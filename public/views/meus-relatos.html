@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="resolucity">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Relatos — Resolucity</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50:  '#F0FDF4', 100: '#D2E8DD', 200: '#B5D5C5', 300: '#7DC39A',
+                            400: '#198754', 500: '#146C43', 600: '#0F5132', 700: '#013C31',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/global.css">
+</head>
+<body class="font-sans bg-base-100 antialiased">
+
+    <!-- ===================== NAVBAR ===================== -->
+    <div id="navbar" class="navbar fixed top-0 z-50 bg-base-100/80 backdrop-blur-lg border-b border-base-200 transition-shadow duration-300 min-h-[72px]">
+        <div class="navbar-start">
+            <a href="/" class="flex items-center gap-2.5 pl-4 lg:pl-6">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                    <i data-lucide="building-2" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-primary-700 font-bold text-lg tracking-tight">RESOLUCITY</span>
+            </a>
+        </div>
+
+        <div id="navbar-center" class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal gap-1 px-1">
+                <li><a href="/categorias"   class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Categorias</a></li>
+                <li><a href="/estatisticas" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Estatísticas</a></li>
+            </ul>
+        </div>
+
+        <div id="navbar-auth" class="navbar-end gap-3 pr-4 lg:pr-6"></div>
+    </div>
+
+    <main>
+        <!-- ===================== HERO ===================== -->
+        <section class="relative pt-[72px] overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-base-100 to-primary-50/50"></div>
+            <div class="absolute top-24 right-0 w-[460px] h-[460px] bg-primary-100/30 rounded-full blur-3xl"></div>
+
+            <div class="relative max-w-[1184px] mx-auto px-6 lg:px-10 pt-16 lg:pt-20 pb-10 lg:pb-12">
+                <div class="max-w-2xl" data-aos="fade-up" data-aos-duration="600">
+                    <div class="badge badge-ghost bg-primary-100 text-primary-700 border-primary-200 gap-2 px-3 py-3.5 mb-5 text-xs font-medium">
+                        <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>
+                        Área do Cidadão
+                    </div>
+                    <h1 class="text-4xl lg:text-[48px] font-bold text-primary-700 leading-tight mb-3">
+                        Meus Relatos
+                    </h1>
+                    <p class="text-base-content/60 text-base lg:text-lg leading-relaxed">
+                        Acompanhe o status de cada relato que você enviou.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== FILTROS + LISTA ===================== -->
+        <section class="pb-16 lg:pb-24">
+            <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
+
+                <!-- Barra de filtros -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 mt-6" data-aos="fade-up">
+                    <div class="flex flex-wrap gap-2">
+                        <button data-filter="todos" class="btn btn-sm btn-primary rounded-xl">
+                            Todos <span class="badge badge-sm bg-white/20 text-white border-none ml-1" id="count-todos">0</span>
+                        </button>
+                        <button data-filter="pendente" class="btn btn-sm btn-outline btn-primary rounded-xl">
+                            Pendente <span class="badge badge-sm badge-warning ml-1" id="count-pendente">0</span>
+                        </button>
+                        <button data-filter="em_andamento" class="btn btn-sm btn-outline btn-primary rounded-xl">
+                            Em Andamento <span class="badge badge-sm badge-info ml-1" id="count-andamento">0</span>
+                        </button>
+                        <button data-filter="resolvido" class="btn btn-sm btn-outline btn-primary rounded-xl">
+                            Resolvido <span class="badge badge-sm badge-success ml-1" id="count-resolvido">0</span>
+                        </button>
+                    </div>
+                    <span class="text-sm text-base-content/50 font-medium" id="relatos-count"></span>
+                </div>
+
+                <!-- Skeleton de carregamento -->
+                <div id="relatos-skeleton" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="card bg-base-200 animate-pulse h-40"></div>
+                    <div class="card bg-base-200 animate-pulse h-40"></div>
+                    <div class="card bg-base-200 animate-pulse h-40"></div>
+                </div>
+
+                <!-- Grid de relatos (preenchido via JS) -->
+                <div id="relatos-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 hidden"></div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <div class="wave-wrapper">
+        <svg class="wave-divider" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#146C43"/>
+        </svg>
+    </div>
+
+    <footer class="bg-gradient-to-b from-primary-500 to-primary-600">
+        <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
+            <div class="py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div>
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center">
+                            <i data-lucide="building-2" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <span class="text-white font-bold text-base">RESOLUCITY</span>
+                    </div>
+                    <p class="text-white/60 text-sm leading-relaxed">
+                        Plataforma de engajamento cívico para relatar problemas urbanos e promover transparência.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-4">Navegação</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="/"            class="text-white/60 text-sm hover:text-white transition-colors">Início</a>
+                        <a href="/categorias"  class="text-white/60 text-sm hover:text-white transition-colors">Categorias</a>
+                        <a href="/estatisticas" class="text-white/60 text-sm hover:text-white transition-colors">Estatísticas</a>
+                        <a href="/sobre"        class="text-white/60 text-sm hover:text-white transition-colors">Sobre</a>
+                        <a href="/contato"      class="text-white/60 text-sm hover:text-white transition-colors">Contato</a>
+                        <a href="/relatar"      class="text-white/60 text-sm hover:text-white transition-colors">Fazer Relato</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-4">Redes Sociais</h4>
+                    <div class="flex gap-3">
+                        <a href="#" class="btn btn-ghost btn-sm w-10 h-10 p-0 rounded-lg bg-white/10 hover:bg-white/20 border-none" aria-label="Instagram">
+                            <i data-lucide="instagram" class="w-5 h-5 text-white"></i>
+                        </a>
+                        <a href="#" class="btn btn-ghost btn-sm w-10 h-10 p-0 rounded-lg bg-white/10 hover:bg-white/20 border-none" aria-label="LinkedIn">
+                            <i data-lucide="linkedin" class="w-5 h-5 text-white"></i>
+                        </a>
+                        <a href="#" class="btn btn-ghost btn-sm w-10 h-10 p-0 rounded-lg bg-white/10 hover:bg-white/20 border-none" aria-label="Email">
+                            <i data-lucide="mail" class="w-5 h-5 text-white"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="py-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <p class="text-white/50 text-xs">&copy; 2026 Resolucity. Todos os direitos reservados.</p>
+                <p class="text-white/40 text-xs">Cidadania em Ação</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== SCRIPTS ===================== -->
+    <script>
+        AOS.init({ once: true, duration: 600 });
+        lucide.createIcons();
+    </script>
+    <script src="../js/meus-relatos.js"></script>
+    <script src="../js/navbar.js"></script>
+</body>
+</html>

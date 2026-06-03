@@ -1,253 +1,576 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="resolucity">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resolucity | Cidadania em Ação</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolucity — Cidadania em Ação</title>
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Ícones -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- AOS Animations -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
-  <!-- Favicon -->
-  <link rel="icon" href="imagens/logo.png" type="image/x-icon">
-
-  <!-- Estilos -->
-  <link rel="stylesheet" href="style.css">
+    <!-- DaisyUI (before Tailwind) -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50:  '#F0FDF4', 100: '#D2E8DD', 200: '#B5D5C5', 300: '#7DC39A',
+                            400: '#198754', 500: '#146C43', 600: '#0F5132', 700: '#013C31',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <!-- Typed.js -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <!-- CountUp.js -->
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2/dist/countUp.umd.js"></script>
+    <!-- Favicon & Global CSS -->
+    <link rel="icon" href="public/imagens/logo.png" type="image/png">
+    <link rel="stylesheet" href="public/css/global.css">
 </head>
+<body class="font-sans bg-base-100 antialiased">
 
-<body>
-
-<!--HEADER SUPERIOR-->
-<header>
-  <div class="top-header py-2 border-bottom bg-light">
-    <div class="container d-flex justify-content-between align-items-center flex-wrap text-dark">
-
-      <div class="d-flex align-items-center">
-        <img src="imagens/logo.png" alt="logo" width="40" class="me-2">
-        <span class="fw-bold fs-5 text-uppercase">Resolucity</span>
-      </div>
-
-      <div class="contact-info d-flex flex-wrap align-items-center small text-secondary">
-        <div class="me-4 d-flex align-items-center">
-          <i class="bi bi-envelope-fill text-warning me-1"></i>
-          <span>contato@resolucity.com</span>
+    <!-- ===================== NAVBAR ===================== -->
+    <div id="navbar" class="navbar fixed top-0 z-50 bg-base-100/80 backdrop-blur-lg border-b border-base-200 transition-shadow duration-300 min-h-[72px]">
+        <div class="navbar-start">
+            <a href="/" class="flex items-center gap-2.5 pl-4 lg:pl-6">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                    <i data-lucide="building-2" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-primary-700 font-bold text-lg tracking-tight">RESOLUCITY</span>
+            </a>
         </div>
 
-        <div class="me-4 d-flex align-items-center">
-          <i class="bi bi-telephone-fill text-warning me-1"></i>
-          <span>+55 (24) 99999-9999</span>
+        <div id="navbar-center" class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal gap-1 px-1">
+                <li><a href="/" class="rounded-lg font-medium bg-primary-100 text-primary-700">Início</a></li>
+                <li><a href="/categorias" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Categorias</a></li>
+                <li><a href="/estatisticas" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Estatísticas</a></li>
+                <li><a href="/sobre" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Sobre</a></li>
+                <li><a href="/contato" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Contato</a></li>
+            </ul>
         </div>
 
-        <div class="d-flex align-items-center">
-          <i class="bi bi-clock-fill text-warning me-1"></i>
-          <span>Seg - Sex: 08h00 - 17h00</span>
+        <div id="navbar-auth" class="navbar-end gap-3 pr-4 lg:pr-6">
+            <a href="/login" class="btn btn-sm btn-outline border-primary-200 text-primary-500 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 hidden sm:flex gap-2 rounded-xl normal-case">
+                <i data-lucide="log-in" class="w-4 h-4"></i>
+                Entrar
+            </a>
+            <a href="/relatar" class="btn btn-sm bg-primary-500 hover:bg-primary-600 text-white border-none hidden sm:flex gap-2 rounded-xl normal-case shadow-sm font-semibold">
+                Fazer Relato
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+
+            <!-- Mobile dropdown -->
+            <div class="dropdown dropdown-end lg:hidden">
+                <button tabindex="0" class="btn btn-ghost btn-sm p-2 rounded-lg" aria-label="Menu">
+                    <i data-lucide="menu" class="w-5 h-5 text-base-content/70"></i>
+                </button>
+                <ul tabindex="0" class="dropdown-content menu bg-base-100/95 backdrop-blur-lg rounded-box z-50 w-56 p-2 shadow-lg border border-base-200 mt-2">
+                    <li><a href="/" class="rounded-lg text-sm font-medium bg-primary-100 text-primary-700">Início</a></li>
+                    <li><a href="/categorias" class="rounded-lg text-sm">Categorias</a></li>
+                    <li><a href="/estatisticas" class="rounded-lg text-sm">Estatísticas</a></li>
+                    <li><a href="/sobre" class="rounded-lg text-sm">Sobre</a></li>
+                    <li><a href="/contato" class="rounded-lg text-sm">Contato</a></li>
+                    <li class="border-t border-base-200 mt-2 pt-2">
+                        <a href="/relatar" class="rounded-xl bg-primary-500 text-white font-semibold justify-center">
+                            Fazer Relato <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </li>
+                    <li class="mt-2">
+                        <a href="/login" class="rounded-xl border border-primary-200 text-primary-500 justify-center">
+                            <i data-lucide="log-in" class="w-4 h-4"></i> Entrar
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
-
     </div>
-  </div>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container">
+    <main>
+        <!-- ===================== HERO SECTION ===================== -->
+        <section class="relative pt-[72px] overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-primary-50/50"></div>
+            <div class="absolute top-32 right-0 w-[500px] h-[500px] bg-primary-100/30 rounded-full blur-3xl animate-pulse-glow"></div>
+            <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary-100/20 rounded-full blur-3xl animate-pulse-glow" style="animation-delay: 2s;"></div>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+            <div class="relative max-w-[1184px] mx-auto px-6 lg:px-10 pt-16 lg:pt-28 pb-16 lg:pb-24">
+                <div class="max-w-3xl mx-auto text-center" data-aos="fade-up" data-aos-duration="800">
+                    <!-- Badge -->
+                    <div class="badge badge-lg badge-outline border-primary-200 bg-primary-100 text-primary-700 gap-2 mb-8">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                        Cidadania em Ação
+                    </div>
 
-      <div class="collapse navbar-collapse justify-content-between" id="menu">
+                    <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-bold leading-tight lg:leading-[64px] text-primary-700 mb-6">
+                        Juntos por uma Cidade
+                        <br>
+                        <span id="animated-word" class="text-primary-400 inline-block"></span>
+                    </h1>
 
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="index.html">Início</a></li>
-          <li class="nav-item"><a class="nav-link" href="estatisticas.html">Estatísticas</a></li>
-          <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre</a></li>
-          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
-        </ul>
+                    <p class="text-base lg:text-lg text-gray-500 leading-relaxed max-w-xl mx-auto mb-10">
+                        Reporte problemas urbanos, acompanhe soluções e contribua para a transformação da sua cidade. Sua voz importa.
+                    </p>
 
-        <a href="login.html" class="btn btn-warning fw-semibold text-dark px-3">Fazer Login</a>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="/relatar" class="btn btn-primary">
+                            Fazer um Relato
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="/categorias" class="btn btn-outline btn-primary">
+                            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                            Ver Categorias
+                        </a>
+                    </div>
+                </div>
 
-      </div>
+                <!-- Hero Image -->
+                <div class="mt-16 lg:mt-20 max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-primary-700/10 border border-gray-200/60">
+                        <img src="public/imagens/imagem-cidade.jpg" alt="Vista da cidade" class="w-full h-[300px] sm:h-[400px] lg:h-[480px] object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-700/30 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6 flex items-center gap-3">
+                            <div class="badge badge-lg bg-white/90 backdrop-blur-sm border-0 text-gray-700 gap-2 shadow-lg">
+                                <div class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></div>
+                                Plataforma ativa
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== STATS BAR ===================== -->
+        <section class="border-y border-base-300">
+            <div class="max-w-[1184px] mx-auto px-6 lg:px-10 py-10">
+                <div class="stats stats-vertical lg:stats-horizontal w-full bg-transparent" data-aos="fade-up">
+                    <div class="stat text-center">
+                        <div class="stat-value text-primary-700" data-countup="892">0</div>
+                        <div class="stat-desc mt-1">Relatos Registrados</div>
+                    </div>
+                    <div class="stat text-center">
+                        <div class="stat-value text-primary-400" data-countup="534">0</div>
+                        <div class="stat-desc mt-1">Problemas Resolvidos</div>
+                    </div>
+                    <div class="stat text-center">
+                        <div class="stat-value text-primary-700" data-countup="16">0</div>
+                        <div class="stat-desc mt-1">Categorias Ativas</div>
+                    </div>
+                    <div class="stat text-center">
+                        <div class="stat-value text-primary-400" data-countup="60" data-suffix="%">0</div>
+                        <div class="stat-desc mt-1">Taxa de Resolução</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== HOW IT WORKS ===================== -->
+        <section class="py-20 lg:py-28">
+            <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl lg:text-[36px] font-bold text-primary-700 leading-tight mb-4">Como Funciona</h2>
+                    <p class="text-gray-500 text-base lg:text-lg max-w-2xl mx-auto">
+                        Em poucos passos, você pode reportar problemas e acompanhar a evolução da sua cidade.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card bg-base-100 border border-base-300 card-hover" data-aos="fade-up">
+                        <div class="card-body items-center text-center">
+                            <div class="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mb-2">
+                                <i data-lucide="file-edit" class="w-7 h-7 text-primary-500"></i>
+                            </div>
+                            <div class="badge badge-primary badge-sm text-white">1</div>
+                            <h3 class="card-title text-primary-700">Preencha o Relato</h3>
+                            <p class="text-gray-500 text-sm">
+                                Descreva o problema urbano, selecione a categoria e informe a localização exata.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card bg-base-100 border border-base-300 card-hover" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card-body items-center text-center">
+                            <div class="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mb-2">
+                                <i data-lucide="send" class="w-7 h-7 text-primary-500"></i>
+                            </div>
+                            <div class="badge badge-primary badge-sm text-white">2</div>
+                            <h3 class="card-title text-primary-700">Envie sua Denúncia</h3>
+                            <p class="text-gray-500 text-sm">
+                                Seus dados são validados automaticamente e o relato é registrado na plataforma.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card bg-base-100 border border-base-300 card-hover" data-aos="fade-up" data-aos-delay="200">
+                        <div class="card-body items-center text-center">
+                            <div class="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mb-2">
+                                <i data-lucide="bar-chart-3" class="w-7 h-7 text-primary-500"></i>
+                            </div>
+                            <div class="badge badge-primary badge-sm text-white">3</div>
+                            <h3 class="card-title text-primary-700">Acompanhe o Progresso</h3>
+                            <p class="text-gray-500 text-sm">
+                                Visualize estatísticas, acompanhe o status e veja a transparência pública em ação.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== HIGHLIGHTS ===================== -->
+        <section class="py-20 lg:py-28">
+            <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl lg:text-[36px] font-bold text-primary-700 leading-tight mb-4">Por que usar o Resolucity?</h2>
+                    <p class="text-gray-500 text-base lg:text-lg max-w-2xl mx-auto">
+                        Uma plataforma que conecta cidadãos ao poder público para uma cidade mais transparente.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card bg-base-100 border border-base-300 card-hover group overflow-hidden" data-aos="fade-up">
+                        <figure class="h-48 bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-2xl bg-white/80 backdrop-blur flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                                <i data-lucide="megaphone" class="w-9 h-9 text-primary-500"></i>
+                            </div>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title text-primary-700">Relatos Comunitários</h3>
+                            <p class="text-gray-500 text-sm">
+                                Cidadãos reportam problemas urbanos diretamente — buracos, iluminação, lixo, segurança e muito mais.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card bg-base-100 border border-base-300 card-hover group overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                        <figure class="h-48 bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-2xl bg-white/80 backdrop-blur flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                                <i data-lucide="eye" class="w-9 h-9 text-primary-500"></i>
+                            </div>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title text-primary-700">Transparência Pública</h3>
+                            <p class="text-gray-500 text-sm">
+                                Acompanhe o progresso das denúncias com estatísticas abertas e dados públicos em tempo real.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card bg-base-100 border border-base-300 card-hover group overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                        <figure class="h-48 bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-2xl bg-white/80 backdrop-blur flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                                <i data-lucide="users" class="w-9 h-9 text-primary-500"></i>
+                            </div>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title text-primary-700">Ação Cidadã</h3>
+                            <p class="text-gray-500 text-sm">
+                                Participe ativamente da melhoria urbana. Cada relato gera dados que ajudam o município a agir.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== CATEGORIES PREVIEW ===================== -->
+        <section class="py-20 lg:py-28">
+            <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-4" data-aos="fade-up">
+                    <div>
+                        <h2 class="text-3xl lg:text-[36px] font-bold text-primary-700 leading-tight mb-2">Categorias de Relatos</h2>
+                        <p class="text-gray-500 text-base">Escolha a categoria que melhor descreve o problema.</p>
+                    </div>
+                    <a href="/categorias" class="btn btn-ghost btn-sm text-primary-500">
+                        Ver todas
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" data-aos="fade-up" data-aos-delay="100">
+                    <a href="public/views/relatar.html?cat=Infraestrutura" class="btn btn-ghost justify-start gap-3 h-auto py-4 border border-base-300 bg-base-100 font-medium text-gray-700 hover:border-primary-200">
+                        <i data-lucide="hard-hat" class="w-5 h-5 text-primary-500 shrink-0"></i>
+                        Infraestrutura
+                    </a>
+                    <a href="public/views/relatar.html?cat=Segurança" class="btn btn-ghost justify-start gap-3 h-auto py-4 border border-base-300 bg-base-100 font-medium text-gray-700 hover:border-primary-200">
+                        <i data-lucide="shield" class="w-5 h-5 text-primary-500 shrink-0"></i>
+                        Segurança
+                    </a>
+                    <a href="public/views/relatar.html?cat=Saúde Pública" class="btn btn-ghost justify-start gap-3 h-auto py-4 border border-base-300 bg-base-100 font-medium text-gray-700 hover:border-primary-200">
+                        <i data-lucide="heart-pulse" class="w-5 h-5 text-primary-500 shrink-0"></i>
+                        Saúde Pública
+                    </a>
+                    <a href="public/views/relatar.html?cat=Transporte" class="btn btn-ghost justify-start gap-3 h-auto py-4 border border-base-300 bg-base-100 font-medium text-gray-700 hover:border-primary-200">
+                        <i data-lucide="bus" class="w-5 h-5 text-primary-500 shrink-0"></i>
+                        Transporte
+                    </a>
+                    <a href="public/views/relatar.html?cat=Meio Ambiente" class="btn btn-ghost justify-start gap-3 h-auto py-4 border border-base-300 bg-base-100 font-medium text-gray-700 hover:border-primary-200">
+                        <i data-lucide="trees" class="w-5 h-5 text-primary-500 shrink-0"></i>
+                        Meio Ambiente
+                    </a>
+                    <a href="public/views/relatar.html?cat=Educação" class="btn btn-ghost justify-start gap-3 h-auto py-4 border border-base-300 bg-base-100 font-medium text-gray-700 hover:border-primary-200">
+                        <i data-lucide="graduation-cap" class="w-5 h-5 text-primary-500 shrink-0"></i>
+                        Educação
+                    </a>
+                    <a href="public/views/relatar.html?cat=Limpeza Urbana e Lixo" class="btn btn-ghost justify-start gap-3 h-auto py-4 border border-base-300 bg-base-100 font-medium text-gray-700 hover:border-primary-200">
+                        <i data-lucide="trash-2" class="w-5 h-5 text-primary-500 shrink-0"></i>
+                        Limpeza Urbana
+                    </a>
+                    <a href="public/views/relatar.html?cat=Redes Elétricas / Luz" class="btn btn-ghost justify-start gap-3 h-auto py-4 border border-base-300 bg-base-100 font-medium text-gray-700 hover:border-primary-200">
+                        <i data-lucide="zap" class="w-5 h-5 text-primary-500 shrink-0"></i>
+                        Redes Elétricas
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== FEATURES (Dark Section) ===================== -->
+        <section class="relative py-24 lg:py-32 bg-primary-600 overflow-hidden">
+            <div class="absolute top-0 right-0 w-[500px] h-[400px] bg-emerald-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-[400px] h-[300px] bg-green-400/5 rounded-full blur-3xl"></div>
+
+            <div class="relative max-w-[1184px] mx-auto px-6 lg:px-10">
+                <div class="text-center mb-20" data-aos="fade-up">
+                    <h2 class="text-3xl lg:text-[36px] font-bold text-white leading-tight mb-4">Ferramentas para Cidadania Ativa</h2>
+                    <p class="text-white/70 text-base lg:text-lg max-w-2xl mx-auto">
+                        Recursos que empoderam cidadãos e ajudam gestores a tomar decisões melhores.
+                    </p>
+                </div>
+
+                <!-- Feature 1 -->
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 mb-20 lg:mb-28" data-aos="fade-up">
+                    <div class="flex-1 order-2 lg:order-1">
+                        <div class="badge badge-outline border-white/20 bg-white/10 text-emerald-300 gap-2 mb-4">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+                            Mapeamento
+                        </div>
+                        <h3 class="text-2xl lg:text-[28px] font-bold text-white mb-4 leading-snug">Mapeamento Urbano Interativo</h3>
+                        <p class="text-white/65 leading-relaxed mb-6">
+                            Visualize relatos em um mapa interativo. Identifique áreas críticas, padrões de problemas e acompanhe a evolução urbana da sua região.
+                        </p>
+                        <a href="/relatar" class="btn btn-outline border-white/25 text-white hover:bg-white/10 hover:border-white/40 btn-sm">
+                            Fazer Relato <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                    <div class="flex-1 order-1 lg:order-2">
+                        <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                            <img src="public/imagens/cidadania-1.png" alt="Mapeamento Urbano" class="w-full h-auto object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16" data-aos="fade-up">
+                    <div class="flex-1">
+                        <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                            <img src="public/imagens/transparencia-publica-municipal.jpg" alt="Indicadores de Gestão" class="w-full h-auto object-cover">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="badge badge-outline border-white/20 bg-white/10 text-emerald-300 gap-2 mb-4">
+                            <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                            Estatísticas
+                        </div>
+                        <h3 class="text-2xl lg:text-[28px] font-bold text-white mb-4 leading-snug">Indicadores e Transparência</h3>
+                        <p class="text-white/65 leading-relaxed mb-6">
+                            Dados estatísticos completos sobre relatos por categoria, taxa de resolução e evolução mensal. Transparência pública ao alcance de todos.
+                        </p>
+                        <a href="/estatisticas" class="btn btn-outline border-white/25 text-white hover:bg-white/10 hover:border-white/40 btn-sm">
+                            Ver Estatísticas <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== ABOUT TEASER ===================== -->
+        <section class="py-20 lg:py-28">
+            <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20" data-aos="fade-up">
+                    <div class="flex-1">
+                        <div class="rounded-2xl overflow-hidden">
+                            <img src="public/imagens/Comunidade.jpg" alt="Comunidade Resolucity" class="w-full h-auto object-cover rounded-2xl shadow-lg">
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="badge badge-outline border-primary-200 bg-primary-100 text-primary-700 gap-2 mb-4">
+                            <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                            Sobre nós
+                        </div>
+                        <h2 class="text-3xl lg:text-[36px] font-bold text-primary-700 leading-tight mb-4">
+                            Transformando cidades através da participação cidadã
+                        </h2>
+                        <p class="text-gray-500 leading-relaxed mb-4">
+                            O Resolucity nasceu da necessidade de dar voz aos cidadãos. Acreditamos que a <strong class="text-primary-700">tecnologia</strong> pode ser a ponte entre a comunidade e o poder público.
+                        </p>
+                        <p class="text-gray-500 leading-relaxed mb-8">
+                            Com dados abertos e transparência, construímos uma plataforma que transforma relatos individuais em <strong class="text-primary-700">ação coletiva</strong>.
+                        </p>
+                        <a href="/sobre" class="btn btn-outline btn-primary btn-sm">
+                            Saiba mais sobre nós
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== CTA SECTION ===================== -->
+        <section class="relative py-20 lg:py-28 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-primary-100/50 to-white"></div>
+            <div class="absolute top-0 right-1/4 w-64 h-64 bg-primary-200/30 rounded-full blur-3xl"></div>
+
+            <div class="relative max-w-[1184px] mx-auto px-6 lg:px-10 text-center" data-aos="fade-up">
+                <div class="max-w-2xl mx-auto">
+                    <div class="w-16 h-16 rounded-2xl bg-primary-100 flex items-center justify-center mx-auto mb-8">
+                        <i data-lucide="heart-handshake" class="w-8 h-8 text-primary-500"></i>
+                    </div>
+                    <h2 class="text-3xl lg:text-[40px] font-bold text-primary-700 leading-tight mb-4">
+                        Faça a diferença na sua cidade
+                    </h2>
+                    <p class="text-gray-500 text-base lg:text-lg leading-relaxed mb-10">
+                        Cada relato conta. Junte-se a centenas de cidadãos que já estão transformando suas comunidades.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="/relatar" class="btn btn-primary btn-lg">
+                            Começar Agora
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="/contato" class="btn btn-outline btn-primary btn-lg">
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                            Fale Conosco
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <div class="wave-wrapper">
+        <svg class="wave-divider" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#146C43"/>
+        </svg>
     </div>
-  </nav>
-</header>
 
-<!-- ============================
-             HERO
-============================= -->
-<section class="hero text-center d-flex flex-column justify-content-center align-items-center" data-aos="fade-up">
-  <h1 class="fw-bold">Juntos por uma cidade melhor</h1>
-  <p>Relate, acompanhe e transforme o ambiente urbano com colaboração cidadã.</p>
+    <footer class="bg-gradient-to-b from-primary-500 to-primary-600">
+        <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
+            <!-- Newsletter -->
+            <div class="text-center py-12 border-b border-white/15">
+                <h3 class="text-xl font-bold text-white mb-2">Receba novidades por e-mail</h3>
+                <p class="text-white/60 text-sm mb-6">Fique por dentro das atualizações da plataforma.</p>
+                <form class="join w-full max-w-md mx-auto" onsubmit="event.preventDefault()">
+                    <input type="email" placeholder="Seu melhor e-mail" class="input join-item bg-white text-gray-800 placeholder-gray-400 flex-1 min-w-0 border-0">
+                    <button type="submit" class="btn join-item bg-primary-700 text-white border-0 hover:bg-primary-700/80">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                        Enviar
+                    </button>
+                </form>
+            </div>
 
-  <div class="mt-4">
-    <a href="relatar.html" class="btn btn-yellow btn-lg me-3">Fazer Relato</a>
-    <a href="categorias.html" class="btn btn-outline-light btn-lg">Ver Categorias</a>
-  </div>
-</section>
+            <!-- Links + Info -->
+            <div class="py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div>
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center">
+                            <i data-lucide="building-2" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <span class="text-white font-bold text-base">RESOLUCITY</span>
+                    </div>
+                    <p class="text-white/60 text-sm leading-relaxed">
+                        Plataforma de engajamento cívico para relatar problemas urbanos e promover transparência.
+                    </p>
+                </div>
 
-<!-- ============================
-          DESTAQUES
-============================= -->
-<section class="highlight-section text-center py-5">
-  <div class="container">
-    <div class="row g-4">
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-4">Navegação</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="index.html" class="text-white/60 text-sm hover:text-white transition-colors">Início</a>
+                        <a href="/categorias" class="text-white/60 text-sm hover:text-white transition-colors">Categorias</a>
+                        <a href="/estatisticas" class="text-white/60 text-sm hover:text-white transition-colors">Estatísticas</a>
+                        <a href="/sobre" class="text-white/60 text-sm hover:text-white transition-colors">Sobre</a>
+                        <a href="/contato" class="text-white/60 text-sm hover:text-white transition-colors">Contato</a>
+                        <a href="/relatar" class="text-white/60 text-sm hover:text-white transition-colors">Fazer Relato</a>
+                    </div>
+                </div>
 
-      <div class="col-md-4" data-aos="fade-up">
-        <div class="card h-100 shadow-sm rounded-4 overflow-hidden">
-          <img src="imagens/Comunidade.jpg" class="card-img-top" alt="Relatos">
-          <div class="card-body">
-            <h5 class="fw-bold">Relatos da Comunidade</h5>
-            <p>Conecte-se com cidadãos que identificam e compartilham problemas urbanos diariamente.</p>
-            <a href="relatar.html" class="fw-semibold text-dark">Saiba mais →</a>
-          </div>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-4">Redes Sociais</h4>
+                    <div class="flex gap-3">
+                        <a href="#" class="btn btn-ghost btn-sm btn-square bg-white/10 hover:bg-white/20" aria-label="Instagram">
+                            <i data-lucide="instagram" class="w-5 h-5 text-white"></i>
+                        </a>
+                        <a href="#" class="btn btn-ghost btn-sm btn-square bg-white/10 hover:bg-white/20" aria-label="LinkedIn">
+                            <i data-lucide="linkedin" class="w-5 h-5 text-white"></i>
+                        </a>
+                        <a href="#" class="btn btn-ghost btn-sm btn-square bg-white/10 hover:bg-white/20" aria-label="Email">
+                            <i data-lucide="mail" class="w-5 h-5 text-white"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="py-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <p class="text-white/50 text-xs">&copy; 2026 Resolucity. Todos os direitos reservados.</p>
+                <p class="text-white/40 text-xs">Cidadania em Ação</p>
+            </div>
         </div>
-      </div>
+    </footer>
 
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-        <div class="card h-100 shadow-sm rounded-4 overflow-hidden">
-          <img src="imagens/transparencia-publica-municipal.jpg" class="card-img-top" alt="Transparência">
-          <div class="card-body">
-            <h5 class="fw-bold">Transparência Pública</h5>
-            <p>Acompanhe relatórios e dados sobre as ações tomadas com base nos relatos enviados.</p>
-            <a href="estatisticas.html" class="fw-semibold text-dark">Ver dados →</a>
-          </div>
-        </div>
-      </div>
+    <!-- ===================== SCRIPTS ===================== -->
+    <script>
+        AOS.init({ once: true, duration: 600 });
+        lucide.createIcons();
 
-      <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
-        <div class="card h-100 shadow-sm rounded-4 overflow-hidden">
-          <img src="imagens/cidadania-1.png" class="card-img-top" alt="Cidadania">
-          <div class="card-body">
-            <h5 class="fw-bold">Cidadania em Ação</h5>
-            <p>Ajude a tornar sua cidade mais organizada e acolhedora.</p>
-            <a href="sobre.html" class="fw-semibold text-dark">Saiba mais →</a>
-          </div>
-        </div>
-      </div>
+        new Typed('#animated-word', {
+            strings: ['Melhor', 'Segura', 'Limpa', 'Justa', 'Acessível'],
+            typeSpeed: 80,
+            backSpeed: 50,
+            backDelay: 2000,
+            startDelay: 1000,
+            loop: true,
+        });
 
-    </div>
-  </div>
-</section>
-
-<!-- ============================
-             SOBRE
-============================= -->
-<section class="about py-5">
-  <div class="container">
-    <div class="row align-items-center gy-4">
-
-      <div class="col-md-6" data-aos="fade-right">
-        <h2 class="fw-bold mb-4">Sobre o <span class="text-yellow">Resolucity</span></h2>
-        <p>O <span class="text-yellow">Resolucity</span> é uma plataforma digital que transforma relatos anônimos em dados estratégicos, fortalecendo a transparência e a eficiência urbana.</p>
-        <a href="sobre.html" class="btn btn-dark mt-3">Saiba mais</a>
-      </div>
-
-      <div class="col-md-6" data-aos="fade-left">
-        <img src="imagens/pixnio-4840x3227.jpg" class="img-fluid rounded shadow" alt="Cidade moderna">
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============================
-            SERVIÇOS
-============================= -->
-<section class="services text-center py-5">
-  <div class="container">
-
-    <h3 class="fw-bold mb-5" data-aos="fade-up">Nossas Ações</h3>
-
-    <div class="row g-4">
-
-      <div class="col-md-4" data-aos="zoom-in">
-        <i class="bi bi-geo-alt-fill fs-1 text-warning"></i>
-        <h5 class="fw-semibold mt-3">Mapeamento Urbano</h5>
-        <p>Visualize os pontos críticos da cidade com base nos relatos.</p>
-      </div>
-
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
-        <i class="bi bi-bar-chart-fill fs-1 text-warning"></i>
-        <h5 class="fw-semibold mt-3">Indicadores de Gestão</h5>
-        <p>Geramos relatórios úteis para apoiar decisões municipais.</p>
-      </div>
-
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
-        <i class="bi bi-people-fill fs-1 text-warning"></i>
-        <h5 class="fw-semibold mt-3">Participação Cidadã</h5>
-        <p>Fortalecemos o engajamento social e incentivamos o cuidado público.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!--FOOTER-->
-<footer class="footer text-light pt-5">
-  <div class="container">
-
-    <div class="row gy-4">
-
-      <div class="col-md-4">
-        <h5 class="text-warning fw-bold mb-3">Sobre o Resolucity</h5>
-        <p>Conectando cidadãos e administração pública por meio de relatos anônimos e dados transparentes.</p>
-      </div>
-
-      <div class="col-md-4">
-        <h5 class="text-warning fw-bold mb-3">Links Rápidos</h5>
-        <ul class="list-unstyled">
-          <li><a href="index.html">Início</a></li>
-          <li><a href="estatisticas.html">Estatísticas</a></li>
-          <li><a href="sobre.html">Sobre</a></li>
-          <li><a href="contato.html">Contato</a></li>
-          <li><a href="login.html">Login</a></li>
-        </ul>
-      </div>
-
-      <div class="col-md-4">
-        <h5 class="text-warning fw-bold mb-3">Contato</h5>
-        <ul class="list-unstyled">
-          <li><i class="bi bi-geo-alt-fill text-warning me-2"></i>Volta Redonda - RJ, Brasil</li>
-          <li><i class="bi bi-envelope-fill text-warning me-2"></i>contato@resolucity.com</li>
-          <li><i class="bi bi-telephone-fill text-warning me-2"></i>+55 (24) 99999-9999</li>
-        </ul>
-
-        <div class="social-icons mt-3">
-          <a href="#" class="text-light me-3 fs-5"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="text-light me-3 fs-5"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="text-light fs-5"><i class="bi bi-linkedin"></i></a>
-        </div>
-      </div>
-
-    </div>
-
-    <hr class="mt-5 mb-3 border-secondary">
-
-    <div class="text-center small text-secondary">
-      © 2025 <span class="text-warning fw-semibold">Resolucity</span> — Todos os direitos reservados.
-    </div>
-
-  </div>
-</footer>
-
-<!-- ============================
-            SCRIPTS
-============================= -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-<script>
-  AOS.init({ duration: 800, once: true });
-
-  window.addEventListener('scroll', () => {
-    const nav = document.querySelector('.navbar');
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  });
-</script>
-
+        // CountUp.js — animate numbers on scroll
+        document.querySelectorAll('[data-countup]').forEach(function(el) {
+            var target = parseInt(el.dataset.countup);
+            var suffix = el.dataset.suffix || '';
+            var counter = new countUp.CountUp(el, target, {
+                duration: 2,
+                suffix: suffix,
+                separator: '.',
+                decimal: ',',
+            });
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        counter.start();
+                        obs.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            obs.observe(el);
+        });
+    </script>
+    <script src="public/js/navbar.js"></script>
 </body>
 </html>
+
+
+
