@@ -1,4 +1,5 @@
 import fs from 'fs';
+import userRepository from './userRepository.js';
 
 const DB_PATH = './src/database/reports.json';
 
@@ -28,7 +29,19 @@ const reportRepository = {
 
     listByUserId: (userId) => {
         const reports = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
-        return reports.filter(r => r.userId === userId);
+        const userReports = reports.filter(r => r.userId === userId);
+        // Anexar dados pessoais do usuário a cada relato
+        return userReports.map(r => {
+            const user = userRepository.findById(r.userId);
+            return {
+                ...r,
+                nome: user ? user.nome : '',
+                cpf: user ? user.cpf : '',
+                nascimento: user ? user.nascimento : '',
+                telefone: user ? user.telefone : '',
+                email: user ? user.email : ''
+            };
+        });
     },
 
     getStats: () => {
