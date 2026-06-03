@@ -2,9 +2,9 @@ import reportRepository from '../repositories/reportRepository.js';
 
 const reportController = {
     createReport(req, res) {
-        const { nome, cpf, nascimento, telefone, email, categoria, endereco, descricao } = req.body;
+        const { categoria, tipo, endereco, descricao } = req.body;
         const userId = req.session.userId;
-        const result = reportRepository.createReport(userId, nome, cpf, nascimento, telefone, email, categoria, endereco, descricao);
+        const result = reportRepository.createReport(userId, categoria, tipo, endereco, descricao);
         res.status(201).json(result);
     },
 
@@ -16,6 +16,11 @@ const reportController = {
     listMyReports(req, res) {
         const reports = reportRepository.listByUserId(req.session.userId);
         res.json(reports);
+    },
+
+    getStats(req, res) {
+        const stats = reportRepository.getStats();
+        res.json(stats);
     }
 };
 

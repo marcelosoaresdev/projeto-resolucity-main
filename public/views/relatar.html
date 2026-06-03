@@ -127,52 +127,15 @@
         </div>
 
         <form id="contactForm" novalidate>
+          <div class="bg-primary-50 border border-primary-200 rounded-xl p-4 mb-6 text-sm flex items-start gap-2">
+            <span class="text-primary-700 mt-0.5">ℹ️</span>
+            <div>
+              <span class="text-primary-700">Seus dados pessoais (nome, CPF, nascimento, telefone, email) serão preenchidos automaticamente.</span>
+              <a href="/perfil" class="font-semibold underline ml-1">Verificar/editá-los →</a>
+            </div>
+          </div>
+
           <div class="grid md:grid-cols-2 gap-x-6 gap-y-1">
-
-            <!-- Nome Completo -->
-            <div class="form-control">
-              <label class="label" for="name">
-                <span class="label-text font-semibold">Nome Completo</span>
-              </label>
-              <input type="text" id="name" placeholder="Seu nome completo" class="input input-bordered w-full" />
-              <span id="nameError" class="error"></span>
-            </div>
-
-            <!-- CPF -->
-            <div class="form-control">
-              <label class="label" for="cpf">
-                <span class="label-text font-semibold">CPF</span>
-              </label>
-              <input type="text" id="cpf" placeholder="000.000.000-00" class="input input-bordered w-full" />
-              <span id="cpfError" class="error"></span>
-            </div>
-
-            <!-- Data de Nascimento -->
-            <div class="form-control">
-              <label class="label" for="nascimento">
-                <span class="label-text font-semibold">Data de Nascimento</span>
-              </label>
-              <input type="date" id="nascimento" class="input input-bordered w-full" />
-              <span id="nascimentoError" class="error"></span>
-            </div>
-
-            <!-- Telefone -->
-            <div class="form-control">
-              <label class="label" for="phone">
-                <span class="label-text font-semibold">Telefone</span>
-              </label>
-              <input type="text" id="phone" placeholder="(00) 00000-0000" class="input input-bordered w-full" />
-              <span id="phoneError" class="error"></span>
-            </div>
-
-            <!-- E-mail -->
-            <div class="form-control md:col-span-2">
-              <label class="label" for="email">
-                <span class="label-text font-semibold">E-mail</span>
-              </label>
-              <input type="email" id="email" placeholder="seu@email.com" class="input input-bordered w-full" />
-              <span id="emailError" class="error"></span>
-            </div>
 
             <!-- Categoria -->
             <div class="form-control md:col-span-2">
@@ -199,6 +162,17 @@
                 <option>Outros</option>
               </select>
               <span id="categoriaError" class="error"></span>
+            </div>
+
+            <!-- Tipo do Problema -->
+            <div class="form-control md:col-span-2">
+              <label class="label" for="tipo">
+                <span class="label-text font-semibold">Tipo do Problema</span>
+              </label>
+              <select id="tipo" class="select select-bordered w-full">
+                <option value="">Selecione primeiro a categoria</option>
+              </select>
+              <span id="tipoError" class="error"></span>
             </div>
 
             <!-- Endereço -->
