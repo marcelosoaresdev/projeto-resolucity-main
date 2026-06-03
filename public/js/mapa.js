@@ -1,24 +1,13 @@
-// Mapa com Leaflet - RF-002: Visualização em Mapa
+// ============================================
+// Mapa — RF-002: Visualização em Mapa
+// ============================================
 
-// Centro: Volta Redonda, RJ
 const CENTER = [-22.5207, -44.0883];
 const STATUS_CONFIG = {
     pendente:      { color: '#f59e0b', label: 'Pendente' },
     em_andamento:  { color: '#3b82f6', label: 'Em Andamento' },
     resolvido:     { color: '#22c55e', label: 'Resolvido' },
 };
-
-// Inicializar mapa
-const map = L.map('map').setView(CENTER, 13);
-
-// Camada OpenStreetMap
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap',
-    maxZoom: 19,
-}).addTo(map);
-
-let allReports = [];
-let markers = [];
 
 // Ícone personalizado por status
 function createIcon(status) {
@@ -43,74 +32,97 @@ function createIcon(status) {
     });
 }
 
-// Gerar coordenadas aleatórias perto de Volta Redonda
-function randomCoords() {
-    return [
-        CENTER[0] + (Math.random() - 0.5) * 0.08,
-        CENTER[1] + (Math.random() - 0.5) * 0.08
-    ];
+// Formatar data para pt-BR com hora
+function formatDateTime(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.toLocaleDateString('pt-BR') + ' às ' +
+        d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 }
 
-// Formatar data para pt-BR
-function formatDate(iso) {
-    return new Date(iso).toLocaleDateString('pt-BR');
+// Inicializar mapa
+const map = L.map('map').setView(CENTER, 13);
+
+// Camada OpenStreetMap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 19,
+}).addTo(map);
+
+// Clustering
+const markers = L.markerClusterGroup({
+    chunkedLoading: true,
+    maxClusterRadius: 50,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+});
+map.addLayer(markers);
+
+let allReports = [];
+let currentCategoria = '';
+let currentStatus = 'todos';
+
+// Atualizar contadores
+function updateCounts() {
+    const withCoords = allReports.filter(r => r.latitude && r.longitude);
+    document.getElementById('count-todos').textContent = withCoords.length;
+    document.getElementById('count-pendente').textContent = withCoords.filter(r => r.status === 'pendente').length;
+    document.getElementById('count-andamento').textContent = withCoords.filter(r => r.status === 'em_andamento').length;
+    document.getElementById('count-resolvido').textContent = withCoords.filter(r => r.status === 'resolvido').length;
 }
 
-// Adicionar marcadores ao mapa
-function renderMarkers(filter = 'todos') {
-    // Limpar marcadores antigos
-    markers.forEach(m => map.removeLayer(m));
-    markers = [];
+// Renderizar marcadores
+function renderMarkers() {
+    markers.clearLayers();
 
-    const filtered = filter === 'todos'
-        ? allReports
-        : allReports.filter(r => r.status === filter);
+    const filtered = allReports.filter(r => {
+        if (!r.latitude || !r.longitude) return false;
+        if (currentStatus !== 'todos' && r.status !== currentStatus) return false;
+        if (currentCategoria && r.categoria !== currentCategoria) return false;
+        return true;
+    });
 
     filtered.forEach(report => {
-        const [lat, lng] = randomCoords();
         const { color, label } = STATUS_CONFIG[report.status] || STATUS_CONFIG.pendente;
-
-        const popup = `
-            <div style="min-width:200px">
-                <h3 style="margin:0 0 4px;font-weight:600;font-size:14px">${report.categoria}</h3>
-                <p style="margin:0 0 6px;font-size:12px;color:#666">${report.endereco}</p>
-                <p style="margin:0 0 6px;font-size:12px">${report.descricao.substring(0, 80)}${report.descricao.length > 80 ? '...' : ''}</p>
-                <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
-                    <span style="background:${color};color:white;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:500">${label}</span>
-                    <span style="font-size:11px;color:#888">${formatDate(report.criadoEm)}</span>
+        const popupHtml = `
+            <div style="min-width:220px">
+                <h3 style="margin:0 0 6px;font-weight:600;font-size:14px;color:#146C43">
+                    ${report.categoria}
+                </h3>
+                <p style="margin:0 0 4px;font-size:13px;color:#333">${report.endereco || ''}</p>
+                ${report.nome ? `<p style="margin:0 0 4px;font-size:12px;color:#666">👤 ${report.nome}</p>` : ''}
+                ${report.tipo ? `<p style="margin:0 0 4px;font-size:12px">📋 Tipo: ${report.tipo}</p>` : ''}
+                <p style="margin:0 0 6px;font-size:12px">📅 ${formatDateTime(report.criadoEm)}</p>
+                <div style="display:flex;align-items:center;gap:6px">
+                    <span style="background:${color};color:white;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:500">${label}</span>
                 </div>
             </div>
         `;
 
-        const marker = L.marker([lat, lng], { icon: createIcon(report.status) })
-            .addTo(map)
-            .bindPopup(popup);
+        const marker = L.marker([report.latitude, report.longitude], {
+            icon: createIcon(report.status)
+        }).bindPopup(popupHtml);
 
-        markers.push(marker);
+        markers.addLayer(marker);
     });
 }
 
-// Carregar relatórios do servidor
+// Carregar relatórios
 async function loadReports() {
     try {
         const res = await fetch('/api/reports');
         allReports = await res.json();
+        updateCounts();
+        renderMarkers();
 
-        // Atualizar contadores
-        document.getElementById('count-todos').textContent = allReports.length;
-        document.getElementById('count-pendente').textContent = allReports.filter(r => r.status === 'pendente').length;
-        document.getElementById('count-andamento').textContent = allReports.filter(r => r.status === 'em_andamento').length;
-        document.getElementById('count-resolvido').textContent = allReports.filter(r => r.status === 'resolvido').length;
-
-        // Mostrar mensagem se não houver relatórios
+        // Mostrar/esconder mensagem de vazio
+        const withCoords = allReports.filter(r => r.latitude && r.longitude);
         const msg = document.getElementById('no-reports-msg');
-        if (allReports.length === 0) {
+        if (withCoords.length === 0) {
             msg.classList.remove('hidden');
         } else {
             msg.classList.add('hidden');
         }
-
-        renderMarkers('todos');
     } catch (err) {
         console.error('Erro ao carregar relatórios:', err);
     }
@@ -119,11 +131,25 @@ async function loadReports() {
 // Filtro por status
 document.querySelectorAll('[data-filter]').forEach(btn => {
     btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-filter]').forEach(b => b.classList.add('btn-outline'));
-        btn.classList.remove('btn-outline');
-        renderMarkers(btn.dataset.filter);
+        document.querySelectorAll('[data-filter]').forEach(b => {
+            if (b.dataset.filter !== 'todos') b.classList.add('btn-outline');
+        });
+        if (btn.dataset.filter !== 'todos') {
+            btn.classList.remove('btn-outline');
+        }
+        currentStatus = btn.dataset.filter;
+        renderMarkers();
     });
 });
+
+// Filtro por categoria
+document.getElementById('filter-categoria').addEventListener('change', (e) => {
+    currentCategoria = e.target.value;
+    renderMarkers();
+});
+
+// Polling: atualizar a cada 30s
+setInterval(loadReports, 30000);
 
 // Iniciar
 document.addEventListener('DOMContentLoaded', loadReports);

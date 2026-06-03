@@ -32,12 +32,32 @@
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     <link rel="icon" href="../imagens/logo.png" type="image/png">
     <link rel="stylesheet" href="../css/global.css">
 
     <style>
         #map { height: 600px; width: 100%; border-radius: 12px; z-index: 1; }
-        .leaflet-popup-content-wrapper { border-radius: 12px; }
+        .marker-cluster-small,
+        .marker-cluster-medium,
+        .marker-cluster-large {
+            background-color: rgba(20, 107, 67, 0.3) !important;
+        }
+        .marker-cluster-small div,
+        .marker-cluster-medium div,
+        .marker-cluster-large div {
+            background-color: #146C43 !important;
+            color: white !important;
+            font-weight: 600;
+        }
+        .leaflet-popup-content-wrapper {
+            border-radius: 12px;
+            padding: 0;
+        }
+        .leaflet-popup-content {
+            margin: 16px;
+        }
     </style>
 </head>
 <body class="font-sans bg-base-100 antialiased">
@@ -96,6 +116,28 @@
         <section class="pb-4">
             <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
                 <div class="flex flex-wrap gap-2 mb-4">
+                    <!-- Dropdown Categoria -->
+                    <select id="filter-categoria" class="select select-sm select-bordered rounded-xl text-sm">
+                        <option value="">Todas as categorias</option>
+                        <option>Acessibilidade</option>
+                        <option>Ciclismo</option>
+                        <option>Comércio e Fiscalização</option>
+                        <option>Corrupção e Má Gestão</option>
+                        <option>Drenagem</option>
+                        <option>Educação</option>
+                        <option>Habitação</option>
+                        <option>Infraestrutura</option>
+                        <option>Limpeza Urbana e Lixo</option>
+                        <option>Meio Ambiente</option>
+                        <option>Obras</option>
+                        <option>Redes Elétricas/Luz</option>
+                        <option>Saúde Pública</option>
+                        <option>Segurança</option>
+                        <option>Transporte</option>
+                        <option>Outros</option>
+                    </select>
+
+                    <!-- Botões Status -->
                     <button data-filter="todos" class="btn btn-sm btn-primary rounded-xl">
                         Todos <span class="badge badge-sm bg-white/20 text-white border-none ml-1" id="count-todos">0</span>
                     </button>
@@ -176,6 +218,7 @@
     </footer>
 
     <!-- ===================== SCRIPTS ===================== -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script>
         AOS.init({ once: true, duration: 600 });
         lucide.createIcons();
