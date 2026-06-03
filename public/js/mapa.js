@@ -2,6 +2,13 @@
 // Mapa — RF-002: Visualização em Mapa
 // ============================================
 
+function escapeHtml(str) {
+    if (str == null) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 const CENTER = [-22.5207, -44.0883];
 const STATUS_CONFIG = {
     pendente:      { color: '#f59e0b', label: 'Pendente' },
@@ -87,14 +94,14 @@ function renderMarkers() {
         const popupHtml = `
             <div style="min-width:220px">
                 <h3 style="margin:0 0 6px;font-weight:600;font-size:14px;color:#146C43">
-                    ${report.categoria}
+                    ${escapeHtml(report.categoria)}
                 </h3>
-                <p style="margin:0 0 4px;font-size:13px;color:#333">${report.endereco || ''}</p>
-                ${report.nome ? `<p style="margin:0 0 4px;font-size:12px;color:#666">👤 ${report.nome}</p>` : ''}
-                ${report.tipo ? `<p style="margin:0 0 4px;font-size:12px">📋 Tipo: ${report.tipo}</p>` : ''}
+                <p style="margin:0 0 4px;font-size:13px;color:#333">${escapeHtml(report.endereco)}</p>
+                ${report.nome ? `<p style="margin:0 0 4px;font-size:12px;color:#666">👤 ${escapeHtml(report.nome)}</p>` : ''}
+                ${report.tipo ? `<p style="margin:0 0 4px;font-size:12px">📋 Tipo: ${escapeHtml(report.tipo)}</p>` : ''}
                 <p style="margin:0 0 6px;font-size:12px">📅 ${formatDateTime(report.criadoEm)}</p>
                 <div style="display:flex;align-items:center;gap:6px">
-                    <span style="background:${color};color:white;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:500">${label}</span>
+                    <span style="background:${escapeHtml(color)};color:white;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:500">${escapeHtml(label)}</span>
                 </div>
             </div>
         `;
