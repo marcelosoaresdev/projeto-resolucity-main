@@ -19,18 +19,18 @@ function renderCard(report) {
              style="display:flex;flex-direction:column"
              onclick="openReportModal(${report.id})">
             <div class="card-body gap-3" style="overflow:hidden">
-                <div class="flex items-start justify-between gap-3">
-                    <div class="flex-1 min-width-0">
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center justify-between gap-3">
                         <span class="text-xs text-base-content/50 font-medium">${report.categoria}</span>
-                        <h3 class="font-semibold text-base-content mt-0.5" style="
-                            display: -webkit-box;
-                            -webkit-line-clamp: 2;
-                            -webkit-box-orient: vertical;
-                            overflow: hidden;
-                            word-break: break-word;
-                        ">${report.endereco}</h3>
+                        <span class="${badge} badge badge-sm whitespace-nowrap">${label}</span>
                     </div>
-                    <span class="badge ${badge} badge-sm whitespace-nowrap flex-shrink-0">${label}</span>
+                    <h3 class="font-semibold text-base-content" style="
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        word-break: break-word;
+                    ">${report.endereco}</h3>
                 </div>
                 <p class="text-sm text-base-content/60 line-clamp-2">${report.descricao}</p>
                 <div class="flex items-center gap-1.5 text-xs text-base-content/40 pt-1 border-t border-base-200">

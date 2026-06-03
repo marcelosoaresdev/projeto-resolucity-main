@@ -172,5 +172,18 @@
     "criadoEm": "2026-06-03T02:51:09.897Z",
     "latitude": -22.51792874824775,
     "longitude": -44.10750433802606
+  },
+  {
+    "id": 12,
+    "userId": 5,
+    "categoria": "Educação",
+    "tipo": "Escola sem manutenção",
+    "endereco": "Rua 14, 101, Vila Santa Cecília, Volta Redonda, Rio de Janeiro",
+    "descricao": "Praça rotatay ruimPraça rotatay ruimPraça rotatay ruimPraça rotatay ruimPraça rotatay ruimPraça rotatay ruim",
+    "status": "em_andamento",
+    "protocolo": "RC-12-1780455433617",
+    "criadoEm": "2026-06-03T02:57:13.617Z",
+    "latitude": -22.517766225422317,
+    "longitude": -44.10699337720872
   }
 ]
