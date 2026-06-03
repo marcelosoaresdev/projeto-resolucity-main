@@ -7,6 +7,8 @@ authRoutes.post('/register', authController.register);
 authRoutes.post('/login',    authController.login);
 authRoutes.post('/logout',   authController.logout);
 authRoutes.get('/me',        authController.me);
-authRoutes.get('/',          authController.listUsers);
+authRoutes.get('/profile',   authController.getProfile);
+authRoutes.put('/profile',   authController.updateProfile);
+authRoutes.get('/',           authController.listUsers);
 
 export default authRoutes;

@@ -1,0 +1,56 @@
+<h2>Mapa atual — o que vemos hoje</h2>
+<p class="subtitle">Este é o estado atual do mapa. Identificamos 5 pontos de melhoria.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px">
+  <div>
+    <h3 style="font-size:13px;color:#666;margin-bottom:8px">✅ O que funciona bem</h3>
+    <ul style="font-size:13px;line-height:1.8">
+      <li>✓ Filtro por status (Pendente, Em Andamento, Resolvido)</li>
+      <li>✓ Marcadores coloridos por status</li>
+      <li>✓ Popup com detalhes ao clicar</li>
+      <li>✓ Contadores em cada filtro</li>
+      <li>✓ Mapa interativo (zoom, arrastar)</li>
+    </ul>
+  </div>
+  <div>
+    <h3 style="font-size:13px;color:#c00;margin-bottom:8px">⚠️ O que precisa melhorar</h3>
+    <ul style="font-size:13px;line-height:1.8">
+      <li>✗ <strong>Coordenadas aleatórias</strong> — não vem do endereço real</li>
+      <li>✗ <strong>Sem filtro por categoria</strong> — só filtro por status</li>
+      <li>✗ <strong>Popup básico</strong> — faltanome, tipo, data completa</li>
+      <li>✗ <strong>Sem atualização em tempo real</strong> — não atualiza sozinho</li>
+      <li>✗ <strong>Sem clustering</strong> — marcadores se sobrepõem</li>
+    </ul>
+  </div>
+</div>
+
+<div style="margin-top:24px;padding:16px;background:#f5f5f5;border-radius:12px">
+  <p style="font-size:13px;color:#333;margin:0"><strong>Problema principal:</strong> O mapa mostra ocorrências, mas as coordenadas são geradas aleatoriamente em Volta Redonda. O endereço é salvo no banco, mas não há geocodificação para convertê-lo em lat/lng real.</p>
+</div>
+
+<h3 style="margin-top:28px">Por onde começar a melhorar?</h3>
+<p class="subtitle" style="font-size:12px">Escolha a prioridade — posso focar no que é mais impactante para você</p>
+
+<div class="options">
+  <div class="option" data-choice="coords" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Coordenadas reais (prioridade máxima)</h3>
+      <p>Integrar geocodificação real — o usuário digita o endereço e o mapa captura a lat/lng automaticamente. Sem isso, o mapa não tem utilidade real.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="filters" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Filtro por categoria + Polimento do popup</h3>
+      <p>Adicionar dropdown de categorias junto com status, melhorar popup com todos os dados (nome autor, tipo, data/hora completa, status).</p>
+    </div>
+  </div>
+  <div class="option" data-choice="realtime" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Atualização em tempo real + Clustering</h3>
+      <p>Polling automático para atualizar marcadores quando houver novo relato, e clusterização quando muitos marcadores estão próximos.</p>
+    </div>
+  </div>
+</div>

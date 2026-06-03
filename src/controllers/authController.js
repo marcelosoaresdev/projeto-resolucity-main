@@ -61,6 +61,27 @@ const authController = {
         res.json({ id: req.session.userId, nome: req.session.userName });
     },
 
+    getProfile(req, res) {
+        const userId = req.session.userId;
+        if (!userId) return res.status(401).json({ message: 'Não autenticado' });
+        const user = userRepository.findById(userId);
+        if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
+        res.json({ id: user.id, nome: user.nome, email: user.email, cpf: user.cpf, nascimento: user.nascimento, telefone: user.telefone });
+    },
+
+    updateProfile(req, res) {
+        const userId = req.session.userId;
+        if (!userId) return res.status(401).json({ message: 'Não autenticado' });
+        const { nome, cpf, nascimento, telefone, email } = req.body;
+        if (!nome || !cpf || !nascimento || !telefone || !email) {
+            return res.status(400).json({ message: 'Preencha todos os campos' });
+        }
+        const result = userRepository.updateUser(userId, { nome, cpf, nascimento, telefone, email });
+        if (result.error) return res.status(400).json({ message: result.error });
+        req.session.userName = nome;
+        res.json({ message: 'Perfil atualizado', user: result.user });
+    },
+
     listUsers(req, res) {
         res.json(userRepository.listUsers());
     }

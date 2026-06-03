@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resolucity | Relatar Problema</title>
+  <title>Resolucity | Meu Perfil</title>
 
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -32,7 +32,6 @@
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <link rel="icon" href="../imagens/logo.png" type="image/png">
   <link rel="stylesheet" href="../css/global.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <style>
     .error {
@@ -100,15 +99,15 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center relative z-10" data-aos="fade-up">
       <div class="badge badge-outline border-white/20 bg-white/15 text-white gap-2 mb-5 px-4 py-3 text-xs font-semibold">
-        <i data-lucide="file-edit" class="w-3.5 h-3.5"></i>
-        Formulário de Relato
+        <i data-lucide="user-circle" class="w-3.5 h-3.5"></i>
+        Dados Pessoais
       </div>
 
       <h1 class="text-4xl sm:text-5xl font-bold text-white mb-3 tracking-tight">
-        Relatar Problema
+        Meu Perfil
       </h1>
       <p class="text-primary-100 text-lg max-w-xl mx-auto">
-        Ajude sua cidade enviando seu relato
+        Atualize suas informações pessoais
       </p>
     </div>
   </section>
@@ -116,121 +115,83 @@
   <!-- FORM SECTION -->
   <main class="max-w-3xl mx-auto px-4 sm:px-6 py-14">
 
+    <!-- Feedback message -->
+    <div id="feedback" class="hidden mb-6 alert" role="alert"></div>
+
     <div class="card bg-base-100 border border-base-200 shadow-sm" data-aos="fade-up">
       <div class="card-body p-8">
 
         <!-- Form heading -->
         <div class="flex items-center gap-3 mb-7">
           <div class="w-9 h-9 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
-            <i data-lucide="clipboard-list" class="w-5 h-5 text-primary-500"></i>
+            <i data-lucide="user-pen" class="w-5 h-5 text-primary-500"></i>
           </div>
-          <h2 class="card-title text-xl font-bold">Preencha o formulário</h2>
+          <h2 class="card-title text-xl font-bold">Editar Perfil</h2>
         </div>
 
-        <form id="contactForm" novalidate>
-          <div class="bg-primary-50 border border-primary-200 rounded-xl p-4 mb-6 text-sm flex items-start gap-2">
-            <span class="text-primary-700 mt-0.5">ℹ️</span>
-            <div>
-              <span class="text-primary-700">Seus dados pessoais (nome, CPF, nascimento, telefone, email) serão preenchidos automaticamente.</span>
-              <a href="/perfil" class="font-semibold underline ml-1">Verificar/editá-los →</a>
-            </div>
-          </div>
-
+        <form id="profileForm" novalidate>
           <div class="grid md:grid-cols-2 gap-x-6 gap-y-1">
 
-            <!-- Categoria -->
+            <!-- Nome Completo -->
+            <div class="form-control">
+              <label class="label" for="nome">
+                <span class="label-text font-semibold">Nome Completo</span>
+              </label>
+              <input type="text" id="nome" placeholder="Seu nome completo" class="input input-bordered w-full" />
+              <span id="nomeError" class="error"></span>
+            </div>
+
+            <!-- CPF -->
+            <div class="form-control">
+              <label class="label" for="cpf">
+                <span class="label-text font-semibold">CPF</span>
+              </label>
+              <input type="text" id="cpf" placeholder="000.000.000-00" class="input input-bordered w-full" readonly />
+              <span class="text-xs text-base-content/40 mt-1">CPF não pode ser alterado</span>
+              <span id="cpfError" class="error"></span>
+            </div>
+
+            <!-- Data de Nascimento -->
+            <div class="form-control">
+              <label class="label" for="nascimento">
+                <span class="label-text font-semibold">Data de Nascimento</span>
+              </label>
+              <input type="date" id="nascimento" class="input input-bordered w-full" />
+              <span id="nascimentoError" class="error"></span>
+            </div>
+
+            <!-- Telefone -->
+            <div class="form-control">
+              <label class="label" for="telefone">
+                <span class="label-text font-semibold">Telefone</span>
+              </label>
+              <input type="text" id="telefone" placeholder="(00) 00000-0000" class="input input-bordered w-full" />
+              <span id="telefoneError" class="error"></span>
+            </div>
+
+            <!-- E-mail -->
             <div class="form-control md:col-span-2">
-              <label class="label" for="categoria">
-                <span class="label-text font-semibold">Categoria do Relato</span>
+              <label class="label" for="email">
+                <span class="label-text font-semibold">E-mail</span>
               </label>
-              <select id="categoria" class="select select-bordered w-full">
-                <option value="">Selecione</option>
-                <option>Acessibilidade</option>
-                <option>Ciclismo</option>
-                <option>Comércio e Fiscalização</option>
-                <option>Corrupção e Má Gestão</option>
-                <option>Drenagem</option>
-                <option>Educação</option>
-                <option>Habitação</option>
-                <option>Infraestrutura</option>
-                <option>Limpeza Urbana e Lixo</option>
-                <option>Meio Ambiente</option>
-                <option>Obras</option>
-                <option>Redes Elétricas / Luz</option>
-                <option>Saúde Pública</option>
-                <option>Segurança</option>
-                <option>Transporte</option>
-                <option>Outros</option>
-              </select>
-              <span id="categoriaError" class="error"></span>
-            </div>
-
-            <!-- Tipo do Problema -->
-            <div class="form-control md:col-span-2">
-              <label class="label" for="tipo">
-                <span class="label-text font-semibold">Tipo do Problema</span>
-              </label>
-              <select id="tipo" class="select select-bordered w-full">
-                <option value="">Selecione primeiro a categoria</option>
-              </select>
-              <span id="tipoError" class="error"></span>
-            </div>
-
-            <!-- Endereço -->
-            <div class="form-control md:col-span-2">
-              <label class="label" for="endereco">
-                <span class="label-text font-semibold">Endereço do Relato</span>
-              </label>
-              <input type="text" id="endereco" placeholder="Clique no botão abaixo para selecionar o endereço no mapa..." class="input input-bordered w-full" readonly>
-              <span id="enderecoError" class="error"></span>
-            </div>
-
-            <!-- Mapa Inline para seleção de localização -->
-            <div class="form-control md:col-span-2" id="map-container" style="display:none">
-              <label class="label">
-                <span class="label-text font-semibold">Localização no Mapa</span>
-                <span class="label-text-alt text-base-content/50">Clique para posicionar o pino</span>
-              </label>
-              <div id="relatar-map" style="height:250px;border-radius:12px;border:1px solid #d1d5db"></div>
-              <span id="enderecoStatus" class="text-xs mt-1" style="color:#666;display:none">
-                <i data-lucide="loader-2" class="w-3 h-3 inline animate-spin"></i> Buscando endereço...
-              </span>
-            </div>
-
-            <!-- Botão para mostrar mapa -->
-            <div class="md:col-span-2">
-              <button type="button" id="btn-show-map" class="btn btn-outline btn-sm gap-2 w-full">
-                <i data-lucide="map-pin" class="w-4 h-4"></i>
-                Selecionar localização no mapa
-              </button>
-            </div>
-
-            <!-- Descrição -->
-            <div class="form-control md:col-span-2">
-              <label class="label" for="message">
-                <span class="label-text font-semibold">Descrição</span>
-              </label>
-              <textarea id="message" rows="4" placeholder="Descreva o problema com o máximo de detalhes possível..." class="textarea textarea-bordered w-full resize-none"></textarea>
-              <span id="messageError" class="error"></span>
-            </div>
-
-            <!-- Foto -->
-            <div class="form-control md:col-span-2">
-              <label class="label" for="foto">
-                <span class="label-text font-semibold">
-                  Anexar Foto <span class="font-normal text-base-content/40">(Opcional)</span>
-                </span>
-              </label>
-              <input type="file" id="foto" accept="image/*" class="file-input file-input-bordered w-full" />
-              <span id="fotoError" class="error"></span>
+              <input type="email" id="email" placeholder="seu@email.com" class="input input-bordered w-full" />
+              <span id="emailError" class="error"></span>
             </div>
 
             <!-- Submit -->
             <div class="md:col-span-2 mt-2">
               <button type="submit" class="btn btn-primary w-full gap-2">
-                <i data-lucide="send" class="w-4 h-4"></i>
-                Enviar Relato
+                <i data-lucide="save" class="w-4 h-4"></i>
+                Salvar Alterações
               </button>
+            </div>
+
+            <!-- Voltar -->
+            <div class="md:col-span-2">
+              <a href="/meus-relatos" class="btn btn-ghost w-full gap-2">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Voltar
+              </a>
             </div>
 
           </div>
@@ -350,8 +311,7 @@
   </div>
 
   <!-- SCRIPTS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="../js/relatar.js"></script>
+  <script src="../js/perfil.js"></script>
   <script>
     AOS.init({ once: true, duration: 600 });
     lucide.createIcons();
@@ -359,7 +319,3 @@
   <script src="../js/navbar.js"></script>
 </body>
 </html>
-
-
-
-

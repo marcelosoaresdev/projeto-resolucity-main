@@ -1,0 +1,93 @@
+<h2>RF-001 — Tela "Meus Relatos": O que melhorar?</h2>
+<p class="subtitle">Comparando o estado atual com as melhorias propostas</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">❌ Atual — Problemas</div>
+    <div class="mockup-body" style="background:#f8f8f8;padding:20px;font-family:system-ui;font-size:13px">
+      <!-- Card com texto vazando -->
+      <div style="background:white;border:1px solid #ddd;border-radius:12px;padding:16px;max-width:300px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:start">
+          <div>
+            <span style="font-size:11px;color:#888">Segurança</span>
+            <h3 style="margin:4px 0;font-size:16px;color:#222;word-wrap:break-word;overflow:hidden">Ruas esburacadas na av principal que está precisando de recapagem asfaltica urgente</h3>
+          </div>
+          <span style="background:#f59e0b;color:white;padding:2px 8px;border-radius:12px;font-size:11px;white-space:nowrap">Pendente</span>
+        </div>
+        <p style="margin:8px 0 0;font-size:12px;color:#666">descricao...</p>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:8px;font-size:11px;color:#888;border-top:1px solid #eee;padding-top:8px">
+          📅 Enviado em 10/04/2026
+        </div>
+      </div>
+      <!-- Badge "Fazer Relato" ausente -->
+      <div style="text-align:center;padding:20px;color:#999;font-size:13px">
+        Sem botão claro para criar novo relato<br>
+        <span style="font-size:12px">→ Usuário precisa navegar para /relatar</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">✅ Melhorado — Proposta</div>
+    <div class="mockup-body" style="background:#f0fdf4;padding:20px;font-family:system-ui;font-size:13px">
+      <!-- Botão Fazer Relato proeminente -->
+      <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+        <button style="background:#146C43;color:white;padding:10px 20px;border:none;border-radius:12px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px">
+          <span style="font-size:18px">+</span> Novo Relato
+        </button>
+      </div>
+      <!-- Card com texto truncado -->
+      <div style="background:white;border:1px solid #b5d5c5;border-radius:12px;padding:16px;max-width:300px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
+          <div style="flex:1;min-width:0">
+            <span style="font-size:11px;color:#888">Segurança</span>
+            <h3 style="margin:4px 0;font-size:15px;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Ruas esburacadas na av principal que está precisando de recapagem asfaltica urgente</h3>
+          </div>
+          <span style="background:#f59e0b;color:white;padding:2px 8px;border-radius:12px;font-size:11px;flex-shrink:0">Pendente</span>
+        </div>
+        <p style="margin:8px 0 0;font-size:12px;color:#666;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">descricao...</p>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:8px;font-size:11px;color:#888;border-top:1px solid #eee;padding-top:8px">
+          📅 Enviado em 10/04/2026
+        </div>
+      </div>
+      <!-- Info badge count -->
+      <div style="text-align:center;margin-top:12px;font-size:12px;color:#146C43;font-weight:500">
+        ✓ 1 relato encontrado
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:24px">
+  <h3>Melhorias propostas:</h3>
+  <ul style="font-size:13px;line-height:1.8;color:#444">
+    <li>📍 <strong>Botão "Novo Relato" proeminente</strong> no topo da lista (sempre visível)</li>
+    <li>📝 <strong>Título com overflow controlado</strong> — elipsis em vez de vazamento</li>
+    <li>🔍 <strong>Status badge não vaza</strong> — fica em linha própria se necessário</li>
+  </ul>
+</div>
+
+<h3>Qual abordagem prefere para o botão "Novo Relato"?</h3>
+<div class="options" data-multiselect>
+  <div class="option" data-choice="botao-topo" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Botão fixo no topo</h3>
+      <p>Posicionado acima dos filtros, sempre visível. Simples e direto.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="fab-flutuante" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>FAB flutuante (canto inferior)</h3>
+      <p>Botão circular flutuante, estilo app mobile. Sempre acessível.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="ambos" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Ambos — topo + flutuante</h3>
+      <p>Máxima visibilidade. Topo para desktop, FAB para mobile.</p>
+    </div>
+  </div>
+</div>
