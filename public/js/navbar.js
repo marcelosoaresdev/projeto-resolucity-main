@@ -28,6 +28,7 @@ async function initNavbar() {
                         ${link('/meus-relatos', 'Meus Relatos')}
                         ${link('/categorias',   'Categorias')}
                         ${link('/estatisticas', 'Estatísticas')}
+                        ${link('/mapa',         'Mapa')}
                     </ul>
                 `;
             }
@@ -43,6 +44,7 @@ async function initNavbar() {
                     </div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow-lg border border-base-200 mt-2">
                         <li class="menu-title"><span class="text-xs text-gray-400">Olá, ${user.nome}</span></li>
+                        <li><a href="/perfil" class="rounded-lg text-sm gap-2 flex items-center"><i data-lucide="user" class="w-4 h-4"></i> Meu Perfil</a></li>
                         <li class="border-t border-base-200 mt-1 pt-1">
                             <button id="logout-btn-desktop" class="text-error gap-2 text-sm">
                                 <i data-lucide="log-out" class="w-4 h-4"></i>
@@ -65,8 +67,10 @@ async function initNavbar() {
                     </button>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100/95 backdrop-blur-lg rounded-box z-50 w-56 p-2 shadow-lg border border-base-200 mt-2">
                         <li><a href="/meus-relatos" class="rounded-lg text-sm">Meus Relatos</a></li>
+                        <li><a href="/perfil" class="rounded-lg text-sm gap-2 flex items-center"><i data-lucide="user" class="w-4 h-4"></i> Meu Perfil</a></li>
                         <li><a href="/categorias"   class="rounded-lg text-sm">Categorias</a></li>
                         <li><a href="/estatisticas" class="rounded-lg text-sm">Estatísticas</a></li>
+                        <li><a href="/mapa"         class="rounded-lg text-sm">Mapa</a></li>
                         <li class="border-t border-base-200 mt-2 pt-2">
                             <a href="/relatar" class="rounded-xl bg-primary-500 text-white font-semibold justify-center">
                                 Fazer Relato <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -100,6 +104,7 @@ async function initNavbar() {
                         ${link('/',             'Início')}
                         ${link('/categorias',   'Categorias')}
                         ${link('/estatisticas', 'Estatísticas')}
+                        ${link('/mapa',         'Mapa')}
                         ${link('/sobre',        'Sobre')}
                         ${link('/contato',      'Contato')}
                     </ul>
@@ -125,6 +130,7 @@ async function initNavbar() {
                         <li><a href="/"            class="rounded-lg text-sm">Início</a></li>
                         <li><a href="/categorias"  class="rounded-lg text-sm">Categorias</a></li>
                         <li><a href="/estatisticas" class="rounded-lg text-sm">Estatísticas</a></li>
+                        <li><a href="/mapa"         class="rounded-lg text-sm">Mapa</a></li>
                         <li><a href="/sobre"        class="rounded-lg text-sm">Sobre</a></li>
                         <li><a href="/contato"      class="rounded-lg text-sm">Contato</a></li>
                         <li class="border-t border-base-200 mt-2 pt-2">
