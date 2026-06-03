@@ -4,7 +4,7 @@ import userRepository from './userRepository.js';
 const DB_PATH = './src/database/reports.json';
 
 const reportRepository = {
-    createReport: (userId, categoria, tipo, endereco, descricao) => {
+    createReport: (userId, categoria, tipo, endereco, descricao, latitude, longitude) => {
         const reports = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
         const timestamp = new Date().toISOString();
         const newReport = {
@@ -16,7 +16,9 @@ const reportRepository = {
             descricao,
             status: 'pendente',
             protocolo: `RC-${reports.length + 1}-${Date.now()}`,
-            criadoEm: timestamp
+            criadoEm: timestamp,
+            latitude,
+            longitude
         };
         reports.push(newReport);
         fs.writeFileSync(DB_PATH, JSON.stringify(reports, null, 2));
