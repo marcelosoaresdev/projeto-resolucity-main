@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import session from 'express-session';
 import authRoutes from './routes/authRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
+import statsRoutes from './routes/statsRoutes.js';
 import { requireAuthPage } from './middlewares/auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/stats', statsRoutes);
 
 app.get('/', (req, res) => {
     if (req.session.userId) return res.redirect('/meus-relatos');
@@ -35,7 +37,9 @@ app.get('/categorias',  (req, res) => res.sendFile(path.join(__dirname, '../publ
 app.get('/estatisticas',(req, res) => res.sendFile(path.join(__dirname, '../public/views/estatisticas.html')));
 app.get('/contato',     (req, res) => res.sendFile(path.join(__dirname, '../public/views/contato.html')));
 app.get('/sobre',       (req, res) => res.sendFile(path.join(__dirname, '../public/views/sobre.html')));
-app.get('/relatar',      (req, res) => res.sendFile(path.join(__dirname, '../public/views/relatar.html')));
+app.get('/relatar',      requireAuthPage, (req, res) => res.sendFile(path.join(__dirname, '../public/views/relatar.html')));
 app.get('/meus-relatos', requireAuthPage, (req, res) => res.sendFile(path.join(__dirname, '../public/views/meus-relatos.html')));
+app.get('/perfil',        requireAuthPage, (req, res) => res.sendFile(path.join(__dirname, '../public/views/perfil.html')));
+app.get('/mapa',        (req, res) => res.sendFile(path.join(__dirname, '../public/views/mapa.html')));
 
 export default app;

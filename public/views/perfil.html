@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="resolucity">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resolucity | Meu Perfil</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50:  '#F0FDF4', 100: '#D2E8DD', 200: '#B5D5C5', 300: '#7DC39A',
+              400: '#198754', 500: '#146C43', 600: '#0F5132', 700: '#013C31',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <link rel="icon" href="../imagens/logo.png" type="image/png">
+  <link rel="stylesheet" href="../css/global.css">
+
+  <style>
+    .error {
+      display: block;
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      color: #dc2626;
+    }
+  </style>
+</head>
+<body class="font-sans bg-base-100 antialiased">
+
+  <!-- ===================== NAVBAR ===================== -->
+  <div id="navbar" class="navbar fixed top-0 z-50 bg-base-100/80 backdrop-blur-lg border-b border-base-200 transition-shadow duration-300 min-h-[72px]">
+      <div class="navbar-start">
+          <a href="/" class="flex items-center gap-2.5 pl-4 lg:pl-6">
+              <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                  <i data-lucide="building-2" class="w-5 h-5 text-white"></i>
+              </div>
+              <span class="text-primary-700 font-bold text-lg tracking-tight">RESOLUCITY</span>
+          </a>
+      </div>
+
+      <div id="navbar-center" class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal gap-1 px-1">
+              <li><a href="/" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Início</a></li>
+              <li><a href="/categorias" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Categorias</a></li>
+              <li><a href="/estatisticas" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Estatísticas</a></li>
+              <li><a href="/sobre" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Sobre</a></li>
+              <li><a href="/contato" class="rounded-lg text-sm text-base-content/70 hover:bg-base-200">Contato</a></li>
+          </ul>
+      </div>
+
+      <div id="navbar-auth" class="navbar-end gap-3 pr-4 lg:pr-6">
+          <a href="/login" class="btn btn-sm btn-outline border-primary-200 text-primary-500 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 hidden sm:flex gap-2 rounded-xl normal-case">
+              <i data-lucide="log-in" class="w-4 h-4"></i>
+              Entrar
+          </a>
+
+          <!-- Mobile dropdown -->
+          <div class="dropdown dropdown-end lg:hidden">
+              <button tabindex="0" class="btn btn-ghost btn-sm p-2 rounded-lg" aria-label="Menu">
+                  <i data-lucide="menu" class="w-5 h-5 text-base-content/70"></i>
+              </button>
+              <ul tabindex="0" class="dropdown-content menu bg-base-100/95 backdrop-blur-lg rounded-box z-50 w-56 p-2 shadow-lg border border-base-200 mt-2">
+                  <li><a href="/" class="rounded-lg text-sm">Início</a></li>
+                  <li><a href="/categorias" class="rounded-lg text-sm">Categorias</a></li>
+                  <li><a href="/estatisticas" class="rounded-lg text-sm">Estatísticas</a></li>
+                  <li><a href="/sobre" class="rounded-lg text-sm">Sobre</a></li>
+                  <li><a href="/contato" class="rounded-lg text-sm">Contato</a></li>
+                  <li class="border-t border-base-200 mt-2 pt-2">
+                      <a href="/login" class="rounded-xl border border-primary-200 text-primary-500 justify-center">
+                          <i data-lucide="log-in" class="w-4 h-4"></i> Entrar
+                      </a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="pt-[72px] bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-72 h-72 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center relative z-10" data-aos="fade-up">
+      <div class="badge badge-outline border-white/20 bg-white/15 text-white gap-2 mb-5 px-4 py-3 text-xs font-semibold">
+        <i data-lucide="user-circle" class="w-3.5 h-3.5"></i>
+        Dados Pessoais
+      </div>
+
+      <h1 class="text-4xl sm:text-5xl font-bold text-white mb-3 tracking-tight">
+        Meu Perfil
+      </h1>
+      <p class="text-primary-100 text-lg max-w-xl mx-auto">
+        Atualize suas informações pessoais
+      </p>
+    </div>
+  </section>
+
+  <!-- FORM SECTION -->
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-14">
+
+    <!-- Feedback message -->
+    <div id="feedback" class="hidden mb-6 alert" role="alert"></div>
+
+    <div class="card bg-base-100 border border-base-200 shadow-sm" data-aos="fade-up">
+      <div class="card-body p-8">
+
+        <!-- Form heading -->
+        <div class="flex items-center gap-3 mb-7">
+          <div class="w-9 h-9 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="user-pen" class="w-5 h-5 text-primary-500"></i>
+          </div>
+          <h2 class="card-title text-xl font-bold">Editar Perfil</h2>
+        </div>
+
+        <form id="profileForm" novalidate>
+          <div class="grid md:grid-cols-2 gap-x-6 gap-y-1">
+
+            <!-- Nome Completo -->
+            <div class="form-control">
+              <label class="label" for="nome">
+                <span class="label-text font-semibold">Nome Completo</span>
+              </label>
+              <input type="text" id="nome" placeholder="Seu nome completo" class="input input-bordered w-full" />
+              <span id="nomeError" class="error"></span>
+            </div>
+
+            <!-- CPF -->
+            <div class="form-control">
+              <label class="label" for="cpf">
+                <span class="label-text font-semibold">CPF</span>
+              </label>
+              <input type="text" id="cpf" placeholder="000.000.000-00" class="input input-bordered w-full" readonly />
+              <span class="text-xs text-base-content/40 mt-1">CPF não pode ser alterado</span>
+              <span id="cpfError" class="error"></span>
+            </div>
+
+            <!-- Data de Nascimento -->
+            <div class="form-control">
+              <label class="label" for="nascimento">
+                <span class="label-text font-semibold">Data de Nascimento</span>
+              </label>
+              <input type="date" id="nascimento" class="input input-bordered w-full" />
+              <span id="nascimentoError" class="error"></span>
+            </div>
+
+            <!-- Telefone -->
+            <div class="form-control">
+              <label class="label" for="telefone">
+                <span class="label-text font-semibold">Telefone</span>
+              </label>
+              <input type="text" id="telefone" placeholder="(00) 00000-0000" class="input input-bordered w-full" />
+              <span id="telefoneError" class="error"></span>
+            </div>
+
+            <!-- E-mail -->
+            <div class="form-control md:col-span-2">
+              <label class="label" for="email">
+                <span class="label-text font-semibold">E-mail</span>
+              </label>
+              <input type="email" id="email" placeholder="seu@email.com" class="input input-bordered w-full" />
+              <span id="emailError" class="error"></span>
+            </div>
+
+            <!-- Submit -->
+            <div class="md:col-span-2 mt-2">
+              <button type="submit" class="btn btn-primary w-full gap-2">
+                <i data-lucide="save" class="w-4 h-4"></i>
+                Salvar Alterações
+              </button>
+            </div>
+
+            <!-- Voltar -->
+            <div class="md:col-span-2">
+              <a href="/meus-relatos" class="btn btn-ghost w-full gap-2">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Voltar
+              </a>
+            </div>
+
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <div class="relative overflow-hidden">
+    <!-- Wave SVG -->
+    <div class="wave-wrapper">
+      <svg class="wave-divider" viewBox="0 0 1440 64" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,32 C360,64 1080,0 1440,32 L1440,64 L0,64 Z" fill="#146C43"/>
+      </svg>
+    </div>
+
+    <footer class="bg-gradient-to-b from-primary-500 to-primary-600 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
+        <div class="grid md:grid-cols-3 gap-8 mb-10">
+
+          <!-- Brand + Newsletter -->
+          <div>
+            <div class="flex items-center gap-2.5 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+                <i data-lucide="building-2" class="w-4 h-4 text-white"></i>
+              </div>
+              <span class="font-bold text-white uppercase tracking-wide text-sm">Resolucity</span>
+            </div>
+            <p class="text-primary-100 text-sm leading-relaxed mb-5">
+              Conectamos cidadãos e administração pública para promover melhorias urbanas por meio de relatos e dados transparentes.
+            </p>
+            <!-- Newsletter join -->
+            <div class="join w-full max-w-md">
+              <input type="email" placeholder="Seu e-mail"
+                class="join-item input input-sm bg-white/10 border-white/20 text-white placeholder:text-primary-200 focus:border-white/50 flex-1 min-w-0" />
+              <button class="join-item btn btn-sm bg-white text-primary-600 hover:bg-primary-50 border-0 flex-shrink-0">
+                <i data-lucide="send" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Links rápidos -->
+          <div>
+            <h3 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Links Rápidos</h3>
+            <ul class="space-y-2.5">
+              <li>
+                <a href="/" class="text-primary-100 hover:text-white text-sm transition-colors flex items-center gap-1.5">
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>Início
+                </a>
+              </li>
+              <li>
+                <a href="/estatisticas" class="text-primary-100 hover:text-white text-sm transition-colors flex items-center gap-1.5">
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>Estatísticas
+                </a>
+              </li>
+              <li>
+                <a href="/sobre" class="text-primary-100 hover:text-white text-sm transition-colors flex items-center gap-1.5">
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>Sobre
+                </a>
+              </li>
+              <li>
+                <a href="/contato" class="text-primary-100 hover:text-white text-sm transition-colors flex items-center gap-1.5">
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>Contato
+                </a>
+              </li>
+              <li>
+                <a href="/login" class="text-primary-100 hover:text-white text-sm transition-colors flex items-center gap-1.5">
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>Login
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contato -->
+          <div>
+            <h3 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Contato</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-2.5 text-sm text-primary-100">
+                <i data-lucide="map-pin" class="w-4 h-4 text-primary-200 flex-shrink-0 mt-0.5"></i>
+                Volta Redonda - RJ, Brasil
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-primary-100">
+                <i data-lucide="mail" class="w-4 h-4 text-primary-200 flex-shrink-0 mt-0.5"></i>
+                contato@resolucity.com
+              </li>
+              <li class="flex items-start gap-2.5 text-sm text-primary-100">
+                <i data-lucide="phone" class="w-4 h-4 text-primary-200 flex-shrink-0 mt-0.5"></i>
+                +55 (24) 99999-9999
+              </li>
+            </ul>
+
+            <!-- Social icons -->
+            <div class="flex items-center gap-3 mt-5">
+              <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors" aria-label="Facebook">
+                <i data-lucide="facebook" class="w-4 h-4 text-white"></i>
+              </a>
+              <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors" aria-label="Instagram">
+                <i data-lucide="instagram" class="w-4 h-4 text-white"></i>
+              </a>
+              <a href="#" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors" aria-label="LinkedIn">
+                <i data-lucide="linkedin" class="w-4 h-4 text-white"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="border-t border-white/10 pt-5 text-center">
+          <p class="text-primary-200 text-sm">
+            &copy; 2025 <span class="text-white font-semibold">Resolucity</span> — Todos os direitos reservados.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="../js/perfil.js"></script>
+  <script>
+    AOS.init({ once: true, duration: 600 });
+    lucide.createIcons();
+  </script>
+  <script src="../js/navbar.js"></script>
+</body>
+</html>
