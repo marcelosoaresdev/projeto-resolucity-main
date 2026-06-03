@@ -159,5 +159,18 @@
     "status": "em_andamento",
     "protocolo": "RC-10-1780453392260",
     "criadoEm": "2026-06-03T02:23:12.260Z"
+  },
+  {
+    "id": 11,
+    "userId": 5,
+    "categoria": "Infraestrutura",
+    "tipo": "Lombada",
+    "endereco": "Rua 23 A, Vila Santa Cecília, Volta Redonda, Rio de Janeiro",
+    "descricao": "Lombada do garcemes esta horrivel po que isso",
+    "status": "pendente",
+    "protocolo": "RC-11-1780455069897",
+    "criadoEm": "2026-06-03T02:51:09.897Z",
+    "latitude": -22.51792874824775,
+    "longitude": -44.10750433802606
   }
 ]

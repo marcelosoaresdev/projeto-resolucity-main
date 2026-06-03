@@ -54,9 +54,79 @@
         .leaflet-popup-content-wrapper {
             border-radius: 12px;
             padding: 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
         }
         .leaflet-popup-content {
-            margin: 16px;
+            margin: 0;
+            padding: 0;
+        }
+        .leaflet-popup-close-button {
+            display: none !important;
+        }
+        .popup-modal {
+            width: 280px;
+            font-family: 'Inter', sans-serif;
+        }
+        .popup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+            border-radius: 12px 12px 0 0;
+        }
+        .popup-header-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #146C43;
+        }
+        .popup-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: #e5e7eb;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .popup-close:hover {
+            background: #d1d5db;
+            color: #333;
+        }
+        .popup-body {
+            padding: 14px 16px;
+        }
+        .popup-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #374151;
+        }
+        .popup-row:last-child {
+            margin-bottom: 0;
+        }
+        .popup-row svg {
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .popup-footer {
+            padding: 10px 16px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
         }
     </style>
 </head>

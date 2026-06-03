@@ -98,16 +98,39 @@ function renderMarkers() {
     filtered.forEach(report => {
         const { color, label } = STATUS_CONFIG[report.status] || STATUS_CONFIG.pendente;
         const popupHtml = `
-            <div style="min-width:240px;padding:4px 0">
-                <h3 style="margin:0 0 10px;font-weight:700;font-size:15px;color:#146C43;font-family:Inter,sans-serif;display:flex;align-items:center;gap:6px">
-                    ${ICON_MAP_PIN} ${escapeHtml(report.categoria)}
-                </h3>
-                <p style="margin:0 0 8px;font-size:13px;color:#333;font-family:Inter,sans-serif">${escapeHtml(report.endereco)}</p>
-                ${report.nome ? `<p style="margin:0 0 6px;font-size:12px;color:#555;font-family:Inter,sans-serif;display:flex;align-items:center;gap:5px">${ICON_USER} ${escapeHtml(report.nome)}</p>` : ''}
-                ${report.tipo ? `<p style="margin:0 0 6px;font-size:12px;color:#555;font-family:Inter,sans-serif;display:flex;align-items:center;gap:5px">${ICON_TAG} Tipo: ${escapeHtml(report.tipo)}</p>` : ''}
-                <p style="margin:0 0 10px;font-size:12px;color:#888;font-family:Inter,sans-serif;display:flex;align-items:center;gap:5px">${ICON_CALENDAR} ${formatDateTime(report.criadoEm)}</p>
-                <div style="display:flex;align-items:center;justify-content:center">
-                    <span style="background:${escapeHtml(color)};color:white;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:Inter,sans-serif">${escapeHtml(label)}</span>
+            <div class="popup-modal">
+                <div class="popup-header">
+                    <div class="popup-header-title">
+                        ${ICON_MAP_PIN} ${escapeHtml(report.categoria)}
+                    </div>
+                    <button class="popup-close" onclick="this.closest('.leaflet-popup').remove()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                <div class="popup-body">
+                    <div class="popup-row" style="margin-bottom:8px">
+                        ${ICON_MAP_PIN}
+                        <span style="color:#333;font-size:13px">${escapeHtml(report.endereco)}</span>
+                    </div>
+                    ${report.nome ? `
+                    <div class="popup-row">
+                        ${ICON_USER}
+                        <span style="color:#555;font-size:13px">${escapeHtml(report.nome)}</span>
+                    </div>
+                    ` : ''}
+                    ${report.tipo ? `
+                    <div class="popup-row">
+                        ${ICON_TAG}
+                        <span style="color:#555;font-size:13px">${escapeHtml(report.tipo)}</span>
+                    </div>
+                    ` : ''}
+                    <div class="popup-row">
+                        ${ICON_CALENDAR}
+                        <span style="color:#888;font-size:12px">${formatDateTime(report.criadoEm)}</span>
+                    </div>
+                </div>
+                <div class="popup-footer">
+                    <span style="background:${escapeHtml(color)};color:white;padding:5px 14px;border-radius:16px;font-size:12px;font-weight:600">${escapeHtml(label)}</span>
                 </div>
             </div>
         `;
