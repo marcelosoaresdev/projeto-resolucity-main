@@ -7,15 +7,16 @@ const reportRepository = {
     createReport: (userId, categoria, tipo, endereco, descricao, latitude, longitude) => {
         const reports = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
         const timestamp = new Date().toISOString();
+        const maxId = reports.reduce((max, r) => Math.max(max, r.id || 0), 0);
         const newReport = {
-            id: reports.length + 1,
+            id: maxId + 1,
             userId,
             categoria,
             tipo,
             endereco,
             descricao,
             status: 'pendente',
-            protocolo: `RC-${reports.length + 1}-${Date.now()}`,
+            protocolo: `RC-${maxId + 1}-${Date.now()}`,
             criadoEm: timestamp,
             latitude,
             longitude
