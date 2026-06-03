@@ -20,62 +20,67 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Phone mask
     const phoneInput = document.getElementById('telefone');
-    phoneInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 11) value = value.slice(0, 11);
-        if (value.length <= 11) {
-            if (value.length <= 2) {
-                value = value.replace(/(\d{0,2})/, '($1');
-            } else if (value.length <= 6) {
-                value = value.replace(/(\d{2})(\d{0,4})/, '($1) $2');
-            } else if (value.length <= 10) {
-                value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
-            } else {
-                value = value.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            if (value.length <= 11) {
+                if (value.length <= 2) {
+                    value = value.replace(/(\d{0,2})/, '($1');
+                } else if (value.length <= 6) {
+                    value = value.replace(/(\d{2})(\d{0,4})/, '($1) $2');
+                } else if (value.length <= 10) {
+                    value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+                } else {
+                    value = value.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+                }
             }
-        }
-        e.target.value = value;
-    });
+            e.target.value = value;
+        });
+    }
 
     // Form submit
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        const body = {
-            nome:        document.getElementById('nome').value.trim(),
-            cpf:         document.getElementById('cpf').value.trim(),
-            nascimento:  document.getElementById('nascimento').value,
-            telefone:    document.getElementById('telefone').value.trim(),
-            email:       document.getElementById('email').value.trim()
-        };
+            const body = {
+                nome:        document.getElementById('nome').value.trim(),
+                cpf:         document.getElementById('cpf').value.trim(),
+                nascimento:  document.getElementById('nascimento').value,
+                telefone:    document.getElementById('telefone').value.trim(),
+                email:       document.getElementById('email').value.trim()
+            };
 
-        // Basic validation
-        if (!body.nome || !body.nascimento || !body.telefone || !body.email) {
-            showFeedback('Preencha todos os campos obrigatórios.', 'error');
-            return;
-        }
+            // Basic validation
+            if (!body.nome || !body.nascimento || !body.telefone || !body.email) {
+                showFeedback('Preencha todos os campos obrigatórios.', 'error');
+                return;
+            }
 
-        try {
-            const res = await fetch('/api/auth/profile', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
+            try {
+                const res = await fetch('/api/auth/profile', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
 
-            const result = await res.json();
+                const result = await res.json();
 
-            if (!res.ok) throw new Error(result.message || 'Erro ao salvar');
+                if (!res.ok) throw new Error(result.message || 'Erro ao salvar');
 
-            showFeedback('Perfil atualizado com sucesso!', 'success');
-            setTimeout(() => {
-                window.location.href = '/meus-relatos';
-            }, 1500);
-        } catch (err) {
-            showFeedback(err.message || 'Não foi possível salvar. Tente novamente.', 'error');
-        }
-    });
+                showFeedback('Perfil atualizado com sucesso!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/meus-relatos';
+                }, 1500);
+            } catch (err) {
+                showFeedback(err.message || 'Não foi possível salvar. Tente novamente.', 'error');
+            }
+        });
+    }
 
     function showFeedback(message, type) {
+        if (!feedback) return;
         feedback.textContent = message;
         feedback.className = `mb-6 alert ${type === 'success' ? 'alert-success' : 'alert-error'}`;
         feedback.classList.remove('hidden');

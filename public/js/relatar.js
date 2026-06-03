@@ -235,25 +235,33 @@ class FormValidator {
 
     showSuccessMessage() {
         const successDiv = document.createElement('div');
-        successDiv.className = 'success-message';
+        successDiv.id = 'success-modal';
+        successDiv.style.cssText = 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)';
         successDiv.innerHTML = `
-            <div class="success-content">
-                <h3>Relato enviado com sucesso!</h3>
-                <p>O seu relato encontra-se em análise.</p>
-                <div style="display:flex;gap:8px;margin-top:16px">
-                    <button id="close-success" style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;background:#f5f5f5;cursor:pointer">Fechar</button>
-                    <a href="/meus-relatos" style="flex:1;padding:10px;border-radius:8px;background:#146C43;color:white;text-align:center;text-decoration:none">Ver meus relatos</a>
+            <div style="background:white;border-radius:16px;max-width:400px;width:100%;padding:24px;text-align:center">
+                <div style="width:48px;height:48px;background:#d2e8dd;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#146C43" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <h3 style="font-size:18px;font-weight:700;color:#222;margin:0 0 8px">Relato enviado com sucesso!</h3>
+                <p style="font-size:14px;color:#666;margin:0 0 20px">O seu relato encontra-se em análise.</p>
+                <div style="display:flex;gap:8px">
+                    <button id="btn-fechar-sucesso" style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;background:#f5f5f5;cursor:pointer;font-size:14px">Fechar</button>
+                    <a href="/meus-relatos" style="flex:1;padding:10px;border-radius:8px;background:#146C43;color:white;text-align:center;text-decoration:none;font-size:14px">Ver meus relatos</a>
                 </div>
             </div>
         `;
         document.body.appendChild(successDiv);
 
-        document.getElementById('close-success').addEventListener('click', () => {
-            document.body.removeChild(successDiv);
+        document.getElementById('btn-fechar-sucesso').addEventListener('click', () => {
+            successDiv.remove();
             this.form.reset();
             Object.keys(this.fields).forEach(fieldName => this.clearError(this.fields[fieldName]));
             const tipoSelect = document.getElementById('tipo');
             if (tipoSelect) tipoSelect.innerHTML = '<option value="">Selecione primeiro a categoria</option>';
+        });
+
+        successDiv.addEventListener('click', (e) => {
+            if (e.target === successDiv) successDiv.remove();
         });
     }
 }

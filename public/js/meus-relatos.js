@@ -47,15 +47,22 @@ window.openReportModal = function(reportId) {
     const report = allReports.find(r => r.id === reportId);
     if (!report) return;
 
-    const { label, badge } = STATUS_CONFIG[report.status] || STATUS_CONFIG.pendente;
+    const { label } = STATUS_CONFIG[report.status] || STATUS_CONFIG.pendente;
     const dataCriacao = new Date(report.criadoEm);
     const dataFormatada = dataCriacao.toLocaleDateString('pt-BR') + ' às ' + dataCriacao.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-    const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)';
-    modal.innerHTML = `
+    const overlay = document.createElement('div');
+    overlay.id = 'modal-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)';
+
+    const closeModal = () => {
+        const existing = document.getElementById('modal-overlay');
+        if (existing) existing.remove();
+    };
+
+    overlay.innerHTML = `
         <div style="background:white;border-radius:16px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;padding:24px;position:relative">
-            <button onclick="this.closest('[style*="position:fixed"]').remove()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:#888;line-height:1">&times;</button>
+            <button id="modal-close-btn" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:#888;line-height:1;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px">&times;</button>
 
             <div style="margin-bottom:16px">
                 <span style="background:#146C43;color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">${label}</span>
@@ -71,13 +78,13 @@ window.openReportModal = function(reportId) {
                     <div><strong>Categoria:</strong> ${report.categoria}</div>
                     <div><strong>Tipo:</strong> ${report.tipo || '—'}</div>
                     <div class="col-span-2"><strong>Endereço:</strong> ${report.endereco}</div>
-                    <div class="col-span-2"><strong>Descricao:</strong> ${report.descricao}</div>
+                    <div class="col-span-2"><strong>Descrição:</strong> ${report.descricao}</div>
                     <div class="col-span-2"><strong>Enviado em:</strong> ${dataFormatada}</div>
                 </div>
             </div>
 
             <div style="border-top:1px solid #eee;padding-top:16px;margin-top:16px">
-                <h3 style="font-size:14px;font-weight:600;color:#333;margin:0 0 12px">Dados do Usuario</h3>
+                <h3 style="font-size:14px;font-weight:600;color:#333;margin:0 0 12px">Dados do Usuário</h3>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">
                     <div><strong>Nome:</strong> ${report.nome || '—'}</div>
                     <div><strong>CPF:</strong> ${report.cpf || '—'}</div>
@@ -89,9 +96,11 @@ window.openReportModal = function(reportId) {
         </div>
     `;
 
-    document.body.appendChild(modal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.remove();
+    document.body.appendChild(overlay);
+
+    document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
     });
 };
 

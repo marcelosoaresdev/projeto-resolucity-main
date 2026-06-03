@@ -39,7 +39,7 @@ app.get('/contato',     (req, res) => res.sendFile(path.join(__dirname, '../publ
 app.get('/sobre',       (req, res) => res.sendFile(path.join(__dirname, '../public/views/sobre.html')));
 app.get('/relatar',      requireAuthPage, (req, res) => res.sendFile(path.join(__dirname, '../public/views/relatar.html')));
 app.get('/meus-relatos', requireAuthPage, (req, res) => res.sendFile(path.join(__dirname, '../public/views/meus-relatos.html')));
-app.get('/perfil',        requireAuthPage, (req, res) => res.sendFile(path.join(__dirname, '../public/views/perfil.html')));
+app.get('/perfil',        requireAuthPage, (req, res) => res.sendFile(path.join(__dirname, '../public/perfil/index.html')));
 app.get('/mapa',        (req, res) => res.sendFile(path.join(__dirname, '../public/views/mapa.html')));
 
 export default app;
