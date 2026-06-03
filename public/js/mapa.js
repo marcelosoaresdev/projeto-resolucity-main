@@ -16,6 +16,12 @@ const STATUS_CONFIG = {
     resolvido:     { color: '#22c55e', label: 'Resolvido' },
 };
 
+// Ícone Lucide inline (sem emoji)
+const ICON_USER = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+const ICON_TAG = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"/><path d="M7 7h.01"/></svg>`;
+const ICON_CALENDAR = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+const ICON_MAP_PIN = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#146C43" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+
 // Ícone personalizado por status
 function createIcon(status) {
     const { color } = STATUS_CONFIG[status] || STATUS_CONFIG.pendente;
@@ -92,16 +98,16 @@ function renderMarkers() {
     filtered.forEach(report => {
         const { color, label } = STATUS_CONFIG[report.status] || STATUS_CONFIG.pendente;
         const popupHtml = `
-            <div style="min-width:220px">
-                <h3 style="margin:0 0 6px;font-weight:600;font-size:14px;color:#146C43">
-                    ${escapeHtml(report.categoria)}
+            <div style="min-width:240px;padding:4px 0">
+                <h3 style="margin:0 0 10px;font-weight:700;font-size:15px;color:#146C43;font-family:Inter,sans-serif;display:flex;align-items:center;gap:6px">
+                    ${ICON_MAP_PIN} ${escapeHtml(report.categoria)}
                 </h3>
-                <p style="margin:0 0 4px;font-size:13px;color:#333">${escapeHtml(report.endereco)}</p>
-                ${report.nome ? `<p style="margin:0 0 4px;font-size:12px;color:#666">👤 ${escapeHtml(report.nome)}</p>` : ''}
-                ${report.tipo ? `<p style="margin:0 0 4px;font-size:12px">📋 Tipo: ${escapeHtml(report.tipo)}</p>` : ''}
-                <p style="margin:0 0 6px;font-size:12px">📅 ${formatDateTime(report.criadoEm)}</p>
-                <div style="display:flex;align-items:center;gap:6px">
-                    <span style="background:${escapeHtml(color)};color:white;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:500">${escapeHtml(label)}</span>
+                <p style="margin:0 0 8px;font-size:13px;color:#333;font-family:Inter,sans-serif">${escapeHtml(report.endereco)}</p>
+                ${report.nome ? `<p style="margin:0 0 6px;font-size:12px;color:#555;font-family:Inter,sans-serif;display:flex;align-items:center;gap:5px">${ICON_USER} ${escapeHtml(report.nome)}</p>` : ''}
+                ${report.tipo ? `<p style="margin:0 0 6px;font-size:12px;color:#555;font-family:Inter,sans-serif;display:flex;align-items:center;gap:5px">${ICON_TAG} Tipo: ${escapeHtml(report.tipo)}</p>` : ''}
+                <p style="margin:0 0 10px;font-size:12px;color:#888;font-family:Inter,sans-serif;display:flex;align-items:center;gap:5px">${ICON_CALENDAR} ${formatDateTime(report.criadoEm)}</p>
+                <div style="display:flex;align-items:center;justify-content:center">
+                    <span style="background:${escapeHtml(color)};color:white;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:Inter,sans-serif">${escapeHtml(label)}</span>
                 </div>
             </div>
         `;
