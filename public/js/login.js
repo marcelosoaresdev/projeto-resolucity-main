@@ -139,7 +139,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         showError('register-password', 'Por favor, insira uma senha');
         hasError = true;
     } else if (!validatePassword(senha)) {
-        showError('register-password', 'A senha deve ter 8+ caracteres, letra e número');
+        showError('register-password', 'A senha deve ter 8+ caracteres, letra, número e sem espaços');
         hasError = true;
     }
 

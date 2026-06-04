@@ -69,7 +69,13 @@ const userRepository = {
 
     activateUser: (token) => {
         const users = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
-        const idx = users.findIndex(u => u.confirmationToken === token);
+        const idx = users.findIndex(u => {
+            if (!u.confirmationToken) return false;
+            const tokenBuffer = Buffer.from(token);
+            const storedBuffer = Buffer.from(u.confirmationToken);
+            if (tokenBuffer.length !== storedBuffer.length) return false;
+            return crypto.timingSafeEqual(tokenBuffer, storedBuffer);
+        });
         if (idx === -1) return { error: 'Link inválido.' };
 
         const user = users[idx];

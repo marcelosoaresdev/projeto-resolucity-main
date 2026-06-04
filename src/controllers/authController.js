@@ -1,6 +1,14 @@
+import crypto from 'crypto';
 import userRepository from "../repositories/userRepository.js";
 import { generateConfirmationToken } from "../utils/tokenGenerator.js";
 import { sendConfirmationEmail } from "../utils/emailService.js";
+
+// Helper para verificar senha (deve vir antes do authController)
+function verifyPassword(password, storedHash) {
+    const [salt, hash] = storedHash.split(':');
+    const testHash = crypto.scryptSync(password, salt, 32).toString('hex');
+    return hash === testHash;
+}
 
 const authController = {
 
@@ -173,10 +181,5 @@ const authController = {
 };
 
 // Helper para verificar senha (importado no login)
-function verifyPassword(password, storedHash) {
-    const [salt, hash] = storedHash.split(':');
-    const testHash = crypto.scryptSync(password, salt, 32).toString('hex');
-    return hash === testHash;
-}
 
 export default authController;
