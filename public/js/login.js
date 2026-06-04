@@ -8,7 +8,11 @@ function validateEmail(email) {
 }
 
 function validatePassword(password) {
-    return password.length >= 6;
+    if (password.length < 8) return false;
+    if (!/[a-zA-Z]/.test(password)) return false;
+    if (!/[0-9]/.test(password)) return false;
+    if (/\s/.test(password)) return false;
+    return true;
 }
 
 function validateName(name) {
@@ -107,9 +111,10 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     e.preventDefault();
     clearAllErrors('registerForm');
 
-    const nome  = document.getElementById('register-name').value.trim();
+    const nome = document.getElementById('register-name').value.trim();
     const email = document.getElementById('register-email').value.trim();
     const senha = document.getElementById('register-password').value;
+    const confirmarSenha = document.getElementById('register-confirm-password').value;
 
     // 1. Valida os campos antes de enviar
     let hasError = false;
@@ -134,7 +139,15 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         showError('register-password', 'Por favor, insira uma senha');
         hasError = true;
     } else if (!validatePassword(senha)) {
-        showError('register-password', 'Senha deve ter pelo menos 6 caracteres');
+        showError('register-password', 'A senha deve ter 8+ caracteres, letra e número');
+        hasError = true;
+    }
+
+    if (!confirmarSenha) {
+        showError('register-confirm-password', 'Por favor, confirme sua senha');
+        hasError = true;
+    } else if (senha !== confirmarSenha) {
+        showError('register-confirm-password', 'As senhas não coincidem');
         hasError = true;
     }
 
@@ -156,10 +169,10 @@ document.getElementById('registerForm').addEventListener('submit', async functio
             return;
         }
 
-        // 3b. Cadastro ok: avisa o usuário e manda para o login
+        // 3b. Cadastro ok: mostra mensagem de confirmação
         showSuccessModal(
             'Cadastro realizado!',
-            'Sua conta foi criada com sucesso. Faça login para continuar.',
+            data.message,
             () => {
                 document.getElementById('registerForm').reset();
                 showLogin();

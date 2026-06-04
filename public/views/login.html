@@ -270,11 +270,31 @@
                                                 id="register-password"
                                                 name="password"
                                                 required
-                                                placeholder="Mínimo 6 caracteres"
+                                                placeholder="Mínimo 8 caracteres, letra e número"
                                                 class="input input-bordered w-full pl-10 text-sm"
                                             >
                                         </div>
                                         <span class="error label-text-alt text-error mt-1.5" id="register-password-error"></span>
+                                    </div>
+
+                                    <div class="form-control">
+                                        <label class="label pb-1.5" for="register-confirm-password">
+                                            <span class="label-text font-medium">Confirmar Senha</span>
+                                        </label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                                <i data-lucide="lock" class="w-4 h-4 text-gray-400"></i>
+                                            </div>
+                                            <input
+                                                type="password"
+                                                id="register-confirm-password"
+                                                name="confirmPassword"
+                                                required
+                                                placeholder="Repita a senha"
+                                                class="input input-bordered w-full pl-10 text-sm"
+                                            >
+                                        </div>
+                                        <span class="error label-text-alt text-error mt-1.5" id="register-confirm-password-error"></span>
                                     </div>
 
                                     <button
