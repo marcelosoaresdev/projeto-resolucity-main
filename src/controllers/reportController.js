@@ -19,7 +19,8 @@ const reportController = {
     },
 
     getStats(req, res) {
-        const stats = reportRepository.getStats();
+        const { period, start, end } = req.query;
+        const stats = reportRepository.getStats(period, start, end);
         res.json(stats);
     }
 };

@@ -47,8 +47,35 @@ const reportRepository = {
         });
     },
 
-    getStats: () => {
-        const reports = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+    getStats: (period, startDate, endDate) => {
+        let reports = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+
+        // Filtro por período
+        if (period && period !== 'all') {
+            const now = new Date();
+            let start;
+
+            if (period === '7d') {
+                start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            } else if (period === '30d') {
+                start = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            } else if (period === 'ano') {
+                start = new Date(now.getFullYear(), 0, 1); // 1 Jan do ano atual
+            } else if (period === 'custom' && startDate && endDate) {
+                start = new Date(startDate);
+                const end = new Date(endDate);
+                end.setHours(23, 59, 59, 999);
+                reports = reports.filter(r => {
+                    const created = new Date(r.criadoEm);
+                    return created >= start && created <= end;
+                });
+            }
+
+            if (period !== 'custom') {
+                start.setHours(0, 0, 0, 0);
+                reports = reports.filter(r => new Date(r.criadoEm) >= start);
+            }
+        }
 
         // Totais
         const total = reports.length;
@@ -68,15 +95,75 @@ const reportRepository = {
             resolvidosPorCategoria[r.categoria] = (resolvidosPorCategoria[r.categoria] || 0) + 1;
         });
 
+        // Por bairro (extraído do endereço)
+        const porBairro = {};
+        reports.forEach(r => {
+            const bairro = extractBairro(r.endereco);
+            porBairro[bairro] = (porBairro[bairro] || 0) + 1;
+        });
+
+        // Por mês (últimos 12 meses)
+        const porMes = {};
+        const resolvidosPorMes = {};
+        const now = new Date();
+        for (let i = 11; i >= 0; i--) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+            porMes[key] = 0;
+            resolvidosPorMes[key] = 0;
+        }
+
+        reports.forEach(r => {
+            const created = new Date(r.criadoEm);
+            const key = `${created.getFullYear()}-${String(created.getMonth() + 1).padStart(2, '0')}`;
+            if (porMes[key] !== undefined) {
+                porMes[key]++;
+            }
+            if (r.status === 'resolvido' && resolvidosPorMes[key] !== undefined) {
+                resolvidosPorMes[key]++;
+            }
+        });
+
         return {
             total,
             resolvidos,
             pendentes,
             emAndamento,
             porCategoria,
-            resolvidosPorCategoria
+            resolvidosPorCategoria,
+            porBairro,
+            porMes,
+            resolvidosPorMes
         };
     }
 };
+
+// Função auxiliar para extrair bairro do endereço
+function extractBairro(endereco) {
+    if (!endereco) return 'Outros';
+
+    // Padrão: "rua X, NUMERO - BAIRRO, Cidade"
+    // Tenta encontrar o bairro entre ", " e " - "
+    const match = endereco.match(/,\s*([^,]+?)\s*-\s*[^,]+$/);
+    if (match && match[1]) {
+        const bairro = match[1].trim();
+        // Verifica se não é muito longo (provavelmente não é bairro)
+        if (bairro.length < 30 && !bairro.match(/\d{5,}/)) {
+            return bairro;
+        }
+    }
+
+    // Se não conseguir extrair, tenta outro padrão
+    // "Rua X, Número - Bairro"
+    const simpleMatch = endereco.match(/-\s*([^,]+?)(?:,\s*\d|$)/);
+    if (simpleMatch && simpleMatch[1]) {
+        const bairro = simpleMatch[1].trim();
+        if (bairro.length < 30 && !bairro.match(/\d{5,}/)) {
+            return bairro;
+        }
+    }
+
+    return 'Outros';
+}
 
 export default reportRepository;

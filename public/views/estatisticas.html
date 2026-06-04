@@ -30,7 +30,7 @@
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <!-- CountUp.js -->
     <script src="https://cdn.jsdelivr.net/npm/countup.js@2/dist/countUp.umd.js"></script>
     <link rel="icon" href="../imagens/logo.png" type="image/png">
@@ -102,9 +102,8 @@
             <div class="absolute top-24 right-0 w-[460px] h-[460px] bg-primary-100/30 rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-[360px] h-[360px] bg-primary-100/20 rounded-full blur-3xl"></div>
 
-            <div class="relative max-w-[1184px] mx-auto px-6 lg:px-10 pt-16 lg:pt-24 pb-16 lg:pb-20">
+            <div class="relative max-w-[1184px] mx-auto px-6 lg:px-10 pt-16 lg:pt-24 pb-8">
                 <div class="max-w-2xl mx-auto text-center" data-aos="fade-up" data-aos-duration="800">
-                    <!-- DaisyUI badge -->
                     <div class="badge badge-ghost bg-primary-100 text-primary-700 border-primary-200 gap-2 px-3 py-3.5 mb-6 text-xs font-medium">
                         <i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i>
                         Dados em Tempo Real
@@ -117,36 +116,68 @@
                         Acompanhe os indicadores gerais de relatos e desempenho urbano com dados atualizados diretamente da base de dados.
                     </p>
                 </div>
+
+                <!-- Filtro de Período -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mt-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="join">
+                        <button class="btn btn-sm join-item btn-primary period-btn" data-period="7d">7 dias</button>
+                        <button class="btn btn-sm join-item btn-outline border-base-300 period-btn" data-period="30d">30 dias</button>
+                        <button class="btn btn-sm join-item btn-outline border-base-300 period-btn" data-period="ano">Este Ano</button>
+                        <button class="btn btn-sm join-item btn-outline border-base-300 period-btn" data-period="custom">Personalizado</button>
+                    </div>
+
+                    <!-- Date picker customizado -->
+                    <div id="custom-date-range" class="hidden flex-wrap items-center gap-2 mt-2 sm:mt-0">
+                        <input type="date" id="date-start" class="input input-bordered input-sm w-auto" aria-label="Data início">
+                        <span class="text-base-content/50">até</span>
+                        <input type="date" id="date-end" class="input input-bordered input-sm w-auto" aria-label="Data fim">
+                        <button id="apply-custom" class="btn btn-sm btn-primary">Aplicar</button>
+                    </div>
+
+                    <!-- Indicador de polling -->
+                    <div class="flex items-center gap-1 text-base-content/40 text-xs ml-2">
+                        <i data-lucide="refresh-cw" class="w-3 h-3" id="polling-icon"></i>
+                        <span id="polling-status">Atualizando...</span>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- ===================== STATS CARDS ===================== -->
-        <section class="py-12 lg:py-16">
+        <section class="py-8 lg:py-10">
             <div class="max-w-[1184px] mx-auto px-6 lg:px-10" data-aos="fade-up">
-                <div class="stats stats-vertical md:stats-horizontal w-full shadow-sm border border-base-300">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
-                    <div class="stat">
+                    <div class="stat bg-base-100 border border-base-300 rounded-2xl shadow-sm">
                         <div class="stat-figure text-primary">
                             <i data-lucide="file-text" class="w-8 h-8 text-primary-500"></i>
                         </div>
-                        <div class="stat-title">Relatos Registrados</div>
-                        <div class="stat-value text-primary-700" id="total-relatos" data-countup="892">0</div>
+                        <div class="stat-title">Total</div>
+                        <div class="stat-value text-primary-700 text-3xl" id="total-relatos" aria-label="Total de relatos">0</div>
                     </div>
 
-                    <div class="stat">
+                    <div class="stat bg-base-100 border border-base-300 rounded-2xl shadow-sm">
+                        <div class="stat-figure text-warning">
+                            <i data-lucide="clock" class="w-8 h-8 text-amber-500"></i>
+                        </div>
+                        <div class="stat-title">Pendentes</div>
+                        <div class="stat-value text-amber-600 text-3xl" id="relatos-pendentes" aria-label="Relatos pendentes">0</div>
+                    </div>
+
+                    <div class="stat bg-base-100 border border-base-300 rounded-2xl shadow-sm">
+                        <div class="stat-figure text-info">
+                            <i data-lucide="refresh-cw" class="w-8 h-8 text-blue-500"></i>
+                        </div>
+                        <div class="stat-title">Em Andamento</div>
+                        <div class="stat-value text-blue-600 text-3xl" id="relatos-andamento" aria-label="Relatos em andamento">0</div>
+                    </div>
+
+                    <div class="stat bg-base-100 border border-base-300 rounded-2xl shadow-sm">
                         <div class="stat-figure text-success">
                             <i data-lucide="check-circle" class="w-8 h-8 text-green-600"></i>
                         </div>
                         <div class="stat-title">Resolvidos</div>
-                        <div class="stat-value text-primary-700" id="relatos-resolvidos" data-countup="534">0</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-figure text-warning">
-                            <i data-lucide="clock" class="w-8 h-8 text-amber-500"></i>
-                        </div>
-                        <div class="stat-title">Em Andamento</div>
-                        <div class="stat-value text-primary-700" id="relatos-pendentes" data-countup="358">0</div>
+                        <div class="stat-value text-green-600 text-3xl" id="relatos-resolvidos" aria-label="Relatos resolvidos">0</div>
                     </div>
 
                 </div>
@@ -156,32 +187,91 @@
         <!-- ===================== CHARTS ===================== -->
         <section class="pb-16 lg:pb-24">
             <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
-                <div class="grid lg:grid-cols-2 gap-6">
-
-                    <!-- Pie Chart -->
+                <!-- Row 1: Evolução Mensal + Donut Status -->
+                <div class="grid lg:grid-cols-2 gap-6 mb-6">
                     <div data-aos="fade-right">
                         <div class="card bg-base-100 border border-base-300 shadow-sm">
                             <div class="card-body">
-                                <div class="chart-box">
-                                    <h3 class="text-lg font-semibold text-primary-700 mb-4">Porcentagem de Relatos por Categoria</h3>
-                                    <canvas id="pieChart"></canvas>
-                                </div>
+                                <h3 class="text-lg font-semibold text-primary-700 mb-4 flex items-center gap-2">
+                                    <i data-lucide="trending-up" class="w-5 h-5"></i>
+                                    Evolução Mensal
+                                </h3>
+                                <div id="chart-evolucao-mensal" aria-label="Gráfico de evolução mensal de relatos"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Bar Chart -->
                     <div data-aos="fade-left">
                         <div class="card bg-base-100 border border-base-300 shadow-sm">
                             <div class="card-body">
-                                <div class="chart-box">
-                                    <h3 class="text-lg font-semibold text-primary-700 mb-4">Problemas Solucionados por Categoria</h3>
-                                    <canvas id="barChart"></canvas>
-                                </div>
+                                <h3 class="text-lg font-semibold text-primary-700 mb-4 flex items-center gap-2">
+                                    <i data-lucide="pie-chart" class="w-5 h-5"></i>
+                                    Por Status
+                                </h3>
+                                <div id="chart-status" aria-label="Gráfico de status dos relatos"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Por Categoria + Por Bairro -->
+                <div class="grid lg:grid-cols-2 gap-6 mb-6">
+                    <div data-aos="fade-right">
+                        <div class="card bg-base-100 border border-base-300 shadow-sm">
+                            <div class="card-body">
+                                <h3 class="text-lg font-semibold text-primary-700 mb-4 flex items-center gap-2">
+                                    <i data-lucide="layers" class="w-5 h-5"></i>
+                                    Por Categoria
+                                </h3>
+                                <div id="chart-categoria" aria-label="Gráfico de relatos por categoria"></div>
                             </div>
                         </div>
                     </div>
 
+                    <div data-aos="fade-left">
+                        <div class="card bg-base-100 border border-base-300 shadow-sm">
+                            <div class="card-body">
+                                <h3 class="text-lg font-semibold text-primary-700 mb-4 flex items-center gap-2">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                    Por Bairro
+                                </h3>
+                                <div id="chart-bairro" aria-label="Gráfico de relatos por bairro"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Resolvidos por Categoria + Evolução Resolvidos -->
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div data-aos="fade-right">
+                        <div class="card bg-base-100 border border-base-300 shadow-sm">
+                            <div class="card-body">
+                                <h3 class="text-lg font-semibold text-primary-700 mb-4 flex items-center gap-2">
+                                    <i data-lucide="check-square" class="w-5 h-5"></i>
+                                    Resolvidos por Categoria
+                                </h3>
+                                <div id="chart-resolvidos-categoria" aria-label="Gráfico de relatos resolvidos por categoria"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-left">
+                        <div class="card bg-base-100 border border-base-300 shadow-sm">
+                            <div class="card-body">
+                                <h3 class="text-lg font-semibold text-primary-700 mb-4 flex items-center gap-2">
+                                    <i data-lucide="activity" class="w-5 h-5"></i>
+                                    Evolução de Resolvidos
+                                </h3>
+                                <div id="chart-evolucao-resolvidos" aria-label="Gráfico de evolução de relatos resolvidos"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensagem de sem dados -->
+                <div id="no-data-message" class="hidden text-center py-16">
+                    <i data-lucide="inbox" class="w-16 h-16 text-base-content/20 mx-auto mb-4"></i>
+                    <p class="text-base-content/50 text-lg">Sem dados para o período selecionado</p>
                 </div>
             </div>
         </section>
@@ -196,19 +286,6 @@
 
     <footer class="bg-gradient-to-b from-primary-500 to-primary-600">
         <div class="max-w-[1184px] mx-auto px-6 lg:px-10">
-            <!-- Newsletter (DaisyUI join) -->
-            <div class="text-center py-12 border-b border-white/15">
-                <h3 class="text-xl font-bold text-white mb-2">Receba novidades por e-mail</h3>
-                <p class="text-white/60 text-sm mb-6">Fique por dentro das atualizações da plataforma.</p>
-                <form class="join w-full max-w-md mx-auto" onsubmit="event.preventDefault()">
-                    <input type="email" placeholder="Seu melhor e-mail" class="input join-item bg-white text-gray-800 placeholder-gray-400 flex-1 min-w-0 border-0">
-                    <button type="submit" class="btn join-item bg-primary-700 text-white border-0 hover:bg-primary-700/80 gap-2">
-                        <i data-lucide="send" class="w-4 h-4"></i>
-                        Enviar
-                    </button>
-                </form>
-            </div>
-
             <!-- Links + Info -->
             <div class="py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div>
@@ -263,32 +340,8 @@
     <script>
         AOS.init({ once: true, duration: 600 });
         lucide.createIcons();
-
-        // CountUp.js — animate numbers on scroll
-        document.querySelectorAll('[data-countup]').forEach(function(el) {
-            var target = parseInt(el.dataset.countup);
-            var suffix = el.dataset.suffix || '';
-            var counter = new countUp.CountUp(el, target, {
-                duration: 2,
-                suffix: suffix,
-                separator: '.',
-                decimal: ',',
-            });
-            var obs = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        counter.start();
-                        obs.unobserve(el);
-                    }
-                });
-            }, { threshold: 0.5 });
-            obs.observe(el);
-        });
     </script>
     <script src="../js/chart.js"></script>
     <script src="../js/navbar.js"></script>
 </body>
 </html>
-
-
-
