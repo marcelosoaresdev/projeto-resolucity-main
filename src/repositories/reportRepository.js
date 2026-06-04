@@ -142,23 +142,28 @@ const reportRepository = {
 function extractBairro(endereco) {
     if (!endereco) return 'Outros';
 
-    // Padrão: "rua X, NUMERO - BAIRRO, Cidade"
-    // Tenta encontrar o bairro entre ", " e " - "
-    const match = endereco.match(/,\s*([^,]+?)\s*-\s*[^,]+$/);
-    if (match && match[1]) {
-        const bairro = match[1].trim();
-        // Verifica se não é muito longo (provavelmente não é bairro)
+    // Padrão 1: "Rua X, NUMERO - BAIRRO, Cidade - Estado"
+    // Ex: "Rua das Flores, 123 - Centro, Volta Redonda - RJ"
+    const match1 = endereco.match(/,\s*([^,]+?)\s*-\s*[^,]+$/);
+    if (match1 && match1[1]) {
+        const bairro = match1[1].trim();
         if (bairro.length < 30 && !bairro.match(/\d{5,}/)) {
             return bairro;
         }
     }
 
-    // Se não conseguir extrair, tenta outro padrão
-    // "Rua X, Número - Bairro"
-    const simpleMatch = endereco.match(/-\s*([^,]+?)(?:,\s*\d|$)/);
-    if (simpleMatch && simpleMatch[1]) {
-        const bairro = simpleMatch[1].trim();
-        if (bairro.length < 30 && !bairro.match(/\d{5,}/)) {
+    // Padrão 2: "Rua X, NUMERO, BAIRRO, Cidade, Estado"
+    // Ex: "Rua 23 A, Vila Santa Cecília, Volta Redonda, Rio de Janeiro"
+    // Extrair o penúltimo segmento (antes da cidade)
+    const parts = endereco.split(',').map(p => p.trim());
+    if (parts.length >= 3) {
+        // parts[0] = "Rua 23 A" (rua + numero)
+        // parts[1] = "Vila Santa Cecília" (BAIRRO)
+        // parts[2] = "Volta Redonda" (cidade)
+        // parts[3] = "Rio de Janeiro" (estado)
+        // Pegamos parts[1] que é o bairro
+        const bairro = parts[1];
+        if (bairro && bairro.length < 30 && !bairro.match(/\d{5,}/)) {
             return bairro;
         }
     }

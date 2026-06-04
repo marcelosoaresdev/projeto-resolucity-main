@@ -1,10 +1,19 @@
-/* chart.js - RF003: Estatísticas com ApexCharts */
+/* chart.js - RF003: Dashboard de Estatísticas com ApexCharts */
 
-const COLOR_PENDENTE = '#f59e0b';
-const COLOR_ANDAMENTO = '#3b82f6';
-const COLOR_RESOLVIDO = '#22c55e';
+const COLORS = {
+    primary: '#146C43',
+    blue: '#3b82f6',
+    violet: '#8b5cf6',
+    cyan: '#06b6d4',
+    rose: '#f43f5e',
+    emerald: '#10b981',
+    amber: '#f59e0b',
+    purple: '#a855f7',
+    gray: '#6b7280',
+    lightGray: '#f3f4f6'
+};
 
-let currentPeriod = 'all';
+let currentPeriod = '7d';
 let customStart = null;
 let customEnd = null;
 let charts = {};
@@ -16,7 +25,7 @@ function isMobile() { return window.innerWidth <= 768; }
 function formatMonthLabel(key) {
     const [year, month] = key.split('-');
     const date = new Date(year, parseInt(month) - 1);
-    return date.toLocaleDateString('pt-BR', { month: 'short', year: '2-digit' });
+    return date.toLocaleDateString('pt-BR', { month: 'short' });
 }
 
 function getMonthLabels(keys) {
@@ -30,17 +39,25 @@ function getTopN(obj, n = 10) {
         .reduce((acc, [k, v]) => { acc[k] = v; return acc; }, {});
 }
 
+function getAxisMax(values) {
+    const max = values && values.length > 0 ? Math.max(...values) : 0;
+    return max > 0 ? Math.ceil(max) : 5;
+}
+
+function baseGridOptions() {
+    return {
+        borderColor: '#f9fafb',
+        strokeDashArray: 4,
+        padding: { left: 0, right: 0 }
+    };
+}
+
 /* Atualizar KPI cards */
 function updateCountCards(stats) {
-    const totalEl = document.getElementById('total-relatos');
-    const pendentesEl = document.getElementById('relatos-pendentes');
-    const andamentoEl = document.getElementById('relatos-andamento');
-    const resolvidosEl = document.getElementById('relatos-resolvidos');
-
-    if (totalEl) totalEl.textContent = stats.total || 0;
-    if (pendentesEl) pendentesEl.textContent = stats.pendentes || 0;
-    if (andamentoEl) andamentoEl.textContent = stats.emAndamento || 0;
-    if (resolvidosEl) resolvidosEl.textContent = stats.resolvidos || 0;
+    document.getElementById('total-relatos').textContent = stats.total || 0;
+    document.getElementById('relatos-pendentes').textContent = stats.pendentes || 0;
+    document.getElementById('relatos-andamento').textContent = stats.emAndamento || 0;
+    document.getElementById('relatos-resolvidos').textContent = stats.resolvidos || 0;
 }
 
 /* Gráfico 1: Evolução Mensal (area) */
@@ -58,33 +75,35 @@ function createEvolucaoMensal(stats) {
             series: [{ name: 'Relatos', data: valores }],
             chart: {
                 type: 'area',
-                height: 280,
+                height: 192,
+                fontFamily: 'Inter, system-ui, sans-serif',
                 toolbar: { show: false },
-                fontFamily: 'Inter, system-ui, sans-serif'
+                zoom: { enabled: false },
+                sparkline: { enabled: false }
             },
-            colors: ['#198754'],
+            colors: [COLORS.primary],
             fill: {
                 type: 'gradient',
                 gradient: {
                     shadeIntensity: 1,
-                    opacityFrom: 0.4,
-                    opacityTo: 0.1,
-                    stops: [0, 90, 100]
+                    opacityFrom: 0.15,
+                    opacityTo: 0.02,
+                    stops: [0, 100]
                 }
             },
-            stroke: { curve: 'smooth', width: 3 },
+            stroke: { curve: 'smooth', width: 3, colors: [COLORS.primary] },
             dataLabels: { enabled: false },
             xaxis: {
                 categories: getMonthLabels(meses),
-                labels: { style: { colors: '#6b7280', fontSize: '11px' } },
                 axisBorder: { show: false },
-                axisTicks: { show: false }
+                axisTicks: { show: false },
+                labels: { style: { colors: COLORS.gray, fontSize: '11px', fontWeight: 400 } }
             },
             yaxis: {
-                labels: { style: { colors: '#6b7280', fontSize: '11px' }, formatter: v => Math.round(v) }
+                labels: { style: { colors: COLORS.gray, fontSize: '11px', fontWeight: 400 }, formatter: v => Math.round(v) }
             },
-            grid: { borderColor: 'rgba(0,0,0,0.05)', padding: { left: 10, right: 10 } },
-            tooltip: { theme: 'dark', x: { show: true } }
+            grid: baseGridOptions(),
+            tooltip: { theme: 'dark', x: { show: true }, style: { fontSize: '12px' } }
         });
         charts.evolucao.render();
     }
@@ -95,33 +114,53 @@ function createStatusChart(stats) {
     const container = document.getElementById('chart-status');
     if (!container) return;
 
+    const data = [stats.pendentes || 0, stats.emAndamento || 0, stats.resolvidos || 0];
+
     if (charts.status) {
-        charts.status.updateSeries([stats.pendentes || 0, stats.emAndamento || 0, stats.resolvidos || 0]);
+        charts.status.updateSeries(data);
     } else {
         charts.status = new ApexCharts(container, {
-            series: [stats.pendentes || 0, stats.emAndamento || 0, stats.resolvidos || 0],
+            series: data,
             chart: {
                 type: 'donut',
-                height: 280,
+                height: 192,
                 fontFamily: 'Inter, system-ui, sans-serif'
             },
-            colors: [COLOR_PENDENTE, COLOR_ANDAMENTO, COLOR_RESOLVIDO],
+            colors: [COLORS.amber, COLORS.blue, COLORS.emerald],
             labels: ['Pendentes', 'Em Andamento', 'Resolvidos'],
             plotOptions: {
                 pie: {
                     donut: {
-                        size: '65%',
+                        size: '70%',
                         labels: {
                             show: true,
-                            name: { show: true, fontSize: '14px', fontWeight: 500 },
-                            value: { show: true, fontSize: '20px', fontWeight: 700, formatter: v => Math.round(v) },
-                            total: { show: true, label: 'Total', fontSize: '14px', color: '#6b7280', formatter: () => stats.total || 0 }
+                            name: { show: false },
+                            value: {
+                                show: true,
+                                fontSize: '20px',
+                                fontWeight: 700,
+                                color: '#374151',
+                                formatter: v => Math.round(v)
+                            },
+                            total: {
+                                show: true,
+                                label: 'Total',
+                                fontSize: '12px',
+                                color: COLORS.gray,
+                                formatter: () => stats.total || 0
+                            }
                         }
                     }
                 }
             },
             dataLabels: { enabled: false },
-            legend: { position: 'bottom', fontSize: '12px', labels: { colors: '#6b7280' } },
+            legend: {
+                position: 'bottom',
+                fontSize: '12px',
+                labels: { colors: COLORS.gray },
+                markers: { width: 8, height: 8, radius: 2 }
+            },
+            stroke: { width: 0 },
             tooltip: { theme: 'dark' }
         });
         charts.status.render();
@@ -138,22 +177,41 @@ function createCategoriaChart(stats) {
     const values = Object.values(sorted);
 
     if (charts.categoria) {
-        charts.categoria.updateOptions({
-            xaxis: { categories },
-            series: [{ name: 'Total', data: values }]
-        });
+        charts.categoria.updateOptions({ xaxis: { categories, min: 0, max: getAxisMax(values), tickAmount: Math.max(1, getAxisMax(values)) }, series: [{ name: 'Total', data: values }] });
     } else {
         charts.categoria = new ApexCharts(container, {
             series: [{ name: 'Total', data: values }],
-            chart: { type: 'bar', height: 280, toolbar: { show: false }, fontFamily: 'Inter, system-ui, sans-serif' },
-            colors: ['#198754'],
-            plotOptions: {
-                bar: { horizontal: true, borderRadius: 6, barHeight: '60%', distributed: true }
+            chart: {
+                type: 'bar',
+                height: 192,
+                fontFamily: 'Inter, system-ui, sans-serif',
+                toolbar: { show: false }
             },
-            dataLabels: { enabled: true, formatter: v => Math.round(v), style: { fontSize: '11px', fontWeight: 600 } },
-            xaxis: { categories, labels: { style: { colors: '#6b7280', fontSize: '11px' }, formatter: v => Math.round(v) }, axisBorder: { show: false } },
-            yaxis: { labels: { style: { colors: '#6b7280', fontSize: isMobile() ? '9px' : '11px' } } },
-            grid: { borderColor: 'rgba(0,0,0,0.05)', padding: { left: 10, right: 10 } },
+            colors: [COLORS.primary],
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    borderRadius: 6,
+                    barHeight: '60%',
+                    endingShape: 'rounded'
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: v => Math.round(v),
+                style: { fontSize: '10px', fontWeight: 600, colors: ['#fff'] }
+            },
+            xaxis: {
+                categories,
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                min: 0,
+                max: getAxisMax(values),
+                tickAmount: Math.max(1, getAxisMax(values)),
+                labels: { style: { colors: COLORS.gray, fontSize: '10px', fontWeight: 400 }, formatter: v => Math.round(v) }
+            },
+            yaxis: { labels: { style: { colors: COLORS.gray, fontSize: isMobile() ? '9px' : '11px', fontWeight: 400 } } },
+            grid: baseGridOptions(),
             tooltip: { theme: 'dark' }
         });
         charts.categoria.render();
@@ -170,29 +228,48 @@ function createBairroChart(stats) {
     const values = Object.values(sorted);
 
     if (charts.bairro) {
-        charts.bairro.updateOptions({
-            xaxis: { categories },
-            series: [{ name: 'Total', data: values }]
-        });
+        charts.bairro.updateOptions({ xaxis: { categories, min: 0, max: getAxisMax(values), tickAmount: Math.max(1, getAxisMax(values)) }, series: [{ name: 'Total', data: values }] });
     } else {
         charts.bairro = new ApexCharts(container, {
             series: [{ name: 'Total', data: values }],
-            chart: { type: 'bar', height: 280, toolbar: { show: false }, fontFamily: 'Inter, system-ui, sans-serif' },
-            colors: ['#3b82f6'],
-            plotOptions: {
-                bar: { horizontal: true, borderRadius: 6, barHeight: '60%', distributed: true }
+            chart: {
+                type: 'bar',
+                height: 192,
+                fontFamily: 'Inter, system-ui, sans-serif',
+                toolbar: { show: false }
             },
-            dataLabels: { enabled: true, formatter: v => Math.round(v), style: { fontSize: '11px', fontWeight: 600 } },
-            xaxis: { categories, labels: { style: { colors: '#6b7280', fontSize: '11px' }, formatter: v => Math.round(v) }, axisBorder: { show: false } },
-            yaxis: { labels: { style: { colors: '#6b7280', fontSize: isMobile() ? '9px' : '11px' } } },
-            grid: { borderColor: 'rgba(0,0,0,0.05)', padding: { left: 10, right: 10 } },
+            colors: [COLORS.rose],
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    borderRadius: 6,
+                    barHeight: '60%',
+                    endingShape: 'rounded'
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: v => Math.round(v),
+                style: { fontSize: '10px', fontWeight: 600, colors: ['#fff'] }
+            },
+            xaxis: {
+                categories,
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                min: 0,
+                max: getAxisMax(values),
+                tickAmount: Math.max(1, getAxisMax(values)),
+                labels: { style: { colors: COLORS.gray, fontSize: '10px', fontWeight: 400 }, formatter: v => Math.round(v) }
+            },
+            yaxis: { labels: { style: { colors: COLORS.gray, fontSize: isMobile() ? '9px' : '11px', fontWeight: 400 } } },
+            grid: baseGridOptions(),
             tooltip: { theme: 'dark' }
         });
         charts.bairro.render();
     }
 }
 
-/* Gráfico 5: Resolvidos por Categoria (bar) */
+/* Gráfico 5: Resolvidos por Categoria */
 function createResolvidosCategoriaChart(stats) {
     const container = document.getElementById('chart-resolvidos-categoria');
     if (!container) return;
@@ -202,22 +279,41 @@ function createResolvidosCategoriaChart(stats) {
     const values = Object.values(sorted);
 
     if (charts.resolvidosCategoria) {
-        charts.resolvidosCategoria.updateOptions({
-            xaxis: { categories },
-            series: [{ name: 'Resolvidos', data: values }]
-        });
+        charts.resolvidosCategoria.updateOptions({ xaxis: { categories, min: 0, max: getAxisMax(values), tickAmount: Math.max(1, getAxisMax(values)) }, series: [{ name: 'Resolvidos', data: values }] });
     } else {
         charts.resolvidosCategoria = new ApexCharts(container, {
             series: [{ name: 'Resolvidos', data: values }],
-            chart: { type: 'bar', height: 280, toolbar: { show: false }, fontFamily: 'Inter, system-ui, sans-serif' },
-            colors: ['#22c55e'],
-            plotOptions: {
-                bar: { horizontal: true, borderRadius: 6, barHeight: '60%', distributed: true }
+            chart: {
+                type: 'bar',
+                height: 192,
+                fontFamily: 'Inter, system-ui, sans-serif',
+                toolbar: { show: false }
             },
-            dataLabels: { enabled: true, formatter: v => Math.round(v), style: { fontSize: '11px', fontWeight: 600 } },
-            xaxis: { categories, labels: { style: { colors: '#6b7280', fontSize: '11px' }, formatter: v => Math.round(v) }, axisBorder: { show: false } },
-            yaxis: { labels: { style: { colors: '#6b7280', fontSize: isMobile() ? '9px' : '11px' } } },
-            grid: { borderColor: 'rgba(0,0,0,0.05)', padding: { left: 10, right: 10 } },
+            colors: [COLORS.emerald],
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    borderRadius: 6,
+                    barHeight: '60%',
+                    endingShape: 'rounded'
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: v => Math.round(v),
+                style: { fontSize: '10px', fontWeight: 600, colors: ['#fff'] }
+            },
+            xaxis: {
+                categories,
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                min: 0,
+                max: getAxisMax(values),
+                tickAmount: Math.max(1, getAxisMax(values)),
+                labels: { style: { colors: COLORS.gray, fontSize: '10px', fontWeight: 400 }, formatter: v => Math.round(v) }
+            },
+            yaxis: { labels: { style: { colors: COLORS.gray, fontSize: isMobile() ? '9px' : '11px', fontWeight: 400 } } },
+            grid: baseGridOptions(),
             tooltip: { theme: 'dark' }
         });
         charts.resolvidosCategoria.render();
@@ -239,25 +335,25 @@ function createEvolucaoResolvidos(stats) {
             series: [{ name: 'Resolvidos', data: valores }],
             chart: {
                 type: 'line',
-                height: 280,
-                toolbar: { show: false },
+                height: 192,
                 fontFamily: 'Inter, system-ui, sans-serif',
+                toolbar: { show: false },
                 zoom: { enabled: false }
             },
-            colors: ['#22c55e'],
+            colors: [COLORS.emerald],
             stroke: { curve: 'smooth', width: 3 },
-            markers: { size: 5, strokeWidth: 2, fillColors: ['#22c55e'] },
+            markers: { size: 5, strokeWidth: 0, fillColor: COLORS.emerald },
             dataLabels: { enabled: false },
             xaxis: {
                 categories: getMonthLabels(meses),
-                labels: { style: { colors: '#6b7280', fontSize: '11px' } },
                 axisBorder: { show: false },
-                axisTicks: { show: false }
+                axisTicks: { show: false },
+                labels: { style: { colors: COLORS.gray, fontSize: '11px', fontWeight: 400 } }
             },
             yaxis: {
-                labels: { style: { colors: '#6b7280', fontSize: '11px' }, formatter: v => Math.round(v) }
+                labels: { style: { colors: COLORS.gray, fontSize: '11px', fontWeight: 400 }, formatter: v => Math.round(v) }
             },
-            grid: { borderColor: 'rgba(0,0,0,0.05)', padding: { left: 10, right: 10 } },
+            grid: baseGridOptions(),
             tooltip: { theme: 'dark', x: { show: true } }
         });
         charts.evolucaoResolvidos.render();
@@ -268,15 +364,16 @@ function createEvolucaoResolvidos(stats) {
 function updateAllCharts(stats) {
     lastStats = stats;
 
-    // Verificar se há dados
     const noDataEl = document.getElementById('no-data-message');
-    if (stats.total === 0) {
+    const chartsVisible = stats.total > 0;
+
+    if (!chartsVisible) {
         if (noDataEl) noDataEl.classList.remove('hidden');
-        document.querySelectorAll('[id^="chart-"]').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('[id^="chart-"]').forEach(el => el.closest('.bg-white')?.classList.add('hidden'));
         return;
     }
     if (noDataEl) noDataEl.classList.add('hidden');
-    document.querySelectorAll('[id^="chart-"]').forEach(el => el.classList.remove('hidden'));
+    document.querySelectorAll('.bg-white.rounded-2xl').forEach(el => el.classList.remove('hidden'));
 
     updateCountCards(stats);
     createEvolucaoMensal(stats);
@@ -286,10 +383,9 @@ function updateAllCharts(stats) {
     createResolvidosCategoriaChart(stats);
     createEvolucaoResolvidos(stats);
 
-    // Atualizar polling status
     const pollingStatus = document.getElementById('polling-status');
     if (pollingStatus) {
-        pollingStatus.textContent = 'Atualizado ' + new Date().toLocaleTimeString('pt-BR');
+        pollingStatus.textContent = 'Atualizado ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
 }
 
@@ -309,8 +405,6 @@ async function loadStats() {
         updateAllCharts(stats);
     } catch (err) {
         console.error('Erro ao carregar estatísticas:', err);
-        const pollingStatus = document.getElementById('polling-status');
-        if (pollingStatus) pollingStatus.textContent = 'Erro ao atualizar';
     }
 }
 
@@ -328,7 +422,6 @@ function setupPeriodFilters() {
     const dateEnd = document.getElementById('date-end');
     const applyCustom = document.getElementById('apply-custom');
 
-    // Set max date to today
     const today = new Date().toISOString().split('T')[0];
     if (dateEnd) dateEnd.max = today;
     if (dateStart) dateStart.max = today;
@@ -337,29 +430,26 @@ function setupPeriodFilters() {
         btn.addEventListener('click', () => {
             const period = btn.dataset.period;
 
-            // Update UI
-            periodBtns.forEach(b => {
-                b.classList.remove('btn-primary');
-                b.classList.add('btn-outline', 'border-base-300');
-                b.setAttribute('aria-pressed', 'false');
-            });
-            btn.classList.remove('btn-outline', 'border-base-300');
-            btn.classList.add('btn-primary');
-            btn.setAttribute('aria-pressed', 'true');
+            periodBtns.forEach(b => b.classList.remove('active', 'bg-primary-500', 'text-white'));
+            btn.classList.add('active', 'bg-primary-500', 'text-white');
 
             currentPeriod = period;
 
-            // Show/hide custom date range
             if (period === 'custom') {
-                if (customRange) customRange.classList.remove('hidden');
+                if (customRange) {
+                    customRange.classList.remove('hidden');
+                    customRange.classList.add('flex');
+                }
             } else {
-                if (customRange) customRange.classList.add('hidden');
+                if (customRange) {
+                    customRange.classList.add('hidden');
+                    customRange.classList.remove('flex');
+                }
                 loadStats();
             }
         });
     });
 
-    // Apply custom date range
     if (applyCustom) {
         applyCustom.addEventListener('click', () => {
             const start = dateStart.value;

@@ -185,5 +185,18 @@
     "criadoEm": "2026-06-03T02:57:13.617Z",
     "latitude": -22.517766225422317,
     "longitude": -44.10699337720872
+  },
+  {
+    "id": 13,
+    "userId": 5,
+    "categoria": "Habitação",
+    "tipo": "Área de risco",
+    "endereco": "Rua 162, Laranjal, Volta Redonda, Rio de Janeiro",
+    "descricao": "Lugar muito maneiro! Lugar muito maneiro! Lugar muito maneiro! Lugar muito maneiro! Lugar muito maneiro!",
+    "status": "resolvido",
+    "protocolo": "RC-13-1780590291803",
+    "criadoEm": "2026-06-04T16:24:51.803Z",
+    "latitude": -22.516859377068048,
+    "longitude": -44.10215467214584
   }
 ]
