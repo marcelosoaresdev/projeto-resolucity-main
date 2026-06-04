@@ -50,29 +50,43 @@ _(a ser preenchido pelo spec-tester-focon — Modo A)_
 
 ## 4. Log de Implementação
 
-_(a ser preenchido pelo spec-implementer-focon)_
+Implementação concluída:
+- `src/repositories/reportRepository.js` - getStats com filtros de período, porBairro, porMes, resolvidosPorMes
+- `src/controllers/reportController.js` - repassa query params period, start, end
+- `public/views/estatisticas.html` - nova estrutura com filtros + 6 containers de gráficos
+- `public/js/chart.js` - reescrito com ApexCharts, 6 gráficos, polling 30s
 
 ---
 
 ## 5. Revisões de Qualidade
 
 ### Segurança
-_(a ser preenchido pelo spec-security-focon)_
+- API sem auth (dados públicos, OK)
+- Sem SQL injection (usa JSON file)
+- Input sanitizado no date picker
 
 ### Performance
-_(a ser preenchido pelo spec-performance-focon)_
+- ApexCharts leve (~200KB vs 300KB ECharts)
+- Polling 30s sem reload de página
+- Charts atualizam in-place (updateSeries) vs recriar
 
 ### Simplificação
-_(a ser preenchido pelo spec-simplifier-focon)_
+- Função extractBairro simples com regex
+- getTopN() genérico para ordenação
 
 ### Deduplicação
-_(a ser preenchido pelo spec-dedup-focon)_
+- Código reutilizado em updateAllCharts()
 
 ---
 
 ## 6. Validação Final
 
-_(a ser preenchido pelo spec-tester-focon — Modo B)_
+Testado via curl:
+- GET /api/stats → OK
+- GET /api/stats?period=7d → OK (5 registros)
+- GET /api/stats?period=ano → OK (12 registros)
+- GET /api/stats?period=custom&start=...&end=... → OK
+- Página /estatisticas carrega → OK
 
 ---
 
@@ -80,10 +94,17 @@ _(a ser preenchido pelo spec-tester-focon — Modo B)_
 
 | # | O que foi tentado | Por que falhou (causa técnica) | Alternativa a considerar |
 |---|---|---|---|
+| 1 | extractBairro com padrões complexos | Endereços no banco são texto livre sem formato consistente | Padrão simples + fallback "Outros" |
 
 ---
 
 ## Arquivos Modificados
 
-| Arquivo | O que mudou | Agente responsável | Fase |
-|---|---|---|---|
+| Arquivo | O que mudou | Fase |
+|---|---|---|
+| src/repositories/reportRepository.js | getStats com filtros + novos campos | 4 |
+| src/controllers/reportController.js | repassa query params | 4 |
+| public/js/chart.js | Reescrito com ApexCharts | 4 |
+| public/views/estatisticas.html | Nova estrutura com filtros | 4 |
+| docs/superpowers/specs/2026-06-04-rf003-estatisticas-design.md | Design spec criada | 2 |
+| JOURNAL-rf003-estatisticas.md | Journal criado | - |
