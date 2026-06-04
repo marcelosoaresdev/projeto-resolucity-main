@@ -1,59 +1,140 @@
 import userRepository from "../repositories/userRepository.js";
+import { generateConfirmationToken } from "../utils/tokenGenerator.js";
+import { sendConfirmationEmail } from "../utils/emailService.js";
 
 const authController = {
 
-    // Cadastro de novo usuário
-    register(req, res) {
+    // Validações de input
+    validateName(nome) {
+        if (!nome || typeof nome !== 'string') return 'Nome é obrigatório';
+        const trimmed = nome.trim();
+        if (trimmed.length < 3) return 'Nome deve ter pelo menos 3 caracteres';
+        if (trimmed !== nome) return 'Nome não pode ter espaços no início ou fim';
+        return null;
+    },
+
+    validateEmail(email) {
+        if (!email || typeof email !== 'string') return 'E-mail é obrigatório';
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regex.test(email)) return 'Digite um e-mail válido';
+        return null;
+    },
+
+    validatePassword(senha) {
+        if (!senha || typeof senha !== 'string') return 'Senha é obrigatória';
+        if (senha.length < 8) return 'A senha deve ter 8+ caracteres, letra e número';
+        if (!/[a-zA-Z]/.test(senha)) return 'A senha deve ter 8+ caracteres, letra e número';
+        if (!/[0-9]/.test(senha)) return 'A senha deve ter 8+ caracteres, letra e número';
+        if (/\s/.test(senha)) return 'A senha não pode ter espaços';
+        return null;
+    },
+
+    // POST /api/auth/register
+    async register(req, res) {
         const { nome, email, senha } = req.body;
 
-        // Validação: todos os campos são obrigatórios
+        // Valida campos obrigatórios
         if (!nome || !email || !senha) {
             return res.status(400).json({ message: 'Preencha todos os campos' });
         }
 
-        const result = userRepository.createUser(nome, email, senha);
+        // Validações
+        const nameError = authController.validateName(nome);
+        if (nameError) return res.status(400).json({ message: nameError });
 
-        // Se o repository retornou um erro (ex: email duplicado), repassa pro frontend
+        const emailError = authController.validateEmail(email);
+        if (emailError) return res.status(400).json({ message: emailError });
+
+        const passwordError = authController.validatePassword(senha);
+        if (passwordError) return res.status(400).json({ message: passwordError });
+
+        // Gera confirmation token
+        const { token, expiresAt } = generateConfirmationToken();
+
+        // Cria usuário pendente
+        const result = userRepository.createUser(nome, email, senha, token, expiresAt);
+
         if (result.error) {
             return res.status(409).json({ message: result.error });
         }
 
-        res.status(201).json(result);
+        // Envia email de confirmação (async, não bloqueia resposta)
+        sendConfirmationEmail(email, nome, token).catch(err => {
+            console.error('Erro ao enviar email de confirmação:', err);
+        });
+
+        res.status(201).json({ message: 'Cadastro realizado! Verifique seu email.', userId: result.newUser.id });
     },
 
-    // Login: verifica email e senha, cria sessão
+    // GET /api/auth/confirm/:token
+    confirm(req, res) {
+        const { token } = req.params;
+
+        if (!token) {
+            return res.status(400).json({ message: 'Token inválido.' });
+        }
+
+        const result = userRepository.activateUser(token);
+
+        if (result.error) {
+            return res.status(400).json({ message: result.error });
+        }
+
+        res.json({ message: result.message });
+    },
+
+    // POST /api/auth/login
     login(req, res) {
         const { email, senha } = req.body;
 
-        // Validação: campos obrigatórios
         if (!email || !senha) {
             return res.status(400).json({ message: 'Preencha todos os campos' });
         }
 
-        // Busca o usuário pelo email no banco
         const user = userRepository.findByEmail(email);
 
-        // Se não achou o email OU a senha não bate — mesma mensagem para os dois casos
-        // (não informamos qual está errado, por segurança)
-        if (!user || user.senha !== senha) {
+        if (!user) {
             return res.status(401).json({ message: 'E-mail ou senha incorretos' });
         }
 
-        // Credenciais corretas: salva os dados do usuário na sessão
-        req.session.userId   = user.id;
+        // Verifica se a senha está em formato antigo (plaintext) ou novo (hash)
+        let passwordValid = false;
+        if (user.senha.includes(':')) {
+            // Novo formato salt:hash
+            passwordValid = verifyPassword(senha, user.senha);
+        } else {
+            // Formato antigo plaintext (compatibilidade)
+            passwordValid = (user.senha === senha);
+        }
+
+        if (!passwordValid) {
+            return res.status(401).json({ message: 'E-mail ou senha incorretos' });
+        }
+
+        // Verifica status
+        if (user.status === 'pendente_confirmacao') {
+            return res.status(401).json({ message: `Faça a confirmação pelo email que enviamos para ${user.email}` });
+        }
+
+        if (user.status !== 'ativo') {
+            return res.status(401).json({ message: 'Conta não está ativa. Entre em contato com suporte.' });
+        }
+
+        // Credenciais corretas e conta ativa
+        req.session.userId = user.id;
         req.session.userName = user.nome;
 
         res.json({ message: 'Login realizado com sucesso', user: { id: user.id, nome: user.nome, email: user.email } });
     },
 
-    // Logout: destrói a sessão do usuário
+    // POST /api/auth/logout
     logout(req, res) {
         req.session.destroy(() => {
             res.json({ message: 'Logout realizado' });
         });
     },
 
-    // Retorna os dados do usuário atualmente logado
+    // GET /api/auth/me
     me(req, res) {
         if (!req.session.userId) {
             return res.status(401).json({ message: 'Não autenticado' });
@@ -61,6 +142,7 @@ const authController = {
         res.json({ id: req.session.userId, nome: req.session.userName });
     },
 
+    // GET /api/auth/profile
     getProfile(req, res) {
         const userId = req.session.userId;
         if (!userId) return res.status(401).json({ message: 'Não autenticado' });
@@ -69,6 +151,7 @@ const authController = {
         res.json({ id: user.id, nome: user.nome, email: user.email, cpf: user.cpf, nascimento: user.nascimento, telefone: user.telefone });
     },
 
+    // PUT /api/auth/profile
     updateProfile(req, res) {
         const userId = req.session.userId;
         if (!userId) return res.status(401).json({ message: 'Não autenticado' });
@@ -82,10 +165,18 @@ const authController = {
         res.json({ message: 'Perfil atualizado', user: result.user });
     },
 
+    // GET /api/auth/
     listUsers(req, res) {
         res.json(userRepository.listUsers());
     }
 
 };
+
+// Helper para verificar senha (importado no login)
+function verifyPassword(password, storedHash) {
+    const [salt, hash] = storedHash.split(':');
+    const testHash = crypto.scryptSync(password, salt, 32).toString('hex');
+    return hash === testHash;
+}
 
 export default authController;
