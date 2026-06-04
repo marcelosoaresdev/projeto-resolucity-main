@@ -10,5 +10,6 @@ authRoutes.get('/me',        authController.me);
 authRoutes.get('/profile',   authController.getProfile);
 authRoutes.put('/profile',   authController.updateProfile);
 authRoutes.get('/',           authController.listUsers);
+authRoutes.get('/confirm/:token', authController.confirm); // NOVO
 
 export default authRoutes;
