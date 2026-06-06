@@ -28,6 +28,35 @@ const authController = {
         return null;
     },
 
+    validateCpf(cpf) {
+        if (!cpf || typeof cpf !== 'string') return 'CPF é obrigatório';
+        // Remove formatação
+        const cleanCpf = cpf.replace(/\D/g, '');
+        if (cleanCpf.length !== 11) return 'CPF deve ter 11 dígitos';
+        // Validação de dígitos verificadores
+        if (/^(\d)\1{10}$/.test(cleanCpf)) return 'CPF inválido';
+
+        // Validação do primeiro dígito
+        let sum = 0;
+        for (let i = 0; i < 9; i++) {
+            sum += parseInt(cleanCpf[i]) * (10 - i);
+        }
+        let digit1 = (sum * 10) % 11;
+        if (digit1 === 10) digit1 = 0;
+        if (digit1 !== parseInt(cleanCpf[9])) return 'CPF inválido';
+
+        // Validação do segundo dígito
+        sum = 0;
+        for (let i = 0; i < 10; i++) {
+            sum += parseInt(cleanCpf[i]) * (11 - i);
+        }
+        let digit2 = (sum * 10) % 11;
+        if (digit2 === 10) digit2 = 0;
+        if (digit2 !== parseInt(cleanCpf[10])) return 'CPF inválido';
+
+        return null;
+    },
+
     validatePassword(senha) {
         if (!senha || typeof senha !== 'string') return 'Senha é obrigatória';
         if (senha.length < 8) return 'A senha deve ter 8+ caracteres, letra e número';
@@ -167,6 +196,16 @@ const authController = {
         if (!nome || !cpf || !nascimento || !telefone || !email) {
             return res.status(400).json({ message: 'Preencha todos os campos' });
         }
+        // Validações
+        const nameError = authController.validateName(nome);
+        if (nameError) return res.status(400).json({ message: nameError });
+
+        const emailError = authController.validateEmail(email);
+        if (emailError) return res.status(400).json({ message: emailError });
+
+        const cpfError = authController.validateCpf(cpf);
+        if (cpfError) return res.status(400).json({ message: cpfError });
+
         const result = userRepository.updateUser(userId, { nome, cpf, nascimento, telefone, email });
         if (result.error) return res.status(400).json({ message: result.error });
         req.session.userName = nome;

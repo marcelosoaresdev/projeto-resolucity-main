@@ -1,12 +1,12 @@
-import nodemailer from 'nodemailer';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import fs from 'fs';
+import SibApiV3Sdk from 'sib-api-v3-sdk';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Carrega variáveis do .env
+// Carrega variáveis do .env manualmente
 const envPath = join(__dirname, '../../.env');
-import fs from 'fs';
 const envContent = fs.readFileSync(envPath, 'utf-8');
 const envVars = {};
 envContent.split('\n').forEach(line => {
@@ -16,18 +16,11 @@ envContent.split('\n').forEach(line => {
     }
 });
 
-const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST || envVars.EMAIL_HOST,
-    port: process.env.EMAIL_PORT || envVars.EMAIL_PORT || 587,
-    secure: process.env.EMAIL_SECURE === 'true',
-    auth: {
-        user: process.env.EMAIL_USER || envVars.EMAIL_USER,
-        pass: process.env.EMAIL_PASS || envVars.EMAIL_PASS
-    }
-});
+const defaultClient = SibApiV3Sdk.ApiClient.instance;
+defaultClient.authentications['api-key'].apiKey = envVars.BREVO_API_KEY;
 
 async function sendConfirmationEmail(to, nome, token) {
-    const baseUrl = process.env.BASE_URL || envVars.BASE_URL || 'http://localhost:3000';
+    const baseUrl = envVars.BASE_URL || 'http://localhost:3000';
     const confirmUrl = `${baseUrl}/confirmar?token=${token}`;
 
     const html = `
@@ -43,12 +36,16 @@ async function sendConfirmationEmail(to, nome, token) {
     </div>
     `;
 
-    return transporter.sendMail({
-        from: process.env.EMAIL_FROM || envVars.EMAIL_FROM || '"Resolucity" <noreply@resolucity.com.br>',
-        to,
-        subject: 'Confirme seu cadastro no Resolucity',
-        html
-    });
+    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    sendSmtpEmail.to = [{ email: to, name: nome }];
+    sendSmtpEmail.sender = { email: envVars.BREVO_SENDER_EMAIL || 'noreply@resolucity.com', name: 'Resolucity' };
+    sendSmtpEmail.subject = 'Confirme seu cadastro no Resolucity';
+    sendSmtpEmail.htmlContent = html;
+
+    const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    return data;
 }
 
 export { sendConfirmationEmail };

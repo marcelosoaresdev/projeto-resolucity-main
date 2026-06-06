@@ -39,6 +39,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // CPF mask
+    const cpfInput = document.getElementById('cpf');
+    if (cpfInput) {
+        cpfInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            if (value.length <= 3) {
+                value = value;
+            } else if (value.length <= 6) {
+                value = value.replace(/(\d{3})(\d{0,3})/, '$1.$2');
+            } else if (value.length <= 9) {
+                value = value.replace(/(\d{3})(\d{3})(\d{0,3})/, '$1.$2.$3');
+            } else {
+                value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+            }
+            e.target.value = value;
+        });
+    }
+
     // Form submit
     if (form) {
         form.addEventListener('submit', async (e) => {
