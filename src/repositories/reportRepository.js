@@ -1,7 +1,11 @@
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import userRepository from './userRepository.js';
 
-const DB_PATH = './src/database/reports.json';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const DB_PATH = path.join(__dirname, '../database/reports.json');
 
 const reportRepository = {
     createReport: (userId, categoria, tipo, endereco, descricao, latitude, longitude) => {

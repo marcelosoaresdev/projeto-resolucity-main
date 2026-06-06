@@ -1,7 +1,11 @@
 import fs from 'fs';
 import crypto from 'crypto';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const DB_PATH = './src/database/users.json';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const DB_PATH = path.join(__dirname, '../database/users.json');
 const SALT_LENGTH = 16;
 
 // Helper: gera salt aleatório
