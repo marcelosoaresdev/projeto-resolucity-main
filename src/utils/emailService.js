@@ -1,27 +1,15 @@
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import fs from 'fs';
 import SibApiV3Sdk from 'sib-api-v3-sdk';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// Carrega variáveis do .env manualmente
-const envPath = join(__dirname, '../../.env');
-const envContent = fs.readFileSync(envPath, 'utf-8');
-const envVars = {};
-envContent.split('\n').forEach(line => {
-    const [key, ...valueParts] = line.split('=');
-    if (key && valueParts.length) {
-        envVars[key.trim()] = valueParts.join('=').trim();
-    }
-});
+// Usa process.env diretamente (Vercel injeta automaticamente)
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const BREVO_SENDER_EMAIL = process.env.BREVO_SENDER_EMAIL || 'noreply@resolucity.com';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 const defaultClient = SibApiV3Sdk.ApiClient.instance;
-defaultClient.authentications['api-key'].apiKey = envVars.BREVO_API_KEY;
+defaultClient.authentications['api-key'].apiKey = BREVO_API_KEY;
 
 async function sendConfirmationEmail(to, nome, token) {
-    const baseUrl = envVars.BASE_URL || 'http://localhost:3000';
-    const confirmUrl = `${baseUrl}/api/auth/confirm/${token}`;
+    const confirmUrl = `${BASE_URL}/api/auth/confirm/${token}`;
 
     const html = `
 <!DOCTYPE html>
@@ -101,7 +89,7 @@ async function sendConfirmationEmail(to, nome, token) {
 
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
     sendSmtpEmail.to = [{ email: to, name: nome }];
-    sendSmtpEmail.sender = { email: envVars.BREVO_SENDER_EMAIL || 'noreply@resolucity.com', name: 'Resolucity' };
+    sendSmtpEmail.sender = { email: BREVO_SENDER_EMAIL, name: 'Resolucity' };
     sendSmtpEmail.subject = 'Confirme seu cadastro no Resolucity';
     sendSmtpEmail.htmlContent = html;
 
