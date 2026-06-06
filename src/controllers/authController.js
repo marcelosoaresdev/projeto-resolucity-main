@@ -1,5 +1,10 @@
 import crypto from 'crypto';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import userRepository from "../repositories/userRepository.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import { generateConfirmationToken } from "../utils/tokenGenerator.js";
 import { sendConfirmationEmail } from "../utils/emailService.js";
 
@@ -108,16 +113,16 @@ const authController = {
         const { token } = req.params;
 
         if (!token) {
-            return res.status(400).json({ message: 'Token inválido.' });
+            return res.sendFile(path.join(__dirname, '../../public/views/email-confirmar-erro.html'));
         }
 
         const result = userRepository.activateUser(token);
 
         if (result.error) {
-            return res.status(400).json({ message: result.error });
+            return res.sendFile(path.join(__dirname, '../../public/views/email-confirmar-erro.html'));
         }
 
-        res.json({ message: result.message });
+        res.sendFile(path.join(__dirname, '../../public/views/email-confirmado.html'));
     },
 
     // POST /api/auth/login

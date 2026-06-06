@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="resolucity">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro na Confirmação — Resolucity</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50:  '#F0FDF4', 100: '#D2E8DD', 200: '#B5D5C5', 300: '#7DC39A',
+                            400: '#198754', 500: '#146C43', 600: '#0F5132', 700: '#013C31',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="icon" href="../imagens/logo.png" type="image/png">
+</head>
+<body class="font-sans bg-gradient-to-br from-primary-50 via-white to-primary-50/50 min-h-screen flex flex-col">
+
+    <!-- ===================== NAVBAR ===================== -->
+    <div class="navbar min-h-[72px] bg-white/80 backdrop-blur-lg border-b border-base-200">
+        <div class="navbar-start">
+            <a href="/" class="flex items-center gap-2.5 pl-4 lg:pl-6">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                    <i data-lucide="building-2" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-primary-700 font-bold text-lg tracking-tight">RESOLUCITY</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ===================== MAIN ===================== -->
+    <main class="flex-1 flex items-center justify-center px-4">
+        <div class="max-w-md w-full text-center py-16">
+
+            <!-- Error Icon -->
+            <div class="w-20 h-20 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-8">
+                <i data-lucide="x" class="w-10 h-10 text-error"></i>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-2xl font-bold text-gray-900 mb-3">Link inválido ou expirado</h1>
+
+            <!-- Message -->
+            <p class="text-gray-500 mb-8">
+                Este link de confirmação não é mais válido. Solicite um novo e-mail de confirmação.
+            </p>
+
+            <!-- Back Button -->
+            <a href="/" class="btn btn-ghost text-gray-400 gap-2">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Voltar ao início
+            </a>
+
+        </div>
+    </main>
+
+    <!-- ===================== SCRIPTS ===================== -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

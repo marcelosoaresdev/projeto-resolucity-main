@@ -172,11 +172,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         // 3b. Cadastro ok: mostra mensagem de confirmação
         showSuccessModal(
             'Cadastro realizado!',
-            data.message,
-            () => {
-                document.getElementById('registerForm').reset();
-                showLogin();
-            }
+            'Seu cadastro foi criado com sucesso. Acesse seu e-mail e clique no link de confirmação para ativar sua conta.'
         );
 
     } catch (err) {
@@ -188,7 +184,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
 // MODAL DE SUCESSO (usado só no cadastro)
 // ================================================
 
-function showSuccessModal(title, message, callback) {
+function showSuccessModal(title, message) {
     const modal = document.getElementById('success-modal');
     document.getElementById('success-title').textContent = title;
     document.getElementById('success-message').textContent = message;
@@ -196,6 +192,6 @@ function showSuccessModal(title, message, callback) {
 
     document.getElementById('close-modal').onclick = () => {
         modal.style.display = 'none';
-        if (callback) callback();
+        showLogin();
     };
 }
