@@ -6,6 +6,7 @@ import authRoutes from './routes/authRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
 import { requireAuthPage } from './middlewares/auth.js';
+import './observers/userRegisteredObserver.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

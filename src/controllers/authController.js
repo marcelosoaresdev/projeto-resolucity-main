@@ -6,7 +6,7 @@ import userRepository from "../repositories/userRepository.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import { generateConfirmationToken } from "../utils/tokenGenerator.js";
-import { sendConfirmationEmail } from "../utils/emailService.js";
+import eventBus from '../utils/eventBus.js';
 
 // Helper para verificar senha (deve vir antes do authController)
 function verifyPassword(password, storedHash) {
@@ -100,10 +100,8 @@ const authController = {
             return res.status(409).json({ message: result.error });
         }
 
-        // Envia email de confirmação (async, não bloqueia resposta)
-        sendConfirmationEmail(email, nome, token).catch(err => {
-            console.error('Erro ao enviar email de confirmação:', err);
-        });
+        // Observers reagem ao evento sem acoplar o controller aos detalhes de envio
+        eventBus.publish('user:registered', { email, nome, token });
 
         res.status(201).json({ message: 'Cadastro realizado! Verifique seu email.', userId: result.newUser.id });
     },

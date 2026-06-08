@@ -8,10 +8,26 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const defaultClient = SibApiV3Sdk.ApiClient.instance;
 defaultClient.authentications['api-key'].apiKey = BREVO_API_KEY;
 
-async function sendConfirmationEmail(to, nome, token) {
-    const confirmUrl = `${BASE_URL}/api/auth/confirm/${token}`;
+class BrevoEmailService {
+    static instance = null;
 
-    const html = `
+    constructor() {
+        this.apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+        this.sender = { email: BREVO_SENDER_EMAIL, name: 'Resolucity' };
+    }
+
+    static getInstance() {
+        if (!BrevoEmailService.instance) {
+            BrevoEmailService.instance = new BrevoEmailService();
+        }
+
+        return BrevoEmailService.instance;
+    }
+
+    async sendConfirmationEmail(to, nome, token) {
+        const confirmUrl = `${BASE_URL}/api/auth/confirm/${token}`;
+
+        const html = `
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -83,18 +99,24 @@ async function sendConfirmationEmail(to, nome, token) {
     </table>
 </body>
 </html>
-    `;
+        `;
 
-    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+        const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+        sendSmtpEmail.to = [{ email: to, name: nome }];
+        sendSmtpEmail.sender = this.sender;
+        sendSmtpEmail.subject = 'Confirme seu cadastro no Resolucity';
+        sendSmtpEmail.htmlContent = html;
 
-    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-    sendSmtpEmail.to = [{ email: to, name: nome }];
-    sendSmtpEmail.sender = { email: BREVO_SENDER_EMAIL, name: 'Resolucity' };
-    sendSmtpEmail.subject = 'Confirme seu cadastro no Resolucity';
-    sendSmtpEmail.htmlContent = html;
+        const data = await this.apiInstance.sendTransacEmail(sendSmtpEmail);
+        return data;
+    }
+}
 
-    const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    return data;
+const emailService = BrevoEmailService.getInstance();
+
+async function sendConfirmationEmail(to, nome, token) {
+    return emailService.sendConfirmationEmail(to, nome, token);
 }
 
 export { sendConfirmationEmail };
+export default emailService;
