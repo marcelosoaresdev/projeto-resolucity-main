@@ -4,7 +4,12 @@ const reportController = {
     createReport(req, res) {
         const { categoria, tipo, endereco, descricao, latitude, longitude } = req.body;
         const userId = req.session.userId;
-        const result = reportRepository.createReport(userId, categoria, tipo, endereco, descricao, latitude, longitude);
+
+        // O controller não sabe como o relatório é construído — responsabilidade da Factory
+        const result = reportRepository.createReport(
+            userId, categoria, tipo, endereco, descricao, latitude, longitude
+        );
+
         res.status(201).json(result);
     },
 

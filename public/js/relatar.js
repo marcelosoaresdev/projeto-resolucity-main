@@ -17,6 +17,8 @@ const TIPOS_POR_CATEGORIA = {
   'Outros': ['Outro problema']
 };
 
+const CATEGORIAS = Object.keys(TIPOS_POR_CATEGORIA);
+
 class FormValidator {
     constructor(formId) {
         this.form = document.getElementById(formId);

@@ -198,5 +198,31 @@
     "criadoEm": "2026-06-04T16:24:51.803Z",
     "latitude": -22.516859377068048,
     "longitude": -44.10215467214584
+  },
+  {
+    "id": 14,
+    "userId": 1,
+    "categoria": "Corrupção e Má Gestão",
+    "tipo": "Denúncia anônima",
+    "endereco": "Rua 18-B, Vila Santa Cecília, Volta Redonda, Rio de Janeiro",
+    "descricao": "frgsrgregregershtrhtshtrsdhtrdbgfhgv",
+    "status": "pendente",
+    "protocolo": "RC-14-1780886681859",
+    "criadoEm": "2026-06-08T02:44:41.859Z",
+    "latitude": -22.51877364706018,
+    "longitude": -44.10555839538574
+  },
+  {
+    "id": 15,
+    "userId": 1,
+    "categoria": "Ciclismo",
+    "tipo": "Ciclofaixa danificada",
+    "endereco": "Rua Dezoito-B, Vila Santa Cecília, Volta Redonda, Rio de Janeiro",
+    "descricao": "frghtrdfgbhgtrfvbgtrdfghbgfrdefvbgfrv",
+    "status": "pendente",
+    "protocolo": "RC-15-1780887187383",
+    "criadoEm": "2026-06-08T02:53:07.383Z",
+    "latitude": -22.518297927543134,
+    "longitude": -44.103498458862305
   }
 ]

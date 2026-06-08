@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import userRepository from './userRepository.js';
+import reportFactory from '../factories/reportFactory.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,21 +11,19 @@ const DB_PATH = path.join(__dirname, '../database/reports.json');
 const reportRepository = {
     createReport: (userId, categoria, tipo, endereco, descricao, latitude, longitude) => {
         const reports = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
-        const timestamp = new Date().toISOString();
         const maxId = reports.reduce((max, r) => Math.max(max, r.id || 0), 0);
-        const newReport = {
-            id: maxId + 1,
+
+        //  Factory cria o objeto, repository só persiste
+        const newReport = reportFactory.create(categoria, {
             userId,
-            categoria,
             tipo,
             endereco,
             descricao,
-            status: 'pendente',
-            protocolo: `RC-${maxId + 1}-${Date.now()}`,
-            criadoEm: timestamp,
             latitude,
-            longitude
-        };
+            longitude,
+            categoria,
+        }, maxId);
+
         reports.push(newReport);
         fs.writeFileSync(DB_PATH, JSON.stringify(reports, null, 2));
         return { newReport, message: 'Relato criado com sucesso!' };

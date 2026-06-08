@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": 1,
+    "nome": "Luiz",
+    "email": "luizgsnunes.lgsn@gmail.com",
+    "senha": "6d2401ba0d1c66254de6c5f6b390bb9c:247f1592581b960f3c4e9297121bbb7e337e8143dc24d2e5fef158936b03f969",
+    "status": "ativo",
+    "confirmationToken": "df9c48cf-04a2-40d2-b893-2a9d16c22c78",
+    "confirmationExpiresAt": "2026-06-09T02:32:22.475Z",
+    "createdAt": "2026-06-08T02:32:22.503Z"
+  }
+]
