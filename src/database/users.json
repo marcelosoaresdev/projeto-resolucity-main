@@ -8,5 +8,15 @@
     "confirmationToken": "df9c48cf-04a2-40d2-b893-2a9d16c22c78",
     "confirmationExpiresAt": "2026-06-09T02:32:22.475Z",
     "createdAt": "2026-06-08T02:32:22.503Z"
+  },
+  {
+    "id": 2,
+    "nome": "Marcelo Henrique",
+    "email": "marcelohsoares142@gmail.com",
+    "senha": "c93d6bab49b0f0401b3cc0df7c862c48:2d99cbb6222353f26d2e6e0454303be93a0f502bdecf018eb27e597683401810",
+    "status": "ativo",
+    "confirmationToken": null,
+    "confirmationExpiresAt": null,
+    "createdAt": "2026-06-08T20:30:52.317Z"
   }
 ]

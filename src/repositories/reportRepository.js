@@ -50,6 +50,45 @@ const reportRepository = {
         });
     },
 
+    updateReport: (id, userId, updates) => {
+        const reports = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+        const index = reports.findIndex(r => r.id === id);
+
+        if (index === -1) {
+            return { success: false, message: 'Relato não encontrado.' };
+        }
+
+        if (reports[index].userId !== userId) {
+            return { success: false, message: 'Você não tem permissão para editar este relato.' };
+        }
+
+        reports[index] = {
+            ...reports[index],
+            ...updates,
+            atualizadoEm: new Date().toISOString()
+        };
+
+        fs.writeFileSync(DB_PATH, JSON.stringify(reports, null, 2));
+        return { success: true, report: reports[index], message: 'Relato atualizado com sucesso!' };
+    },
+
+    deleteReport: (id, userId) => {
+        const reports = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
+        const index = reports.findIndex(r => r.id === id);
+
+        if (index === -1) {
+            return { success: false, message: 'Relato não encontrado.' };
+        }
+
+        if (reports[index].userId !== userId) {
+            return { success: false, message: 'Você não tem permissão para excluir este relato.' };
+        }
+
+        const deleted = reports.splice(index, 1)[0];
+        fs.writeFileSync(DB_PATH, JSON.stringify(reports, null, 2));
+        return { success: true, message: 'Relato excluído com sucesso!' };
+    },
+
     getStats: (period, startDate, endDate) => {
         let reports = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
 

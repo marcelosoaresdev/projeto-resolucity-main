@@ -27,6 +27,37 @@ const reportController = {
         const { period, start, end } = req.query;
         const stats = reportRepository.getStats(period, start, end);
         res.json(stats);
+    },
+
+    updateReport(req, res) {
+        const { id } = req.params;
+        const userId = req.session.userId;
+        const { categoria, tipo, endereco, descricao, latitude, longitude, status } = req.body;
+
+        const result = reportRepository.updateReport(
+            parseInt(id),
+            userId,
+            { categoria, tipo, endereco, descricao, latitude, longitude, status }
+        );
+
+        if (!result.success) {
+            return res.status(403).json({ message: result.message });
+        }
+
+        res.json(result);
+    },
+
+    deleteReport(req, res) {
+        const { id } = req.params;
+        const userId = req.session.userId;
+
+        const result = reportRepository.deleteReport(parseInt(id), userId);
+
+        if (!result.success) {
+            return res.status(403).json({ message: result.message });
+        }
+
+        res.json(result);
     }
 };
 
